@@ -77,6 +77,7 @@ namespace DiscordApiStuff
             try
             {
                 await _discordWebSocket.DisconnectAsync();
+                _cancellationTokenSource.Cancel();
                 Console.WriteLine("Closed connection");
             }
             catch (Exception e)
@@ -130,7 +131,6 @@ namespace DiscordApiStuff
             try
             {
                 await _webSocket.CloseAsync(socketCloseStatus, closeStatusDescription, _cancellationToken);
-                Console.WriteLine("Closed connection");
             }
             catch (Exception e)
             {
@@ -155,7 +155,7 @@ namespace DiscordApiStuff
         }
         private async Task SendHeartbeatAsync()
         {
-            var heartbeat = new { op = (byte)Opcode.Heartbeat, d = _lastSequenceNumber };
+            var heartbeat = new HeartbeatSend() { Code = Opcode.Heartbeat, Data = _lastSequenceNumber };
             await SendJsonDataAsync(heartbeat);
             Console.WriteLine(JsonSerializer.Serialize(heartbeat));
             Console.WriteLine("Heartbeat sent");
@@ -163,20 +163,20 @@ namespace DiscordApiStuff
         }
         private async Task ListenForIncomingDataAsync()
         {
-            byte[] buffer = new byte[1024];
-            ArraySegment<byte> data = new ArraySegment<byte>(buffer);
+            byte[] buffer;
             while (!_cancellationToken.IsCancellationRequested)
             {
+                buffer = new byte[51200];
                 try
                 {
-                    var wsReceiveResult = await _webSocket.ReceiveAsync(data, _cancellationToken);
+                    var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationToken);
                     Console.WriteLine($"Receive Result: {wsReceiveResult.MessageType}");
 
                     switch (wsReceiveResult.MessageType)
                     {
                         case WebSocketMessageType.Text:
                             {
-                                string jsonStr = Encoding.UTF8.GetString(data.Array, 0, wsReceiveResult.Count);
+                                string jsonStr = Encoding.UTF8.GetString(buffer, 0, wsReceiveResult.Count);
                                 Payload payload = JsonSerializer.Deserialize<Payload>(jsonStr);
                                 _lastSequenceNumber = payload.Sequence;
                                 Console.WriteLine($"Receive Result Payload: {payload.Code}");
@@ -244,7 +244,16 @@ namespace DiscordApiStuff
                     Console.WriteLine($"{e}");
                     break;
                 }
+                catch (JsonException e)
+                {
+                    //Console.WriteLine($"{e}");
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"{e}");
+                }
             }
+            Console.WriteLine("-------------------------------- I left.");
         }
 
         private async Task SendIdentity(Payload payload)
@@ -274,7 +283,7 @@ namespace DiscordApiStuff
         private void ProcessHello(Payload payload)
         {
             Console.WriteLine("Hello received");
-            var heartbeat = JsonSerializer.Deserialize<HeartbeatHello>(payload.Data.ToString());
+            var heartbeat = JsonSerializer.Deserialize<HeartbeatReceive>(payload.Data.ToString());
             _heartbeatInterval = heartbeat.HeartbeatInterval;
             _heartbeat = ContinuousHeartbeatingAsync();
 
@@ -427,7 +436,7 @@ namespace DiscordApiStuff
         [JsonPropertyName("t")]
         public string Event { get; set; }
     }
-    public struct HeartbeatHello
+    public struct HeartbeatReceive
     {
         [JsonPropertyName("heartbeat_interval")]
         public int HeartbeatInterval { get; set; }
@@ -444,13 +453,13 @@ namespace DiscordApiStuff
         //Create unavailable guild type
         //https://discord.com/developers/docs/resources/guild#unavailable-guild-object
         [JsonPropertyName("guilds")]
-        public object[] Guilds { get; set; } 
+        public object[] Guilds { get; set; }
         [JsonPropertyName("shard")]
         public int[] Shards { get; set; }
         //Create application object type
         //https://discord.com/developers/docs/topics/oauth2#application-object
         [JsonPropertyName("application")]
-        public object Application { get; set; } 
+        public object Application { get; set; }
     }
     public struct User
     {
@@ -480,6 +489,13 @@ namespace DiscordApiStuff
         public Nitro Nitro { get; set; }
         [JsonPropertyName("public_flags")]
         public UserFlags? PublicFlags { get; set; }
+    }
+    public struct HeartbeatSend
+    {
+        [JsonPropertyName("op")]
+        public Opcode Code { get; set; }
+        [JsonPropertyName("d")]
+        public int? Data { get; set; }
     }
     public enum ActivityType : byte
     {

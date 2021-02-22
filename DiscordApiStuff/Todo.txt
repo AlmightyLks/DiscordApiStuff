@@ -1,4 +1,16 @@
 ﻿Done:
+- Finished Types:
+	- MinIdentification
+	- Payload
+	- HeartbeatHello
+	- Opcode
+	- ActivityType
+	- Nitro
+	- UserFlags
+	- DiscordIntent
+	- InvalidOrEmptyTokenException
+	- DiscordApiInfo
+	- DiscordClientConfiguration
 
 
 

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordApiStuff", "DiscordApiStuff\DiscordApiStuff.csproj", "{039FC217-B0E1-4781-8E8B-61B4F000829D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{039FC217-B0E1-4781-8E8B-61B4F000829D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{039FC217-B0E1-4781-8E8B-61B4F000829D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{039FC217-B0E1-4781-8E8B-61B4F000829D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{039FC217-B0E1-4781-8E8B-61B4F000829D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {583F5AB2-A8F0-4F42-9F37-42E48FE06D6F}
+	EndGlobalSection
+EndGlobal

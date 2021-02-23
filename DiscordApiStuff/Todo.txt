@@ -25,6 +25,8 @@ Planned / In Progress:
 - Create library events
 - Create DiscordHttpClient
 
+- Custom Converter for stupid object field ( Payload ) https://stackoverflow.com/questions/29980580/deserialize-json-object-property-to-string
+
 
 
 

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.WebSockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using DiscordApiStuff.Events.Interfaces;
 
 namespace DiscordApiStuff
 {
@@ -166,6 +168,7 @@ namespace DiscordApiStuff
         private async Task ListenForIncomingDataAsync()
         {
             byte[] buffer;
+            
             while (!_cancellationToken.IsCancellationRequested)
             {
                 buffer = new byte[51200];
@@ -174,28 +177,39 @@ namespace DiscordApiStuff
                     var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationToken);
                     Console.WriteLine($"Receive Result: {wsReceiveResult.MessageType}");
 
+                    //This is where we call the processor
+                    
                     switch (wsReceiveResult.MessageType)
                     {
                         case WebSocketMessageType.Text:
-                            {
-                                string jsonStr = Encoding.UTF8.GetString(buffer, 0, wsReceiveResult.Count);
-                                Payload payload = JsonSerializer.Deserialize<Payload>(jsonStr);
-                                _lastSequenceNumber = payload.Sequence;
-                                Console.WriteLine($"Receive Result Payload: {payload.Code}");
-                                Console.WriteLine($"Receive Result Payload: {payload.Sequence}");
+                        {
+                            var payload = JsonSerializer.Deserialize<Payload>(buffer.AsSpan(0, wsReceiveResult.Count)); 
+                            
+                            //string jsonStr = Encoding.UTF8.GetString(buffer, 0, wsReceiveResult.Count);
+                            
+                            //Payload payload = JsonSerializer.Deserialize<Payload>(jsonStr);
+                            
+                            _lastSequenceNumber = payload.Sequence;
+                            
+                            Console.WriteLine($"Receive Result Payload: {payload.Code}");
+                            
+                            Console.WriteLine($"Receive Result Payload: {payload.Sequence}");
 
-                                switch (payload.Code)
+                            switch (payload.Code)
                                 {
                                     case Opcode.Dispatch:
                                         {
                                             ProcessDispatch(payload);
+
+                                            break;
                                         }
-                                        break;
                                     case Opcode.Heartbeat:
                                         {
                                             await SendHeartbeatAsync();
+                                            
+                                            break;
                                         }
-                                        break;
+                  
                                     case Opcode.Reconnect:
                                         {
 
@@ -216,10 +230,20 @@ namespace DiscordApiStuff
                                             _lastHeartbeatAcknowledge = DateTime.Now;
                                         }
                                         break;
-                                    default:
+                                    case Opcode.Identify:
                                         break;
+                                    case Opcode.PresenceUpdate:
+                                        break;
+                                    case Opcode.VoiceStateUpdate:
+                                        break;
+                                    case Opcode.Resume:
+                                        break;
+                                    case Opcode.RequestGuildMembers:
+                                        break;
+                                    default:
+                                        throw new ArgumentOutOfRangeException();
                                 }
-                            }
+                        }
                             break;
                         case WebSocketMessageType.Binary:
                             {
@@ -303,7 +327,7 @@ namespace DiscordApiStuff
                         {
                             _stopwatch.Stop();
                             Console.WriteLine($"Connect to Ready: {_stopwatch.Elapsed.TotalMilliseconds} ms");
-                            ReadyData readyData = JsonSerializer.Deserialize<ReadyData>(payload.Data.ToString());
+                            ReadyEvent readyEvent = JsonSerializer.Deserialize<ReadyEvent>(payload.Data.ToString());
                         }
                         break;
                     case "MESSAGE_CREATE":
@@ -446,26 +470,6 @@ namespace DiscordApiStuff
         [JsonPropertyName("heartbeat_interval")]
         public int HeartbeatInterval { get; set; }
     }
-    public struct ReadyData
-    {
-        [JsonPropertyName("v")]
-        public int GatewayVersion { get; set; }
-        [JsonPropertyName("user")]
-        public User User { get; set; }
-        [JsonPropertyName("private_channels")]
-        public ulong[] PrivateChannels { get; set; }
-
-        //Create unavailable guild type
-        //https://discord.com/developers/docs/resources/guild#unavailable-guild-object
-        [JsonPropertyName("guilds")]
-        public object[] Guilds { get; set; }
-        [JsonPropertyName("shard")]
-        public int[] Shards { get; set; }
-        //Create application object type
-        //https://discord.com/developers/docs/topics/oauth2#application-object
-        [JsonPropertyName("application")]
-        public object Application { get; set; }
-    }
 
     public struct HeartbeatSend
     {
@@ -476,64 +480,59 @@ namespace DiscordApiStuff
     }
 
 
-    public interface IGuildEventArgs { }
-    public interface IMemberEventArgs { }
-    public interface IChannelEventArgs { }
-    public interface IMessageEventArgs { }
-    public interface IRoleEventArgs { }
     public struct GuildEventHandler
     {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IGuildEventArgs;
+        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IGuildEvent;
 
-        public event GuildEventArgs<IGuildEventArgs> GuildCreated;
-        public event GuildEventArgs<IGuildEventArgs> GuildUpdated;
-        public event GuildEventArgs<IGuildEventArgs> GuildDeleted;
+        public event GuildEventArgs<IGuildEvent> GuildCreated;
+        public event GuildEventArgs<IGuildEvent> GuildUpdated;
+        public event GuildEventArgs<IGuildEvent> GuildDeleted;
     }
     public struct MemberEventHandler
     {
-        public delegate void MemberEventArgs<TEvent>(TEvent ev) where TEvent : IMemberEventArgs;
+        public delegate void MemberEventArgs<TEvent>(TEvent ev) where TEvent : IMemberEvent;
 
-        public event MemberEventArgs<IMemberEventArgs> MemberJoined;
-        public event MemberEventArgs<IMemberEventArgs> MemberUpdated;
-        public event MemberEventArgs<IMemberEventArgs> MemberLeft;
+        public event MemberEventArgs<IMemberEvent> MemberJoined;
+        public event MemberEventArgs<IMemberEvent> MemberUpdated;
+        public event MemberEventArgs<IMemberEvent> MemberLeft;
     }
     public struct RoleEventHandler
     {
-        public delegate void RoleEventArgs<TEvent>(TEvent ev) where TEvent : IRoleEventArgs;
+        public delegate void RoleEventArgs<TEvent>(TEvent ev) where TEvent : IRoleEvent;
 
 
-        public event RoleEventArgs<IRoleEventArgs> RoleCreated;
-        public event RoleEventArgs<IRoleEventArgs> RoleUpdated;
-        public event RoleEventArgs<IRoleEventArgs> RoleDeleted;
+        public event RoleEventArgs<IRoleEvent> RoleCreated;
+        public event RoleEventArgs<IRoleEvent> RoleUpdated;
+        public event RoleEventArgs<IRoleEvent> RoleDeleted;
     }
     public struct ChannelEventHandler
     {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IChannelEventArgs;
+        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IChannelEvent;
 
 
-        public event GuildEventArgs<IChannelEventArgs> ChannelCreated;
-        public event GuildEventArgs<IChannelEventArgs> ChannelUpdated;
-        public event GuildEventArgs<IChannelEventArgs> ChannelDeleted;
-        public event GuildEventArgs<IChannelEventArgs> ChannelPinsUpdated;
+        public event GuildEventArgs<IChannelEvent> ChannelCreated;
+        public event GuildEventArgs<IChannelEvent> ChannelUpdated;
+        public event GuildEventArgs<IChannelEvent> ChannelDeleted;
+        public event GuildEventArgs<IChannelEvent> ChannelPinsUpdated;
     }
     public struct MessageEventHandler
     {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IMessageEventArgs;
+        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IMessageEvent;
 
-        public event GuildEventArgs<IMessageEventArgs> MessageSent;
-        public event GuildEventArgs<IMessageEventArgs> MessageEdited;
-        public event GuildEventArgs<IMessageEventArgs> MessageDeleted;
-        public event GuildEventArgs<IMessageEventArgs> ReactionAdded;
-        public event GuildEventArgs<IMessageEventArgs> ReactionRemoved;
-        public event GuildEventArgs<IMessageEventArgs> ReactionsRemoved;
-        public event GuildEventArgs<IMessageEventArgs> ReactionRemovedEmoji;
+        public event GuildEventArgs<IMessageEvent> MessageSent;
+        public event GuildEventArgs<IMessageEvent> MessageEdited;
+        public event GuildEventArgs<IMessageEvent> MessageDeleted;
+        public event GuildEventArgs<IMessageEvent> ReactionAdded;
+        public event GuildEventArgs<IMessageEvent> ReactionRemoved;
+        public event GuildEventArgs<IMessageEvent> ReactionsRemoved;
+        public event GuildEventArgs<IMessageEvent> ReactionRemovedEmoji;
     }
-    public struct MessageSentEventArgs : IMessageEventArgs { }
-    public struct MessageEditedEventArgs : IMessageEventArgs { }
-    public struct MessageDeletedEventArgs : IMessageEventArgs { }
-    public struct ReactionAddedEventArgs : IMessageEventArgs { }
-    public struct ReactionRemovedEventArgs : IMessageEventArgs { }
-    public struct ReactionsRemovedEventArgs : IMessageEventArgs { }
+    public struct MessageSentEvent : IMessageEvent { }
+    public struct MessageEditedEvent : IMessageEvent { }
+    public struct MessageDeletedEvent : IMessageEvent { }
+    public struct ReactionAddedEvent : IMessageEvent { }
+    public struct ReactionRemovedEvent : IMessageEvent { }
+    public struct ReactionsRemovedEvent : IMessageEvent { }
 
     public enum ActivityType : byte
     {

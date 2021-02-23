@@ -21,12 +21,24 @@
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IGuildEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IDiscordEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IChannelEvent.cs" />
-      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/HelloEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/ReadyEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/ReadyEvent.cs" />
-      <option value="$PROJECT_DIR$/DiscordApiStuff/Program.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Todo.txt" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/HelloEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Processors/DiscordEventsProcessor.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IChannelEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IChannelEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IDiscordEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IGuildEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IGuildEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMemberEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMemberEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMessageEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMessageEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IRoleEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IRoleEventEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IRoleEventArgsEventArgsArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Program.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1osc00oZ7AZ0zPEUnebyhFONRDi" />

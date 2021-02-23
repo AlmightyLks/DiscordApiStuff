@@ -9,7 +9,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using DiscordApiStuff.Events.Interfaces;
+using DiscordApiStuff.Events.EventArgs.Interfaces;
 
 namespace DiscordApiStuff
 {
@@ -327,7 +327,7 @@ namespace DiscordApiStuff
                         {
                             _stopwatch.Stop();
                             Console.WriteLine($"Connect to Ready: {_stopwatch.Elapsed.TotalMilliseconds} ms");
-                            ReadyEvent readyEvent = JsonSerializer.Deserialize<ReadyEvent>(payload.Data.ToString());
+                            ReadyEventArgs readyEventArgs = JsonSerializer.Deserialize<ReadyEventArgs>(payload.Data.ToString());
                         }
                         break;
                     case "MESSAGE_CREATE":
@@ -478,61 +478,6 @@ namespace DiscordApiStuff
         [JsonPropertyName("d")]
         public int? Data { get; set; }
     }
-
-
-    public struct GuildEventHandler
-    {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IGuildEvent;
-
-        public event GuildEventArgs<IGuildEvent> GuildCreated;
-        public event GuildEventArgs<IGuildEvent> GuildUpdated;
-        public event GuildEventArgs<IGuildEvent> GuildDeleted;
-    }
-    public struct MemberEventHandler
-    {
-        public delegate void MemberEventArgs<TEvent>(TEvent ev) where TEvent : IMemberEvent;
-
-        public event MemberEventArgs<IMemberEvent> MemberJoined;
-        public event MemberEventArgs<IMemberEvent> MemberUpdated;
-        public event MemberEventArgs<IMemberEvent> MemberLeft;
-    }
-    public struct RoleEventHandler
-    {
-        public delegate void RoleEventArgs<TEvent>(TEvent ev) where TEvent : IRoleEvent;
-
-
-        public event RoleEventArgs<IRoleEvent> RoleCreated;
-        public event RoleEventArgs<IRoleEvent> RoleUpdated;
-        public event RoleEventArgs<IRoleEvent> RoleDeleted;
-    }
-    public struct ChannelEventHandler
-    {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IChannelEvent;
-
-
-        public event GuildEventArgs<IChannelEvent> ChannelCreated;
-        public event GuildEventArgs<IChannelEvent> ChannelUpdated;
-        public event GuildEventArgs<IChannelEvent> ChannelDeleted;
-        public event GuildEventArgs<IChannelEvent> ChannelPinsUpdated;
-    }
-    public struct MessageEventHandler
-    {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IMessageEvent;
-
-        public event GuildEventArgs<IMessageEvent> MessageSent;
-        public event GuildEventArgs<IMessageEvent> MessageEdited;
-        public event GuildEventArgs<IMessageEvent> MessageDeleted;
-        public event GuildEventArgs<IMessageEvent> ReactionAdded;
-        public event GuildEventArgs<IMessageEvent> ReactionRemoved;
-        public event GuildEventArgs<IMessageEvent> ReactionsRemoved;
-        public event GuildEventArgs<IMessageEvent> ReactionRemovedEmoji;
-    }
-    public struct MessageSentEvent : IMessageEvent { }
-    public struct MessageEditedEvent : IMessageEvent { }
-    public struct MessageDeletedEvent : IMessageEvent { }
-    public struct ReactionAddedEvent : IMessageEvent { }
-    public struct ReactionRemovedEvent : IMessageEvent { }
-    public struct ReactionsRemovedEvent : IMessageEvent { }
 
     public enum ActivityType : byte
     {

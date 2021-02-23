@@ -4,15 +4,15 @@ using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using DiscordApiStuff.Events.Interfaces;
+using DiscordApiStuff.Events.EventArgs.Interfaces;
 
 namespace DiscordApiStuff.Events.Processors
 {
-    public delegate void EventSubscriptionDel<T>(ref T EventItem) where T : IDiscordEvent;
+    public delegate void EventSubscriptionDel<T>(ref T EventItem) where T : IDiscordEventArgs;
 
     public struct DiscordEventsProcessor
     {
-        public event EventSubscriptionDel<HelloEvent> OnHelloEvent;
+        //public event EventSubscriptionDel<HelloEvent> OnHelloEvent;
         
         public void ProcessPayload(Payload payload)
         {

@@ -8,15 +8,59 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="DiscordApiStuff.csproj" t="IncludeRecursive" />
         <e p="Events" t="Include">
-          <e p="HelloEvent.cs" t="Include" />
-          <e p="Interfaces" t="Include">
-            <e p="IChannelEvent.cs" t="Include" />
-            <e p="IDiscordEvent.cs" t="Include" />
-            <e p="IGuildEvent.cs" t="Include" />
-            <e p="IMemberEvent.cs" t="Include" />
-            <e p="IMessageEvent.cs" t="Include" />
-            <e p="IRoleEvent.cs" t="Include" />
+          <e p="EventArgs" t="Include">
+            <e p="Channel" t="Include">
+              <e p="ChannelCreatedEventArgsArgs.cs" t="Include" />
+              <e p="ChannelDeletedEventArgsArgs.cs" t="Include" />
+              <e p="ChannelPinsUpdatedEventArgsArgs.cs" t="Include" />
+              <e p="ChannelUpdatedEventArgsArgs.cs" t="Include" />
+            </e>
+            <e p="Guild" t="Include">
+              <e p="GuildCreatedEventArgsArgs.cs" t="Include" />
+              <e p="GuildDeletedEventArgsArgs.cs" t="Include" />
+              <e p="GuildUpdatedEventArgsArgs.cs" t="Include" />
+            </e>
+            <e p="Interfaces" t="Include">
+              <e p="IChannelEvent.cs" t="Include" />
+              <e p="IChannelEventArgsArgs.cs" t="Include" />
+              <e p="IDiscordEventArgs.cs" t="Include" />
+              <e p="IGuildEvent.cs" t="Include" />
+              <e p="IGuildEventArgsArgs.cs" t="Include" />
+              <e p="IMemberEvent.cs" t="Include" />
+              <e p="IMemberEventArgs.cs" t="Include" />
+              <e p="IMessageEvent.cs" t="Include" />
+              <e p="IMessageEventArgsArgs.cs" t="Include" />
+              <e p="IRoleEventArgs.cs" t="Include" />
+              <e p="IRoleEventArgsEventArgsArgs.cs" t="Include" />
+            </e>
+            <e p="Member" t="Include">
+              <e p="MemberJoinedEventArgs.cs" t="Include" />
+              <e p="MemberLeftEventArgs.cs" t="Include" />
+              <e p="MemberUpdatedEventArgs.cs" t="Include" />
+            </e>
+            <e p="Message" t="Include">
+              <e p="MessageDeletedEventArgsArgs.cs" t="Include" />
+              <e p="MessageEditedEventArgsArgs.cs" t="Include" />
+              <e p="MessageSentEventArgsArgs.cs" t="Include" />
+              <e p="ReactionAddedEventArgsArgs.cs" t="Include" />
+              <e p="ReactionEmojiRemovedEventArgsArgs.cs" t="Include" />
+              <e p="ReactionRemovedEventArgsArgs.cs" t="Include" />
+              <e p="ReactionsRemovedEventArgsArgs.cs" t="Include" />
+            </e>
+            <e p="Role" t="Include">
+              <e p="RoleCreatedEventArgsArgsArgs.cs" t="Include" />
+              <e p="RoleDeletedEventArgsArgsArgs.cs" t="Include" />
+              <e p="RoleUpdatedEventArgsArgsArgs.cs" t="Include" />
+            </e>
           </e>
+          <e p="Handlers" t="Include">
+            <e p="ChannelEventHandler.cs" t="Include" />
+            <e p="GuildEventHandler.cs" t="Include" />
+            <e p="MemberEventHandler.cs" t="Include" />
+            <e p="MessageEventHandler.cs" t="Include" />
+            <e p="RoleEventHandler.cs" t="Include" />
+          </e>
+          <e p="HelloEvent.cs" t="Include" />
           <e p="Processors" t="Include">
             <e p="DiscordEventsProcessor.cs" t="Include" />
           </e>
@@ -28,8 +72,17 @@
             </e>
           </e>
         </e>
+        <e p="Payloads" t="Include">
+          <e p="Gateway" t="Include">
+            <e p="GeneralPayload.cs" t="Include" />
+            <e p="HeartbeatReceive.cs" t="Include" />
+            <e p="HeartbeatSend.cs" t="Include" />
+            <e p="Identification.cs" t="Include" />
+            <e p="MinIdentification.cs" t="Include" />
+          </e>
+        </e>
         <e p="Program.cs" t="Include" />
-        <e p="ReadyEvent.cs" t="Include" />
+        <e p="ReadyEventArgs.cs" t="Include" />
         <e p="Todo.txt" t="Include" />
         <e p="User" t="Include">
           <e p="IUser.cs" t="Include" />

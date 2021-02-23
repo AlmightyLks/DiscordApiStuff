@@ -1,9 +1,9 @@
 ﻿using System.Text.Json.Serialization;
-using DiscordApiStuff.Events.Interfaces;
+using DiscordApiStuff.Events.EventArgs.Interfaces;
 
 namespace DiscordApiStuff
 {
-    public struct ReadyEvent: IDiscordEvent
+    public struct ReadyEventArgs: IDiscordEventArgs
     {
         [JsonPropertyName("v")]
         public int GatewayVersion { get; set; }

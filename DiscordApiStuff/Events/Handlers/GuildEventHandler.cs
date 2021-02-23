@@ -1,6 +1,4 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Guild;
-using DiscordApiStuff.Events.EventArgs.Interfaces;
-using DiscordApiStuff.Events.Processors;
 
 namespace DiscordApiStuff.Events.Handlers
 {
@@ -9,5 +7,12 @@ namespace DiscordApiStuff.Events.Handlers
         public event DiscordEvent<GuildCreatedEventArgs> GuildCreated;
         public event DiscordEvent<GuildUpdatedEventArgs> GuildUpdated;
         public event DiscordEvent<GuildDeletedEventArgs> GuildDeleted;
+
+        internal void InvokeGuildCreated(ref GuildCreatedEventArgs ev)
+            => GuildCreated?.Invoke(ref ev);
+        internal void InvokeGuildUpdated(ref GuildUpdatedEventArgs ev)
+            => GuildUpdated?.Invoke(ref ev);
+        internal void InvokeGuildDeleted(ref GuildDeletedEventArgs ev)
+            => GuildDeleted?.Invoke(ref ev);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using DiscordApiStuff.Events.Handlers;
-using DiscordApiStuff.Payloads.Gateway;
+using DiscordApiStuff.Payloads.Gateway.Connection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +13,7 @@ namespace DiscordApiStuff
         public MemberEventHandler MemberEvents { get; }
         public MessageEventHandler MessageEvents { get; }
         public RoleEventHandler RoleEvents { get; }
+        public GatewayEventHandler GatewayEvents { get; }
 
         private CancellationTokenSource _cancellationTokenSource;
         private DiscordClientConfiguration _discordClientConfiguration;
@@ -49,6 +50,7 @@ namespace DiscordApiStuff
             MemberEvents = new MemberEventHandler();
             MessageEvents = new MessageEventHandler();
             RoleEvents = new RoleEventHandler();
+            GatewayEvents = new GatewayEventHandler();
 
             _cancellationTokenSource = new CancellationTokenSource();
             _discordClientConfiguration = discordClientConfiguration;
@@ -59,7 +61,8 @@ namespace DiscordApiStuff
                 ChannelEvents,
                 MemberEvents,
                 MessageEvents,
-                RoleEvents
+                RoleEvents,
+                GatewayEvents
                 );
         }
 
@@ -74,11 +77,10 @@ namespace DiscordApiStuff
                 Console.WriteLine("Something failed.");
             }
         }
-        public async Task DisconnectAsync()
+        public void Disconnect()
         {
             try
             {
-                await _discordWebSocket.DisconnectAsync();
                 _cancellationTokenSource.Cancel();
                 Console.WriteLine("Closed connection");
             }

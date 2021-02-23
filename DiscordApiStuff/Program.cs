@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiscordApiStuff.Events.EventArgs.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace DiscordApiStuff
@@ -12,12 +13,16 @@ namespace DiscordApiStuff
                 Token = "ODEyNzU4MjYxNzkwNDA4NzI0.YDFaHQ.6YeNQbfOcqiS4Ns0dkCdpUJ1fhk",
                 Intents = DiscordIntent.AllUnprivileged
             });
+            client.GatewayEvents.Ready += () =>
+            {
+                Console.WriteLine("It sent ready!");
+            };
             await client.ConnectAsync();
 
             await Task.Delay(-1);
         }
     }
-
+    public delegate void DiscordEvent<T>(ref T EventItem) where T : IDiscordEventArgs;
     public struct DiscordClientConfiguration
     {
         public string Token { get; init; }

@@ -3,6 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <AssemblyName>l</AssemblyName>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Events\EventArgs\Gateway\" />
+  </ItemGroup>
 
 </Project>

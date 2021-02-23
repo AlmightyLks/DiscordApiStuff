@@ -7,7 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions;
-using DiscordApiStuff.Payloads.Gateway;
+using DiscordApiStuff.Payloads.Events;
+using DiscordApiStuff.Payloads.Gateway.Connection;
 
 namespace DiscordApiStuff
 {
@@ -18,6 +19,7 @@ namespace DiscordApiStuff
         private MemberEventHandler _memberEvents;
         private MessageEventHandler _messageEvents;
         private RoleEventHandler _roleEvents;
+        private GatewayEventHandler _gatewayEvents;
 
         private JsonSerializerOptions _defaultOptions;
         private ClientWebSocket _webSocket;
@@ -38,14 +40,15 @@ namespace DiscordApiStuff
             ChannelEventHandler channelEvents,
             MemberEventHandler memberEvents,
             MessageEventHandler messageEvents,
-            RoleEventHandler roleEvents
-            )
+            RoleEventHandler roleEvents,
+            GatewayEventHandler gatewayEvents)
         {
             _guildEvents = guildEvents;
             _channelEvents = channelEvents;
             _memberEvents = memberEvents;
             _messageEvents = messageEvents;
             _roleEvents = roleEvents;
+            _gatewayEvents = gatewayEvents;
 
             _webSocket = new ClientWebSocket();
             _defaultOptions = new JsonSerializerOptions() { WriteIndented = true };
@@ -156,21 +159,23 @@ namespace DiscordApiStuff
                         case WebSocketMessageType.Binary:
                             {
                                 Console.WriteLine("WebSocket sent raw binary");
+                                break;
                             }
-                            break;
                         case WebSocketMessageType.Close:
                             {
                                 Console.WriteLine($"WebSocket Close Signal Received\n{wsReceiveResult.CloseStatusDescription}");
-                                break;
+                                throw new WebSocketException("Connection closed"); //Gotta break out of the switch-statement
                             }
-                            break;
                         default:
                             break;
                     }
                 }
                 catch (WebSocketException e)
                 {
-                    Console.WriteLine($"{e}");
+                    break;
+                }
+                catch (OperationCanceledException e)
+                {
                     break;
                 }
                 catch (InvalidOrEmptyTokenException e)
@@ -253,30 +258,195 @@ namespace DiscordApiStuff
             try
             {
                 Console.WriteLine($"Event: {payload.Event}");
+
                 switch (payload.Event)
                 {
                     case "READY":
                         {
                             _stopwatch.Stop();
                             Console.WriteLine($"Connect to Ready: {_stopwatch.Elapsed.TotalMilliseconds} ms");
-                            ReadyEventArgs readyEventArgs = JsonSerializer.Deserialize<ReadyEventArgs>(payload.Data.ToString());
+                            Ready ready = JsonSerializer.Deserialize<Ready>(payload.Data.ToString());
+                            _sessionId = ready.SessionId;
+                            _gatewayEvents.InvokeReady();
+                            break;
                         }
-                        break;
+                    //Guild
+                    case "GUILD_CREATE":
+                        {
+
+                            break;
+                        }
+                    case "GUILD_DELETE":
+                        {
+
+
+                            break;
+                        }
+                    case "GUILD_ROLE_CREATE":
+                        {
+
+
+                            break;
+                        }
+                    case "GUILD_ROLE_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    case "GUILD_ROLE_DELETE":
+                        {
+
+
+                            break;
+                        }
+                    case "CHANNEL_CREATE":
+                        {
+                            break;
+                        }
+                    case "CHANNEL_UPDATE":
+                        {
+                            break;
+                        }
+                    case "CHANNEL_DELETE":
+                        {
+                            break;
+                        }
+                    case "CHANNEL_PINS_UPDATE":
+                        {
+                            break;
+                        }
+                    //Guild Members
+                    case "GUILD_MEMBER_ADD":
+                        {
+
+
+                            break;
+                        }
+                    case "GUILD_MEMBER_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    case "GUILD_MEMBER_REMOVE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Bans
+                    case "GUILD_BAN_ADD":
+                        {
+
+
+                            break;
+                        }
+                    case "GUILD_BAN_REMOVE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Emojis
+                    case "GUILD_EMOJIS_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Integrations
+                    case "GUILD_INTEGRATIONS_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Webhooks
+                    case "WEBHOOKS_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Invites
+                    case "INVITE_CREATE":
+                        {
+
+
+                            break;
+                        }
+                    case "INVITE_DELETE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Voice States
+                    case "VOICE_STATE_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild PRESENCE
+                    case "PRESENCE_UPDATE":
+                        {
+
+
+                            break;
+                        }
+                    //Guild Message Reactions
+                    case "MESSAGE_REACTION_ADD":
+                        {
+
+
+                            break;
+                        }
+                    case "MESSAGE_REACTION_REMOVE":
+                        {
+
+
+                            break;
+                        }
+                    case "MESSAGE_REACTION_REMOVE_ALL":
+                        {
+
+
+                            break;
+                        }
+                    case "MESSAGE_REACTION_REMOVE_EMOJI":
+                        {
+
+
+                            break;
+                        }
+                    //Guild / Direct Message Typing
+                    case "TYPING_START":
+                        {
+
+
+                            break;
+                        }
+                    //Messages
                     case "MESSAGE_CREATE":
                         {
-                            //Console.WriteLine($"Message created");
+
+
+                            break;
                         }
-                        break;
                     case "MESSAGE_UPDATE":
                         {
-                            //Console.WriteLine($"Message updated");
+
+
+                            break;
                         }
-                        break;
                     case "MESSAGE_DELETE":
                         {
-                            //Console.WriteLine($"Message deleted");
+
+
+                            break;
                         }
-                        break;
                 }
             }
             catch (Exception e)

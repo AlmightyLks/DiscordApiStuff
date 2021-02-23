@@ -143,13 +143,14 @@ namespace DiscordApiStuff
         {
             while (_webSocket.State == WebSocketState.Open)
             {
-                //TimeSpan differenceTimeSpan = (DateTime.Now - TimeSpan.FromMilliseconds(_heartbeatInterval)) - _lastHeartbeatAcknowledge;
-                //if (_lastHeartbeatAcknowledge != default && differenceTimeSpan.TotalMilliseconds > _heartbeatInterval + 100)
-                //{
-                //    Console.WriteLine("Heartbeat Acknowledge not received in time");
-                //    await DisconnectAsync();
-                //    break;
-                //}
+                //Check time difference, Timeout -> + 100 ms buffer
+                TimeSpan differenceTimeSpan = (DateTime.Now - TimeSpan.FromMilliseconds(_heartbeatInterval)) - _lastHeartbeatAcknowledge;
+                if (_lastHeartbeatAcknowledge != default && differenceTimeSpan.TotalMilliseconds > _heartbeatInterval + 100)
+                {
+                    Console.WriteLine("Heartbeat Acknowledge not received in time");
+                    await DisconnectAsync();
+                    break;
+                }
                 await SendHeartbeatAsync();
                 await Task.Delay(_heartbeatInterval);
             }

@@ -6,10 +6,9 @@ using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
-using DiscordApiStuff.Events.Interfaces;
+using DiscordApiStuff.Payloads.Gateway;
 
 namespace DiscordApiStuff
 {
@@ -183,7 +182,7 @@ namespace DiscordApiStuff
                     {
                         case WebSocketMessageType.Text:
                         {
-                            var payload = JsonSerializer.Deserialize<Payload>(buffer.AsSpan(0, wsReceiveResult.Count)); 
+                            var payload = JsonSerializer.Deserialize<GeneralPayload>(buffer.AsSpan(0, wsReceiveResult.Count)); 
                             
                             //string jsonStr = Encoding.UTF8.GetString(buffer, 0, wsReceiveResult.Count);
                             
@@ -282,7 +281,7 @@ namespace DiscordApiStuff
             Console.WriteLine("-------------------------------- I left.");
         }
 
-        private async Task SendIdentity(Payload payload)
+        private async Task SendIdentity(GeneralPayload payload)
         {
             Console.WriteLine("Identify received");
             if (string.IsNullOrWhiteSpace(_discordClientConfiguration.Token))
@@ -306,7 +305,7 @@ namespace DiscordApiStuff
             Console.WriteLine("Identify sent");
         }
 
-        private void ProcessHello(Payload payload)
+        private void ProcessHello(GeneralPayload payload)
         {
             Console.WriteLine("Hello received");
             var heartbeat = JsonSerializer.Deserialize<HeartbeatReceive>(payload.Data.ToString());
@@ -316,7 +315,7 @@ namespace DiscordApiStuff
             //Wot
             Console.WriteLine("Hello sent");
         }
-        private void ProcessDispatch(Payload payload)
+        private void ProcessDispatch(GeneralPayload payload)
         {
             try
             {
@@ -376,163 +375,8 @@ namespace DiscordApiStuff
             AutoReconnect = autoReconnect;
         }
     }
-    public struct MinIdentification
-    {
-        [JsonPropertyName("op")]
-        public Opcode Code { get; set; }
-        [JsonPropertyName("d")]
-        public AllData Data { get; set; }
-        public struct AllData
-        {
-            [JsonPropertyName("token")]
-            public string Token { get; set; }
-            [JsonPropertyName("intents")]
-            public int Intents { get; set; }
-            [JsonPropertyName("properties")]
-            public Properties Properties { get; set; }
-        }
-        public struct Properties
-        {
-            [JsonPropertyName("$os")]
-            public string OperatingSystem { get; set; }
-            [JsonPropertyName("$browser")]
-            public string Browser { get; set; }
-            [JsonPropertyName("$device")]
-            public string Device { get; set; }
-        }
-    }
-    public struct Identification
-    {
-        [JsonPropertyName("op")]
-        public Opcode Code { get; set; }
-        [JsonPropertyName("d")]
-        public AllData Data { get; set; }
-        public struct AllData
-        {
-            [JsonPropertyName("token")]
-            public string Token { get; set; }
-            [JsonPropertyName("intents")]
-            public int Intents { get; set; }
-            [JsonPropertyName("properties")]
-            public Properties Property { get; set; }
-            [JsonPropertyName("compress")]
-            public bool? Compress { get; set; }
-            [JsonPropertyName("large_threshold")]
-            public int? LargeThreshold { get; set; }
-            [JsonPropertyName("shard")]
-            public int[] Shard { get; set; }
-            [JsonPropertyName("presence")]
-            public Presence? Presence { get; set; }
-        }
-        public struct Presence
-        {
-            [JsonPropertyName("activities")]
-            public Activity[] Activities { get; set; }
-            [JsonPropertyName("status")]
-            public string Status { get; set; }
-            [JsonPropertyName("since")]
-            public int? Since { get; set; }
-            [JsonPropertyName("afk")]
-            public bool Afk { get; set; }
-        }
-        public struct Activity
-        {
-            [JsonPropertyName("name")]
-            public string Name { get; set; }
-            [JsonPropertyName("type")]
-            public ActivityType Type { get; set; }
-            [JsonPropertyName("url")]
-            public string URL { get; set; }
-        }
-        public struct Properties
-        {
-            [JsonPropertyName("$os")]
-            public string OperatingSystem { get; set; }
-            [JsonPropertyName("$browser")]
-            public string Browser { get; set; }
-            [JsonPropertyName("$device")]
-            public string Device { get; set; }
-        }
-    }
-    public struct Payload
-    {
-        [JsonPropertyName("op")]
-        public Opcode Code { get; set; }
-        [JsonPropertyName("d")]
-        public object Data { get; set; }
-        [JsonPropertyName("s")]
-        public int? Sequence { get; set; }
-        [JsonPropertyName("t")]
-        public string Event { get; set; }
-    }
-    public struct HeartbeatReceive
-    {
-        [JsonPropertyName("heartbeat_interval")]
-        public int HeartbeatInterval { get; set; }
-    }
-
-    public struct HeartbeatSend
-    {
-        [JsonPropertyName("op")]
-        public Opcode Code { get; set; }
-        [JsonPropertyName("d")]
-        public int? Data { get; set; }
-    }
 
 
-    public struct GuildEventHandler
-    {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IGuildEvent;
-
-        public event GuildEventArgs<IGuildEvent> GuildCreated;
-        public event GuildEventArgs<IGuildEvent> GuildUpdated;
-        public event GuildEventArgs<IGuildEvent> GuildDeleted;
-    }
-    public struct MemberEventHandler
-    {
-        public delegate void MemberEventArgs<TEvent>(TEvent ev) where TEvent : IMemberEvent;
-
-        public event MemberEventArgs<IMemberEvent> MemberJoined;
-        public event MemberEventArgs<IMemberEvent> MemberUpdated;
-        public event MemberEventArgs<IMemberEvent> MemberLeft;
-    }
-    public struct RoleEventHandler
-    {
-        public delegate void RoleEventArgs<TEvent>(TEvent ev) where TEvent : IRoleEvent;
-
-
-        public event RoleEventArgs<IRoleEvent> RoleCreated;
-        public event RoleEventArgs<IRoleEvent> RoleUpdated;
-        public event RoleEventArgs<IRoleEvent> RoleDeleted;
-    }
-    public struct ChannelEventHandler
-    {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IChannelEvent;
-
-
-        public event GuildEventArgs<IChannelEvent> ChannelCreated;
-        public event GuildEventArgs<IChannelEvent> ChannelUpdated;
-        public event GuildEventArgs<IChannelEvent> ChannelDeleted;
-        public event GuildEventArgs<IChannelEvent> ChannelPinsUpdated;
-    }
-    public struct MessageEventHandler
-    {
-        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IMessageEvent;
-
-        public event GuildEventArgs<IMessageEvent> MessageSent;
-        public event GuildEventArgs<IMessageEvent> MessageEdited;
-        public event GuildEventArgs<IMessageEvent> MessageDeleted;
-        public event GuildEventArgs<IMessageEvent> ReactionAdded;
-        public event GuildEventArgs<IMessageEvent> ReactionRemoved;
-        public event GuildEventArgs<IMessageEvent> ReactionsRemoved;
-        public event GuildEventArgs<IMessageEvent> ReactionRemovedEmoji;
-    }
-    public struct MessageSentEvent : IMessageEvent { }
-    public struct MessageEditedEvent : IMessageEvent { }
-    public struct MessageDeletedEvent : IMessageEvent { }
-    public struct ReactionAddedEvent : IMessageEvent { }
-    public struct ReactionRemovedEvent : IMessageEvent { }
-    public struct ReactionsRemovedEvent : IMessageEvent { }
 
     public enum ActivityType : byte
     {

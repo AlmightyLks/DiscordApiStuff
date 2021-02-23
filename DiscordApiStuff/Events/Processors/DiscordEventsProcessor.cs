@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using DiscordApiStuff.Events.Interfaces;
+using DiscordApiStuff.Payloads.Gateway;
 
 namespace DiscordApiStuff.Events.Processors
 {
@@ -12,7 +13,7 @@ namespace DiscordApiStuff.Events.Processors
 
     public struct DiscordEventsProcessor
     {
-        public void ProcessPayload(Payload payload)
+        public void ProcessPayload(GeneralPayload payload)
         {
             switch (payload.Event)
             {

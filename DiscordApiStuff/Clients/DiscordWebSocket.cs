@@ -41,7 +41,8 @@ namespace DiscordApiStuff
             MemberEventHandler memberEvents,
             MessageEventHandler messageEvents,
             RoleEventHandler roleEvents,
-            GatewayEventHandler gatewayEvents)
+            GatewayEventHandler gatewayEvents
+            )
         {
             _guildEvents = guildEvents;
             _channelEvents = channelEvents;

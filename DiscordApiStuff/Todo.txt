@@ -14,20 +14,18 @@
 	- Websocket Heartbeat
 - Create library events
 
-
-
-
-
-
-
+--------------------------------------------------------------------------------------
 
 Planned / In Progress:
 - Finish DiscordWebSocket
 - Create DiscordHttpClient
+- Create more / all Payload models
+- Implement these Opcodes properly:
+	- Resume
+	- Reconnect
+	- Presence Update
+	- VoiceStateUpdate
+	- RequestGuildMembers
+	- InvalidSession
 
 - Custom Converter for stupid object field ( Payload ) https://stackoverflow.com/questions/29980580/deserialize-json-object-property-to-string
-
-
-
-
-

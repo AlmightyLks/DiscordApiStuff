@@ -466,35 +466,7 @@ namespace DiscordApiStuff
         [JsonPropertyName("application")]
         public object Application { get; set; }
     }
-    public struct User
-    {
-        [JsonPropertyName("id")]
-        public string ID { get; set; }
-        [JsonPropertyName("username")]
-        public string Username { get; set; }
-        [JsonPropertyName("discriminator")]
-        public string Discriminator { get; set; }
-        [JsonPropertyName("avatar")]
-        public string Avatar { get; set; }
-        [JsonPropertyName("bot")]
-        public bool? IsBot { get; set; }
-        [JsonPropertyName("system")]
-        public bool? DiscordUser { get; set; }
-        [JsonPropertyName("mfa_enabled")]
-        public bool? MultiFactorAuthentication { get; set; }
-        [JsonPropertyName("locale")]
-        public string LocalLanguage { get; set; }
-        [JsonPropertyName("verified")]
-        public bool? EMailVerified { get; set; }
-        [JsonPropertyName("email")]
-        public string EMail { get; set; }
-        [JsonPropertyName("flags")]
-        public UserFlags? Flags { get; set; }
-        [JsonPropertyName("premium_type")]
-        public Nitro Nitro { get; set; }
-        [JsonPropertyName("public_flags")]
-        public UserFlags? PublicFlags { get; set; }
-    }
+
     public struct HeartbeatSend
     {
         [JsonPropertyName("op")]

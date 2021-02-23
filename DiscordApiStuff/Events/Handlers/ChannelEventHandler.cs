@@ -1,15 +1,14 @@
-﻿using DiscordApiStuff.Events.EventArgs.Interfaces;
+﻿using DiscordApiStuff.Events.EventArgs.Channel;
+using DiscordApiStuff.Events.EventArgs.Interfaces;
+using DiscordApiStuff.Events.Processors;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public struct ChannelEventHandler
+    public sealed class ChannelEventHandler
     {
-        public delegate void GuildEvent<TEvent>(TEvent ev) where TEvent : IChannelEventArgsArgs;
-
-
-        public event GuildEvent<IChannelEventArgsArgs> ChannelCreated;
-        public event GuildEvent<IChannelEventArgsArgs> ChannelUpdated;
-        public event GuildEvent<IChannelEventArgsArgs> ChannelDeleted;
-        public event GuildEvent<IChannelEventArgsArgs> ChannelPinsUpdated;
+        public event DiscordEvent<ChannelCreatedEventArgs> ChannelCreated;
+        public event DiscordEvent<ChannelUpdatedEventArgs> ChannelUpdated;
+        public event DiscordEvent<ChannelDeletedEventArgs> ChannelDeleted;
+        public event DiscordEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;
     }
 }

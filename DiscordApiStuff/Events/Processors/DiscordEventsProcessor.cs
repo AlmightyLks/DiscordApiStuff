@@ -4,11 +4,13 @@ using System.Net.WebSockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
+using DiscordApiStuff.Events.EventArgs.Guild;
 using DiscordApiStuff.Events.EventArgs.Interfaces;
+using DiscordApiStuff.Events.Handlers;
 
 namespace DiscordApiStuff.Events.Processors
 {
-    public delegate void EventSubscriptionDel<T>(ref T EventItem) where T : IDiscordEventArgs;
+    public delegate void DiscordEvent<T>(ref T EventItem) where T : IDiscordEventArgs;
 
     public struct DiscordEventsProcessor
     {
@@ -16,13 +18,14 @@ namespace DiscordApiStuff.Events.Processors
         
         public void ProcessPayload(Payload payload)
         {
+            var JsonString = payload.Data.ToString();
+            
             switch (payload.Event)
             {
                 //Guild
                 
                 case "GUILD_CREATE":
                 {
-                    
                     
                     break;
                 }

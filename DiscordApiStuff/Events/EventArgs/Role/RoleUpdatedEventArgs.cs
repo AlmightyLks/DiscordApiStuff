@@ -7,7 +7,7 @@ using DiscordApiStuff.Events.EventArgs.Interfaces;
 
 namespace DiscordApiStuff.Events.EventArgs.Role
 {
-    public struct RoleUpdatedEventArgsArgsArgs : IRoleEventArgsEventArgsArgs
+    public struct RoleUpdatedEventArgs : IRoleEventArgs
     {
     }
 }

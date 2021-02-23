@@ -2,5 +2,5 @@
 
 namespace DiscordApiStuff.Events.EventArgs.Message
 {
-    public struct MessageEditedEventArgsArgs : IMessageEventArgsArgs { }
+    public struct ReactionsRemovedEventArgs : IMessageEventArgs { }
 }

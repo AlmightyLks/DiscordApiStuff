@@ -1,18 +1,17 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Interfaces;
 using DiscordApiStuff.Events.EventArgs.Message;
+using DiscordApiStuff.Events.Processors;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public struct MessageEventHandler
+    public sealed class MessageEventHandler
     {
-        public delegate void GuildEvent<TEvent>(TEvent ev) where TEvent : IMessageEventArgsArgs;
-
-        public event GuildEvent<MessageSentEventArgsArgs> MessageSent;
-        public event GuildEvent<MessageEditedEventArgsArgs> MessageEdited;
-        public event GuildEvent<MessageDeletedEventArgsArgs> MessageDeleted;
-        public event GuildEvent<ReactionAddedEventArgsArgs> ReactionAdded;
-        public event GuildEvent<ReactionRemovedEventArgsArgs> ReactionRemoved;
-        public event GuildEvent<ReactionsRemovedEventArgsArgs> ReactionsRemoved;
-        public event GuildEvent<ReactionEmojiRemovedEventArgsArgs> ReactionEmojiRemoved;
+        public event DiscordEvent<MessageSentEventArgs> MessageSent;
+        public event DiscordEvent<MessageEditedEventArgs> MessageEdited;
+        public event DiscordEvent<MessageDeletedEventArgs> MessageDeleted;
+        public event DiscordEvent<ReactionAddedEventArgs> ReactionAdded;
+        public event DiscordEvent<ReactionRemovedEventArgs> ReactionRemoved;
+        public event DiscordEvent<ReactionsRemovedEventArgs> ReactionsRemoved;
+        public event DiscordEvent<ReactionEmojiRemovedEventArgs> ReactionEmojiRemoved;
     }
 }

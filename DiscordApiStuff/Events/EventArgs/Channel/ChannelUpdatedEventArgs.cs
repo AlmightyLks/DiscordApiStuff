@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Events.EventArgs.Channel
 {
-    public struct ChannelUpdatedEventArgsArgs : IChannelEventArgsArgs
+    public struct ChannelUpdatedEventArgs : IChannelEventArgs
     {
     }
 }

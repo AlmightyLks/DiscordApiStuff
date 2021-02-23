@@ -1,15 +1,13 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Interfaces;
 using DiscordApiStuff.Events.EventArgs.Role;
+using DiscordApiStuff.Events.Processors;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public struct RoleEventHandler
+    public sealed class RoleEventHandler
     {
-        public delegate void RoleEvent<TEvent>(TEvent ev) where TEvent : IRoleEventArgsEventArgsArgs;
-
-
-        public event RoleEvent<RoleCreatedEventArgsArgsArgs> RoleCreated;
-        public event RoleEvent<RoleUpdatedEventArgsArgsArgs> RoleUpdated;
-        public event RoleEvent<RoleDeletedEventArgsArgsArgs> RoleDeleted;
+        public event DiscordEvent<RoleCreatedEventArgs> RoleCreated;
+        public event DiscordEvent<RoleUpdatedEventArgs> RoleUpdated;
+        public event DiscordEvent<RoleDeletedEventArgs> RoleDeleted;
     }
 }

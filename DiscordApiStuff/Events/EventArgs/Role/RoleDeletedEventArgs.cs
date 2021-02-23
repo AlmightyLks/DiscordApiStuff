@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using DiscordApiStuff.Events.EventArgs.Interfaces;
 
-namespace DiscordApiStuff.Events.EventArgs.Guild
+namespace DiscordApiStuff.Events.EventArgs.Role
 {
-    public struct GuildCreatedEventArgsArgs : IGuildEventArgsArgs
+    public struct RoleDeletedEventArgs : IRoleEventArgs
     {
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DiscordApiStuff.Events.EventArgs.Interfaces
 {
-    public interface IChannelEventArgsArgs : IDiscordEventArgs
+    public interface IChannelEventArgs : IDiscordEventArgs
     {
 
     }

@@ -6,32 +6,30 @@
     <e p="C:\Users\Administrator\Desktop\DiscordApiStuff" t="IncludeFlat">
       <e p="DiscordApiStuff" t="IncludeRecursive">
         <e p="bin" t="ExcludeRecursive" />
+        <e p="Clients" t="Include">
+          <e p="DiscordSocketClient.cs" t="Include" />
+        </e>
         <e p="DiscordApiStuff.csproj" t="IncludeRecursive" />
         <e p="Events" t="Include">
           <e p="EventArgs" t="Include">
             <e p="Channel" t="Include">
-              <e p="ChannelCreatedEventArgsArgs.cs" t="Include" />
-              <e p="ChannelDeletedEventArgsArgs.cs" t="Include" />
-              <e p="ChannelPinsUpdatedEventArgsArgs.cs" t="Include" />
-              <e p="ChannelUpdatedEventArgsArgs.cs" t="Include" />
+              <e p="ChannelCreatedEventArgs.cs" t="Include" />
+              <e p="ChannelDeletedEventArgs.cs" t="Include" />
+              <e p="ChannelPinsUpdatedEventArgs.cs" t="Include" />
+              <e p="ChannelUpdatedEventArgs.cs" t="Include" />
             </e>
             <e p="Guild" t="Include">
-              <e p="GuildCreatedEventArgsArgs.cs" t="Include" />
-              <e p="GuildDeletedEventArgsArgs.cs" t="Include" />
-              <e p="GuildUpdatedEventArgsArgs.cs" t="Include" />
+              <e p="GuildCreatedEventArgs.cs" t="Include" />
+              <e p="GuildDeletedEventArgs.cs" t="Include" />
+              <e p="GuildUpdatedEventArgs.cs" t="Include" />
             </e>
             <e p="Interfaces" t="Include">
-              <e p="IChannelEvent.cs" t="Include" />
-              <e p="IChannelEventArgsArgs.cs" t="Include" />
+              <e p="IChannelEventArgs.cs" t="Include" />
               <e p="IDiscordEventArgs.cs" t="Include" />
-              <e p="IGuildEvent.cs" t="Include" />
-              <e p="IGuildEventArgsArgs.cs" t="Include" />
-              <e p="IMemberEvent.cs" t="Include" />
+              <e p="IGuildEventArgs.cs" t="Include" />
               <e p="IMemberEventArgs.cs" t="Include" />
-              <e p="IMessageEvent.cs" t="Include" />
-              <e p="IMessageEventArgsArgs.cs" t="Include" />
+              <e p="IMessageEventArgs.cs" t="Include" />
               <e p="IRoleEventArgs.cs" t="Include" />
-              <e p="IRoleEventArgsEventArgsArgs.cs" t="Include" />
             </e>
             <e p="Member" t="Include">
               <e p="MemberJoinedEventArgs.cs" t="Include" />
@@ -39,18 +37,18 @@
               <e p="MemberUpdatedEventArgs.cs" t="Include" />
             </e>
             <e p="Message" t="Include">
-              <e p="MessageDeletedEventArgsArgs.cs" t="Include" />
-              <e p="MessageEditedEventArgsArgs.cs" t="Include" />
-              <e p="MessageSentEventArgsArgs.cs" t="Include" />
-              <e p="ReactionAddedEventArgsArgs.cs" t="Include" />
-              <e p="ReactionEmojiRemovedEventArgsArgs.cs" t="Include" />
-              <e p="ReactionRemovedEventArgsArgs.cs" t="Include" />
-              <e p="ReactionsRemovedEventArgsArgs.cs" t="Include" />
+              <e p="MessageDeletedEventArgs.cs" t="Include" />
+              <e p="MessageEditedEventArgs.cs" t="Include" />
+              <e p="MessageSentEventArgs.cs" t="Include" />
+              <e p="ReactionAddedEventArgs.cs" t="Include" />
+              <e p="ReactionEmojiRemovedEventArgs.cs" t="Include" />
+              <e p="ReactionRemovedEventArgs.cs" t="Include" />
+              <e p="ReactionsRemovedEventArgs.cs" t="Include" />
             </e>
             <e p="Role" t="Include">
-              <e p="RoleCreatedEventArgsArgsArgs.cs" t="Include" />
-              <e p="RoleDeletedEventArgsArgsArgs.cs" t="Include" />
-              <e p="RoleUpdatedEventArgsArgsArgs.cs" t="Include" />
+              <e p="RoleCreatedEventArgs.cs" t="Include" />
+              <e p="RoleDeletedEventArgs.cs" t="Include" />
+              <e p="RoleUpdatedEventArgs.cs" t="Include" />
             </e>
           </e>
           <e p="Handlers" t="Include">

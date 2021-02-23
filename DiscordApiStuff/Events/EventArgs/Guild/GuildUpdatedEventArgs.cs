@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Events.EventArgs.Guild
 {
-    public struct GuildUpdatedEventArgsArgs : IGuildEventArgsArgs
+    public struct GuildUpdatedEventArgs : IGuildEventArgs
     {
     }
 }

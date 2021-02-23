@@ -1,14 +1,13 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Guild;
 using DiscordApiStuff.Events.EventArgs.Interfaces;
+using DiscordApiStuff.Events.Processors;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public struct GuildEventHandler
+    public sealed class GuildEventHandler
     {
-        public delegate void GuildEvent<TEvent>(TEvent ev) where TEvent : IGuildEventArgsArgs;
-
-        public event GuildEvent<GuildCreatedEventArgsArgs> GuildCreated;
-        public event GuildEvent<GuildUpdatedEventArgsArgs> GuildUpdated;
-        public event GuildEvent<GuildDeletedEventArgsArgs> GuildDeleted;
+        public event DiscordEvent<GuildCreatedEventArgs> GuildCreated;
+        public event DiscordEvent<GuildUpdatedEventArgs> GuildUpdated;
+        public event DiscordEvent<GuildDeletedEventArgs> GuildDeleted;
     }
 }

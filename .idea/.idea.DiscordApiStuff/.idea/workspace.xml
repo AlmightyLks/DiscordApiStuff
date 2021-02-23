@@ -25,20 +25,37 @@
       <option value="$PROJECT_DIR$/DiscordApiStuff/ReadyEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Todo.txt" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/HelloEvent.cs" />
-      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Processors/DiscordEventsProcessor.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IChannelEventArgs.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IChannelEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IDiscordEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IGuildEvent.cs" />
-      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IGuildEventArgs.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMemberEvent.cs" />
-      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMemberEventArgs.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMessageEvent.cs" />
-      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMessageEventArgs.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IRoleEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IRoleEventEventArgs.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IRoleEventArgsEventArgsArgs.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Program.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Channel/ChannelCreatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Channel/ChannelDeletedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Channel/ChannelPinsUpdatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Channel/ChannelUpdatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Guild/GuildCreatedEventArgsArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Guild/GuildDeletedEventArgsArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMessageEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IGuildEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Guild/GuildCreatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Guild/GuildDeletedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Role/RoleDeletedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Role/RoleUpdatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Role/RoleCreatedEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/EventArgs/Interfaces/IMemberEventArgs.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Handlers/ChannelEventHandler.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Handlers/GuildEventHandler.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Handlers/MemberEventHandler.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Handlers/MessageEventHandler.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Handlers/RoleEventHandler.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Clients/DiscordSocketClient.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Processors/DiscordEventsProcessor.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1osc00oZ7AZ0zPEUnebyhFONRDi" />

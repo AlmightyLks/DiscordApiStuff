@@ -1,4 +1,4 @@
-﻿namespace DiscordApiStuff.Events
+﻿namespace DiscordApiStuff.Events.Interfaces
 {
     public interface IDiscordEvent
     {

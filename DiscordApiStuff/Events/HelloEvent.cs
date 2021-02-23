@@ -1,15 +1,12 @@
-﻿namespace DiscordApiStuff.Events
+﻿using DiscordApiStuff.Events.Interfaces;
+
+namespace DiscordApiStuff.Events
 {
     public struct HelloEvent: IDiscordEvent
     {
         public int op { get; set; } 
         
         public D d { get; set; } 
-    }
-    
-    public struct D    
-    {
-        public int heartbeat_interval { get; set; } 
     }
 
 }

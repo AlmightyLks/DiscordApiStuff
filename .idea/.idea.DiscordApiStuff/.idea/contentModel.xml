@@ -9,8 +9,17 @@
         <e p="DiscordApiStuff.csproj" t="IncludeRecursive" />
         <e p="Events" t="Include">
           <e p="HelloEvent.cs" t="Include" />
-          <e p="IDiscordEvent.cs" t="Include" />
-          <e p="ReadyEvent.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IChannelEvent.cs" t="Include" />
+            <e p="IDiscordEvent.cs" t="Include" />
+            <e p="IGuildEvent.cs" t="Include" />
+            <e p="IMemberEvent.cs" t="Include" />
+            <e p="IMessageEvent.cs" t="Include" />
+            <e p="IRoleEvent.cs" t="Include" />
+          </e>
+          <e p="Processors" t="Include">
+            <e p="DiscordEventsProcessor.cs" t="Include" />
+          </e>
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -20,6 +29,7 @@
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="ReadyEvent.cs" t="Include" />
         <e p="Todo.txt" t="Include" />
         <e p="User" t="Include">
           <e p="IUser.cs" t="Include" />

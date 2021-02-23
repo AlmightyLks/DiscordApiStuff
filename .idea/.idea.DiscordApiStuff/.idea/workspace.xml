@@ -13,8 +13,20 @@
   <component name="IdeDocumentHistory">
     <changedPaths>
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/IDiscordEvents.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/User/IUser.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/User/User.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IMemberEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IRoleEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IMessageEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IGuildEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IDiscordEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Interfaces/IChannelEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/HelloEvent.cs" />
       <option value="$PROJECT_DIR$/DiscordApiStuff/Events/ReadyEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/ReadyEvent.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Program.cs" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Todo.txt" />
+      <option value="$PROJECT_DIR$/DiscordApiStuff/Events/Processors/DiscordEventsProcessor.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1osc00oZ7AZ0zPEUnebyhFONRDi" />
@@ -48,7 +60,7 @@
     </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="UnityProjectConfiguration" hasMinimizedUI="null" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

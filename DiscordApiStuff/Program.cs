@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Net.WebSockets;
@@ -337,14 +338,17 @@ namespace DiscordApiStuff
             await _webSocket.SendAsync(data, messageType, true, _cancellationToken);
         }
     }
+
     public struct DiscordClientConfiguration
     {
         public string Token { get; init; }
         public DiscordIntent Intents { get; init; }
-        public DiscordClientConfiguration(string token, DiscordIntent intents)
+        public bool AutoReconnect { get; init; }
+        public DiscordClientConfiguration(string token, DiscordIntent intents, bool autoReconnect)
         {
             Token = token;
             Intents = intents;
+            AutoReconnect = autoReconnect;
         }
     }
     public struct MinIdentification
@@ -497,6 +501,67 @@ namespace DiscordApiStuff
         [JsonPropertyName("d")]
         public int? Data { get; set; }
     }
+
+
+    public interface IGuildEventArgs { }
+    public interface IMemberEventArgs { }
+    public interface IChannelEventArgs { }
+    public interface IMessageEventArgs { }
+    public interface IRoleEventArgs { }
+    public struct GuildEventHandler
+    {
+        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IGuildEventArgs;
+
+        public event GuildEventArgs<IGuildEventArgs> GuildCreated;
+        public event GuildEventArgs<IGuildEventArgs> GuildUpdated;
+        public event GuildEventArgs<IGuildEventArgs> GuildDeleted;
+    }
+    public struct MemberEventHandler
+    {
+        public delegate void MemberEventArgs<TEvent>(TEvent ev) where TEvent : IMemberEventArgs;
+
+        public event MemberEventArgs<IMemberEventArgs> MemberJoined;
+        public event MemberEventArgs<IMemberEventArgs> MemberUpdated;
+        public event MemberEventArgs<IMemberEventArgs> MemberLeft;
+    }
+    public struct RoleEventHandler
+    {
+        public delegate void RoleEventArgs<TEvent>(TEvent ev) where TEvent : IRoleEventArgs;
+
+
+        public event RoleEventArgs<IRoleEventArgs> RoleCreated;
+        public event RoleEventArgs<IRoleEventArgs> RoleUpdated;
+        public event RoleEventArgs<IRoleEventArgs> RoleDeleted;
+    }
+    public struct ChannelEventHandler
+    {
+        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IChannelEventArgs;
+
+
+        public event GuildEventArgs<IChannelEventArgs> ChannelCreated;
+        public event GuildEventArgs<IChannelEventArgs> ChannelUpdated;
+        public event GuildEventArgs<IChannelEventArgs> ChannelDeleted;
+        public event GuildEventArgs<IChannelEventArgs> ChannelPinsUpdated;
+    }
+    public struct MessageEventHandler
+    {
+        public delegate void GuildEventArgs<TEvent>(TEvent ev) where TEvent : IMessageEventArgs;
+
+        public event GuildEventArgs<IMessageEventArgs> MessageSent;
+        public event GuildEventArgs<IMessageEventArgs> MessageEdited;
+        public event GuildEventArgs<IMessageEventArgs> MessageDeleted;
+        public event GuildEventArgs<IMessageEventArgs> ReactionAdded;
+        public event GuildEventArgs<IMessageEventArgs> ReactionRemoved;
+        public event GuildEventArgs<IMessageEventArgs> ReactionsRemoved;
+        public event GuildEventArgs<IMessageEventArgs> ReactionRemovedEmoji;
+    }
+    public struct MessageSentEventArgs : IMessageEventArgs { }
+    public struct MessageEditedEventArgs : IMessageEventArgs { }
+    public struct MessageDeletedEventArgs : IMessageEventArgs { }
+    public struct ReactionAddedEventArgs : IMessageEventArgs { }
+    public struct ReactionRemovedEventArgs : IMessageEventArgs { }
+    public struct ReactionsRemovedEventArgs : IMessageEventArgs { }
+
     public enum ActivityType : byte
     {
         Playing,

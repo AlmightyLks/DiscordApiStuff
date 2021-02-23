@@ -11,6 +11,7 @@
 	- InvalidOrEmptyTokenException
 	- DiscordApiInfo
 	- DiscordClientConfiguration
+	- Websocket Heartbeat
 
 
 
@@ -22,7 +23,6 @@
 Planned / In Progress:
 - Finish DiscordWebSocket
 - Create library events
-- Websocket Heartbeat
 - Create DiscordHttpClient
 
 

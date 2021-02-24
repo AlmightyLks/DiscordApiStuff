@@ -1,15 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using DiscordApiStuff.Events.EventArgs.Gateway;
 
 namespace DiscordApiStuff.Events.Handlers
 {
     public sealed class GatewayEventHandler
     {
-        //No args.
-        public event DiscordEvent Ready;
-        public event DiscordEvent FirstConnect;
-        public event DiscordEvent Reconnect;
-        public event DiscordEvent DefiniteDisconnect;
+        public event DiscordEventAsync Ready;
+        public event DiscordEventAsync FirstConnect;
+        public event DiscordEventAsync Reconnect;
+        public event DiscordEventAsync DefiniteDisconnect;
+        public event DiscordEventAsync<GatewayExceptionEventArgs> ExceptionThrown;
 
         internal void InvokeReady()
             => Ready?.Invoke();
@@ -19,5 +18,7 @@ namespace DiscordApiStuff.Events.Handlers
             => FirstConnect?.Invoke();
         internal void InvokeReconnect()
             => Reconnect?.Invoke();
+        internal void InvokeExceptionThrown(GatewayExceptionEventArgs ev)
+            => ExceptionThrown?.Invoke(ev);
     }
 }

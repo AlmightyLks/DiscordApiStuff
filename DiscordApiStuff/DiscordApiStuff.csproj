@@ -6,8 +6,4 @@
     <AssemblyName>l</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Events\EventArgs\Gateway\" />
-  </ItemGroup>
-
 </Project>

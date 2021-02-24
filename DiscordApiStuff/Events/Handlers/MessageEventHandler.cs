@@ -4,27 +4,27 @@ namespace DiscordApiStuff.Events.Handlers
 {
     public sealed class MessageEventHandler
     {
-        public event DiscordEvent<MessageSentEventArgs> MessageSent;
-        public event DiscordEvent<MessageEditedEventArgs> MessageEdited;
-        public event DiscordEvent<MessageDeletedEventArgs> MessageDeleted;
-        public event DiscordEvent<ReactionAddedEventArgs> ReactionAdded;
-        public event DiscordEvent<ReactionRemovedEventArgs> ReactionRemoved;
-        public event DiscordEvent<ReactionsClearedEventArgs> ReactionsCleared;
-        public event DiscordEvent<ReactionEmojiRemovedEventArgs> ReactionEmojiRemoved;
+        public event DiscordEventAsync<MessageSentEventArgs> MessageSent;
+        public event DiscordEventAsync<MessageEditedEventArgs> MessageEdited;
+        public event DiscordEventAsync<MessageDeletedEventArgs> MessageDeleted;
+        public event DiscordEventAsync<ReactionAddedEventArgs> ReactionAdded;
+        public event DiscordEventAsync<ReactionRemovedEventArgs> ReactionRemoved;
+        public event DiscordEventAsync<ReactionsClearedEventArgs> ReactionsCleared;
+        public event DiscordEventAsync<ReactionEmojiRemovedEventArgs> ReactionEmojiRemoved;
 
-        internal void InvokeMessageSent(ref MessageSentEventArgs ev)
-            => MessageSent?.Invoke(ref ev);
-        internal void InvokeMessageEdited(ref MessageEditedEventArgs ev)
-            => MessageEdited?.Invoke(ref ev);
-        internal void InvokeMessageDeleted(ref MessageDeletedEventArgs ev)
-            => MessageDeleted?.Invoke(ref ev);
-        internal void InvokeReactionAdded(ref ReactionAddedEventArgs ev)
-            => ReactionAdded?.Invoke(ref ev);
-        internal void InvokeReactionRemoved(ref ReactionRemovedEventArgs ev)
-            => ReactionRemoved?.Invoke(ref ev);
-        internal void InvokeReactionsCleared(ref ReactionsClearedEventArgs ev)
-            => ReactionsCleared?.Invoke(ref ev);
-        internal void InvokeReactionEmojiRemoved(ref ReactionEmojiRemovedEventArgs ev)
-            => ReactionEmojiRemoved?.Invoke(ref ev);
+        internal void InvokeMessageSent(MessageSentEventArgs ev)
+            => MessageSent?.Invoke(ev);
+        internal void InvokeMessageEdited(MessageEditedEventArgs ev)
+            => MessageEdited?.Invoke(ev);
+        internal void InvokeMessageDeleted(MessageDeletedEventArgs ev)
+            => MessageDeleted?.Invoke(ev);
+        internal void InvokeReactionAdded(ReactionAddedEventArgs ev)
+            => ReactionAdded?.Invoke(ev);
+        internal void InvokeReactionRemoved(ReactionRemovedEventArgs ev)
+            => ReactionRemoved?.Invoke(ev);
+        internal void InvokeReactionsCleared(ReactionsClearedEventArgs ev)
+            => ReactionsCleared?.Invoke(ev);
+        internal void InvokeReactionEmojiRemoved(ReactionEmojiRemovedEventArgs ev)
+            => ReactionEmojiRemoved?.Invoke(ev);
     }
 }

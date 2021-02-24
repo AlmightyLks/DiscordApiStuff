@@ -5,18 +5,18 @@ namespace DiscordApiStuff.Events.Handlers
 {
     public sealed class ChannelEventHandler
     {
-        public event DiscordEvent<ChannelCreatedEventArgs> ChannelCreated;
-        public event DiscordEvent<ChannelUpdatedEventArgs> ChannelUpdated;
-        public event DiscordEvent<ChannelDeletedEventArgs> ChannelDeleted;
-        public event DiscordEvent<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;
+        public event DiscordEventAsync<ChannelCreatedEventArgs> ChannelCreated;
+        public event DiscordEventAsync<ChannelUpdatedEventArgs> ChannelUpdated;
+        public event DiscordEventAsync<ChannelDeletedEventArgs> ChannelDeleted;
+        public event DiscordEventAsync<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;
 
-        internal void InvokeChannelCreated(ref ChannelCreatedEventArgs ev)
-            => ChannelCreated?.Invoke(ref ev);
-        internal void InvokeChannelUpdated(ref ChannelUpdatedEventArgs ev)
-            => ChannelUpdated?.Invoke(ref ev);
-        internal void InvokeChannelDeleted(ref ChannelDeletedEventArgs ev)
-            => ChannelDeleted?.Invoke(ref ev);
-        internal void InvokeChannelPinsUpdated(ref ChannelPinsUpdatedEventArgs ev)
-            => ChannelPinsUpdated?.Invoke(ref ev);
+        internal void InvokeChannelCreated(ChannelCreatedEventArgs ev)
+            => ChannelCreated?.Invoke(ev);
+        internal void InvokeChannelUpdated(ChannelUpdatedEventArgs ev)
+            => ChannelUpdated?.Invoke(ev);
+        internal void InvokeChannelDeleted(ChannelDeletedEventArgs ev)
+            => ChannelDeleted?.Invoke(ev);
+        internal void InvokeChannelPinsUpdated(ChannelPinsUpdatedEventArgs ev)
+            => ChannelPinsUpdated?.Invoke(ev);
     }
 }

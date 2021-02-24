@@ -1,4 +1,5 @@
 ﻿using DiscordApiStuff.Payloads.Models.Enums;
+using DiscordApiStuff.Payloads.Models.Structs;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Gateway.Connection
@@ -25,26 +26,6 @@ namespace DiscordApiStuff.Payloads.Gateway.Connection
             public int[] Shard { get; set; }
             [JsonPropertyName("presence")]
             public Presence? Presence { get; set; }
-        }
-        public struct Presence
-        {
-            [JsonPropertyName("activities")]
-            public Activity[] Activities { get; set; }
-            [JsonPropertyName("status")]
-            public string Status { get; set; }
-            [JsonPropertyName("since")]
-            public int? Since { get; set; }
-            [JsonPropertyName("afk")]
-            public bool Afk { get; set; }
-        }
-        public struct Activity
-        {
-            [JsonPropertyName("name")]
-            public string Name { get; set; }
-            [JsonPropertyName("type")]
-            public ActivityType Type { get; set; }
-            [JsonPropertyName("url")]
-            public string URL { get; set; }
         }
         public struct Properties
         {

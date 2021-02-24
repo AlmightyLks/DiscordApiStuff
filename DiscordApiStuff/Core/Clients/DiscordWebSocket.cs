@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using DiscordApiStuff.Core;
+using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions.Gateway;
 using DiscordApiStuff.Payloads.Events;
@@ -104,7 +105,10 @@ namespace DiscordApiStuff
                     var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationToken);
                     Console.WriteLine($"Receive Result: {wsReceiveResult.MessageType}");
 
-                    CheckCloseStatus(wsReceiveResult.CloseStatus);
+                    if (!CheckCloseStatus(wsReceiveResult.CloseStatus))
+                    {
+                        break;
+                    }
 
                     await HandleData(wsReceiveResult, buffer);
                 }
@@ -211,10 +215,6 @@ namespace DiscordApiStuff
         private async Task SendIdentity(GeneralPayload payload)
         {
             Console.WriteLine("Identify received");
-            if (string.IsNullOrWhiteSpace(_discordClientConfiguration.Token))
-            {
-                throw new AuthenticationFailedException(_discordClientConfiguration.Token, $"{nameof(_discordClientConfiguration.Token)} is either empty, null or consists only of whitespaces");
-            }
 
             MinIdentification identification = new MinIdentification()
             {
@@ -241,8 +241,7 @@ namespace DiscordApiStuff
         }
         private async Task ReconnectAsync()
         {
-            _gatewayEvents.InvokeReconnect();
-            //Incomplete
+            //_gatewayEvents.InvokeReconnect();
         }
 
         private void ProcessHello(GeneralPayload payload)
@@ -456,16 +455,32 @@ namespace DiscordApiStuff
             }
         }
 
-        private void CheckCloseStatus(WebSocketCloseStatus? closeStatus)
+        private bool CheckCloseStatus(WebSocketCloseStatus? closeStatus)
         {
+            Exception exception = null;
+
             switch ((int?)closeStatus)
             {
                 case 4003:
-                    throw new NotAuthenticatedException("You sent a payload prior to identifying");
+                    exception = new NotAuthenticatedException("You sent a payload prior to identifying");
+                    break;
                 case 4004:
-                    throw new AuthenticationFailedException(_discordClientConfiguration.Token, "Invalid Token");
+                    exception = new AuthenticationFailedException(_discordClientConfiguration.Token, "Invalid Token");
+                    break;
                 case 4005:
-                    throw new AlreadyAuthenticatedException("You sent more than one identify payload");
+                    exception = new AlreadyAuthenticatedException("You sent more than one identify payload");
+                    break;
+            }
+
+            if(exception != null)
+            {
+                var eventArgs = new GatewayExceptionEventArgs(exception);
+                _gatewayEvents.InvokeExceptionThrown(eventArgs);
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 

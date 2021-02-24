@@ -5,10 +5,12 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using DiscordApiStuff.Core;
 using DiscordApiStuff.Events.Handlers;
-using DiscordApiStuff.Exceptions;
+using DiscordApiStuff.Exceptions.Gateway;
 using DiscordApiStuff.Payloads.Events;
 using DiscordApiStuff.Payloads.Gateway.Connection;
+using DiscordApiStuff.Payloads.Models.Enums;
 
 namespace DiscordApiStuff
 {
@@ -32,6 +34,7 @@ namespace DiscordApiStuff
         private int _heartbeatInterval;
         private int? _lastSequenceNumber;
         private string _sessionId;
+        private bool _connected;
 
         internal DiscordWebSocket(
             DiscordClientConfiguration discordClientConfiguration,
@@ -56,9 +59,11 @@ namespace DiscordApiStuff
             _cancellationToken = cancellationToken;
             _discordClientConfiguration = discordClientConfiguration;
             _heartbeat = null;
+            _lastHeartbeatAcknowledge = default;
             _heartbeatInterval = 0;
             _lastSequenceNumber = null;
-            _lastHeartbeatAcknowledge = default;
+            _sessionId = string.Empty;
+            _connected = false;
         }
 
         internal async Task ConnectAsync()
@@ -99,77 +104,9 @@ namespace DiscordApiStuff
                     var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationToken);
                     Console.WriteLine($"Receive Result: {wsReceiveResult.MessageType}");
 
-                    //This is where we call the processor
+                    CheckCloseStatus(wsReceiveResult.CloseStatus);
 
-                    switch (wsReceiveResult.MessageType)
-                    {
-                        case WebSocketMessageType.Text:
-                            {
-                                var payload = JsonSerializer.Deserialize<GeneralPayload>(buffer.AsSpan(0, wsReceiveResult.Count));
-                                _lastSequenceNumber = payload.Sequence;
-                                Console.WriteLine($"Receive Result Payload: {payload.Code}");
-                                Console.WriteLine($"Receive Result Payload: {payload.Sequence}");
-
-                                switch (payload.Code)
-                                {
-                                    case Opcode.Dispatch:
-                                        {
-                                            ProcessDispatch(payload);
-
-                                            break;
-                                        }
-                                    case Opcode.Heartbeat:
-                                        {
-                                            await SendHeartbeatAsync();
-                                            break;
-                                        }
-                                    case Opcode.Reconnect:
-                                        {
-                                            break;
-                                        }
-                                    case Opcode.InvalidSession:
-                                        {
-                                            throw new InvalidOrEmptyTokenException(_discordClientConfiguration.Token, $"\"{nameof(_discordClientConfiguration.Token)}\" is invalid.");
-                                        }
-                                    case Opcode.Hello:
-                                        {
-                                            await SendIdentity(payload);
-                                            ProcessHello(payload);
-                                            break;
-                                        }
-                                    case Opcode.HeartbeatAck:
-                                        {
-                                            _lastHeartbeatAcknowledge = DateTime.Now;
-                                            break;
-                                        }
-                                    case Opcode.Identify:
-                                        break;
-                                    case Opcode.PresenceUpdate:
-                                        break;
-                                    case Opcode.VoiceStateUpdate:
-                                        break;
-                                    case Opcode.Resume:
-                                        break;
-                                    case Opcode.RequestGuildMembers:
-                                        break;
-                                    default:
-                                        throw new ArgumentOutOfRangeException();
-                                }
-                            }
-                            break;
-                        case WebSocketMessageType.Binary:
-                            {
-                                Console.WriteLine("WebSocket sent raw binary");
-                                break;
-                            }
-                        case WebSocketMessageType.Close:
-                            {
-                                Console.WriteLine($"WebSocket Close Signal Received\n{wsReceiveResult.CloseStatusDescription}");
-                                throw new WebSocketException("Connection closed"); //Gotta break out of the switch-statement
-                            }
-                        default:
-                            break;
-                    }
+                    await HandleData(wsReceiveResult, buffer);
                 }
                 catch (WebSocketException e)
                 {
@@ -179,22 +116,81 @@ namespace DiscordApiStuff
                 {
                     break;
                 }
-                catch (InvalidOrEmptyTokenException e)
-                {
-                    Console.WriteLine($"{e}");
-                    break;
-                }
-                catch (JsonException e)
-                {
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"{e}");
-                }
             }
             Console.WriteLine("WebSocket stoppped listening");
         }
+
+        private async Task HandleData(WebSocketReceiveResult wsReceiveResult, byte[] buffer)
+        {
+            switch (wsReceiveResult.MessageType)
+            {
+                case WebSocketMessageType.Text:
+                    {
+                        var payload = JsonSerializer.Deserialize<GeneralPayload>(buffer.AsSpan(0, wsReceiveResult.Count));
+                        _lastSequenceNumber = payload.Sequence;
+                        Console.WriteLine($"Receive Result Payload: {payload.Code} | {payload.Sequence}");
+
+                        switch (payload.Code)
+                        {
+                            case Opcode.Dispatch:
+                                {
+                                    ProcessDispatch(payload);
+                                    break;
+                                }
+                            case Opcode.Heartbeat:
+                                {
+                                    await SendHeartbeatAsync();
+                                    break;
+                                }
+                            case Opcode.Reconnect:
+                                {
+                                    _connected = false;
+                                    await ReconnectAsync();
+                                    break;
+                                }
+                            case Opcode.InvalidSession:
+                                {
+                                    _connected = false;
+                                    //Not working yet.
+                                    var smth = bool.Parse(payload.Data.ToString());
+                                    break;
+                                }
+                            case Opcode.Hello:
+                                {
+                                    await SendIdentity(payload);
+                                    ProcessHello(payload);
+                                    break;
+                                }
+                            case Opcode.HeartbeatAck:
+                                {
+                                    _lastHeartbeatAcknowledge = DateTime.Now;
+                                    break;
+                                }
+                            case Opcode.Identify:
+                                break;
+                            case Opcode.PresenceUpdate:
+                                break;
+                            case Opcode.VoiceStateUpdate:
+                                break;
+                            case Opcode.Resume:
+                                break;
+                            case Opcode.RequestGuildMembers:
+                                break;
+                            default:
+                                throw new ArgumentOutOfRangeException();
+                        }
+                    }
+                    break;
+                case WebSocketMessageType.Binary:
+                    {
+                        Console.WriteLine("WebSocket sent raw binary");
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
         private async Task ContinuousHeartbeatingAsync()
         {
             while (_webSocket.State == WebSocketState.Open)
@@ -217,7 +213,7 @@ namespace DiscordApiStuff
             Console.WriteLine("Identify received");
             if (string.IsNullOrWhiteSpace(_discordClientConfiguration.Token))
             {
-                throw new InvalidOrEmptyTokenException(_discordClientConfiguration.Token, $"{nameof(_discordClientConfiguration.Token)} is either empty, null or consists only of whitespaces");
+                throw new AuthenticationFailedException(_discordClientConfiguration.Token, $"{nameof(_discordClientConfiguration.Token)} is either empty, null or consists only of whitespaces");
             }
 
             MinIdentification identification = new MinIdentification()
@@ -243,6 +239,11 @@ namespace DiscordApiStuff
             Console.WriteLine("Heartbeat sent");
             await Task.Delay(_heartbeatInterval);
         }
+        private async Task ReconnectAsync()
+        {
+            _gatewayEvents.InvokeReconnect();
+            //Incomplete
+        }
 
         private void ProcessHello(GeneralPayload payload)
         {
@@ -266,7 +267,7 @@ namespace DiscordApiStuff
                         {
                             _stopwatch.Stop();
                             Console.WriteLine($"Connect to Ready: {_stopwatch.Elapsed.TotalMilliseconds} ms");
-                            Ready ready = JsonSerializer.Deserialize<Ready>(payload.Data.ToString());
+                            ReadyPayload ready = JsonSerializer.Deserialize<ReadyPayload>(payload.Data.ToString());
                             _sessionId = ready.SessionId;
                             _gatewayEvents.InvokeReady();
                             break;
@@ -274,7 +275,6 @@ namespace DiscordApiStuff
                     //Guild
                     case "GUILD_CREATE":
                         {
-
                             break;
                         }
                     case "GUILD_DELETE":
@@ -453,6 +453,19 @@ namespace DiscordApiStuff
             catch (Exception e)
             {
 
+            }
+        }
+
+        private void CheckCloseStatus(WebSocketCloseStatus? closeStatus)
+        {
+            switch ((int?)closeStatus)
+            {
+                case 4003:
+                    throw new NotAuthenticatedException("You sent a payload prior to identifying");
+                case 4004:
+                    throw new AuthenticationFailedException(_discordClientConfiguration.Token, "Invalid Token");
+                case 4005:
+                    throw new AlreadyAuthenticatedException("You sent more than one identify payload");
             }
         }
 

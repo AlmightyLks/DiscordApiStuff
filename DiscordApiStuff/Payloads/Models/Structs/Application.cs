@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Payloads.Models
+namespace DiscordApiStuff.Payloads.Models.Structs
 {
     //Ignored, not implemented yet because it needs some more dedicated time
     //Application = Bot's application at https://discord.com/developers/applications

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Models
+namespace DiscordApiStuff.Payloads.Models.Structs
 {
     public struct Emoji
     {
@@ -11,7 +11,7 @@ namespace DiscordApiStuff.Payloads.Models
         [JsonPropertyName("roles")]
         public ulong[] Roles { get; set; }
         [JsonPropertyName("user")]
-        public User User { get; set; }
+        public DiscordUser User { get; set; }
         [JsonPropertyName("require_colons")]
         public bool RequireColons { get; set; }
         [JsonPropertyName("managed")]

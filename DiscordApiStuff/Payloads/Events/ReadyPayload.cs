@@ -1,18 +1,14 @@
-﻿using DiscordApiStuff.Payloads.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using DiscordApiStuff.Payloads.Models.Structs;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Events
 {
-    public struct Ready
+    internal struct ReadyPayload
     {
         [JsonPropertyName("v")]
         public int GatewayVersion { get; set; }
         [JsonPropertyName("user")]
-        public User User { get; set; }
+        public DiscordUser User { get; set; }
         [JsonPropertyName("private_channels")]
         public ulong[] PrivateChannels { get; set; }
         [JsonPropertyName("guilds")]

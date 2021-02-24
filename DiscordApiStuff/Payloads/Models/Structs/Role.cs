@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Models
+namespace DiscordApiStuff.Payloads.Models.Structs
 {
     public struct Role
     {

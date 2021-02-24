@@ -1,8 +1,9 @@
-﻿using System.Text.Json.Serialization;
+﻿using DiscordApiStuff.Payloads.Models.Enums;
+using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Models
+namespace DiscordApiStuff.Payloads.Models.Structs
 {
-    public struct User : IUser
+    public struct DiscordUser : IUser
     {
         [JsonPropertyName("id")]
         public string ID { get; set; }
@@ -20,7 +21,7 @@ namespace DiscordApiStuff.Payloads.Models
         public bool? IsBot { get; set; }
 
         [JsonPropertyName("system")]
-        public bool? DiscordUser { get; set; }
+        public bool? IsDiscordUser { get; set; }
 
         [JsonPropertyName("mfa_enabled")]
         public bool? MultiFactorAuthentication { get; set; }

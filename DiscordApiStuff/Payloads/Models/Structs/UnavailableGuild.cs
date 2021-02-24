@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Models
+namespace DiscordApiStuff.Payloads.Models.Structs
 {
     public struct UnavailableGuild
     {

@@ -9,8 +9,8 @@ using DiscordApiStuff.Core;
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions.Gateway;
+using DiscordApiStuff.Payloads.Connection;
 using DiscordApiStuff.Payloads.Events;
-using DiscordApiStuff.Payloads.Gateway.Connection;
 using DiscordApiStuff.Payloads.Models.Enums;
 
 namespace DiscordApiStuff
@@ -28,14 +28,12 @@ namespace DiscordApiStuff
         private ClientWebSocket _webSocket;
         private Task _dataAccept;
         private Task _heartbeat;
-        private Stopwatch _stopwatch;
         private CancellationToken _cancellationToken;
         private DiscordClientConfiguration _discordClientConfiguration;
         private DateTime _lastHeartbeatAcknowledge;
         private int _heartbeatInterval;
         private int? _lastSequenceNumber;
         private string _sessionId;
-        private bool _connected;
 
         internal DiscordWebSocket(
             DiscordClientConfiguration discordClientConfiguration,
@@ -64,7 +62,6 @@ namespace DiscordApiStuff
             _heartbeatInterval = 0;
             _lastSequenceNumber = null;
             _sessionId = string.Empty;
-            _connected = false;
         }
 
         internal async Task ConnectAsync()
@@ -73,7 +70,6 @@ namespace DiscordApiStuff
             {
                 await _webSocket.ConnectAsync(new Uri(DiscordApiInfo.DiscordWebSocketGateway_V8), _cancellationToken);
                 Console.WriteLine("Connected.");
-                _stopwatch = Stopwatch.StartNew();
                 _dataAccept = ListenForIncomingDataAsync();
             }
             catch (Exception e)
@@ -81,7 +77,10 @@ namespace DiscordApiStuff
                 Console.WriteLine("Something failed.");
             }
         }
-        internal async Task DisconnectAsync(WebSocketCloseStatus socketCloseStatus = WebSocketCloseStatus.NormalClosure, string closeStatusDescription = "Disconnect")
+        internal async Task DisconnectAsync(
+            WebSocketCloseStatus socketCloseStatus = WebSocketCloseStatus.NormalClosure, 
+            string closeStatusDescription = "Disconnect"
+            )
         {
             try
             {
@@ -99,7 +98,7 @@ namespace DiscordApiStuff
 
             while (!_cancellationToken.IsCancellationRequested)
             {
-                buffer = new byte[51200];
+                buffer = new byte[25600]; //25 kb
                 try
                 {
                     var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationToken);
@@ -121,6 +120,7 @@ namespace DiscordApiStuff
                     break;
                 }
             }
+
             Console.WriteLine("WebSocket stoppped listening");
         }
 
@@ -130,7 +130,7 @@ namespace DiscordApiStuff
             {
                 case WebSocketMessageType.Text:
                     {
-                        var payload = JsonSerializer.Deserialize<GeneralPayload>(buffer.AsSpan(0, wsReceiveResult.Count));
+                        var payload = JsonSerializer.Deserialize<GeneralPayload<object>>(buffer.AsSpan(0, wsReceiveResult.Count));
                         _lastSequenceNumber = payload.Sequence;
                         Console.WriteLine($"Receive Result Payload: {payload.Code} | {payload.Sequence}");
 
@@ -148,20 +148,22 @@ namespace DiscordApiStuff
                                 }
                             case Opcode.Reconnect:
                                 {
-                                    _connected = false;
                                     await ReconnectAsync();
                                     break;
                                 }
                             case Opcode.InvalidSession:
                                 {
-                                    _connected = false;
-                                    //Not working yet.
-                                    var smth = bool.Parse(payload.Data.ToString());
+                                    bool sessionResumable = bool.Parse(payload.Data.ToString());
+                                    if (sessionResumable)
+                                    {
+                                        _gatewayEvents.InvokeResuming();
+                                        await ReconnectAsync();
+                                    }
                                     break;
                                 }
                             case Opcode.Hello:
                                 {
-                                    await SendIdentity(payload);
+                                    await IdentifyOrResumeAsync();
                                     ProcessHello(payload);
                                     break;
                                 }
@@ -170,18 +172,6 @@ namespace DiscordApiStuff
                                     _lastHeartbeatAcknowledge = DateTime.Now;
                                     break;
                                 }
-                            case Opcode.Identify:
-                                break;
-                            case Opcode.PresenceUpdate:
-                                break;
-                            case Opcode.VoiceStateUpdate:
-                                break;
-                            case Opcode.Resume:
-                                break;
-                            case Opcode.RequestGuildMembers:
-                                break;
-                            default:
-                                throw new ArgumentOutOfRangeException();
                         }
                     }
                     break;
@@ -212,49 +202,65 @@ namespace DiscordApiStuff
             }
         }
 
-        private async Task SendIdentity(GeneralPayload payload)
+        private async Task IdentifyOrResumeAsync()
         {
-            Console.WriteLine("Identify received");
-
-            MinIdentification identification = new MinIdentification()
+            if (_sessionId == string.Empty)
             {
-                Code = Opcode.Identify,
-                Data = new MinIdentification.AllData()
+                Console.WriteLine("Identify received");
+                var identificationPayload = new GeneralPayloadSlim<MinIdentification>()
                 {
-                    Token = _discordClientConfiguration.Token,
-                    Intents = (int)_discordClientConfiguration.Intents,
-                    Properties = DiscordClient.Properties
-                }
-            };
-
-            //Wot
-            await SendJsonDataAsync(identification);
-            Console.WriteLine("Identify sent");
+                    Code = Opcode.Identify,
+                    Data = new MinIdentification()
+                    {
+                        Token = _discordClientConfiguration.Token,
+                        Intents = (int)_discordClientConfiguration.Intents,
+                        Property = DiscordClient.Properties
+                    }
+                };
+                _gatewayEvents.InvokeIdentifying();
+                await SendJsonDataAsync(identificationPayload);
+                Console.WriteLine("Identify sent");
+            }
+            else
+            {
+                Console.WriteLine("Resume received");
+                var resumePayload = new GeneralPayloadSlim<ResumePayload>()
+                {
+                    Code = Opcode.Identify,
+                    Data = new ResumePayload()
+                    {
+                        Token = _discordClientConfiguration.Token,
+                        Sequence = _lastSequenceNumber,
+                        SessionId = _sessionId
+                    }
+                };
+                _gatewayEvents.InvokeResuming();
+                await SendJsonDataAsync(resumePayload);
+                Console.WriteLine("Resume sent");
+            }
         }
         private async Task SendHeartbeatAsync()
         {
-            var heartbeat = new HeartbeatSend() { Code = Opcode.Heartbeat, Data = _lastSequenceNumber };
+            var heartbeat = new GeneralPayloadSlim<int?>() { Code = Opcode.Heartbeat, Data = _lastSequenceNumber };
             await SendJsonDataAsync(heartbeat);
-            Console.WriteLine(JsonSerializer.Serialize(heartbeat));
             Console.WriteLine("Heartbeat sent");
             await Task.Delay(_heartbeatInterval);
         }
         private async Task ReconnectAsync()
         {
-            //_gatewayEvents.InvokeReconnect();
+            _gatewayEvents.InvokeResuming();
+            await DisconnectAsync(WebSocketCloseStatus.Empty, "Reconnect");
+            await ConnectAsync();
         }
 
-        private void ProcessHello(GeneralPayload payload)
+        private void ProcessHello(GeneralPayload<object> payload)
         {
             Console.WriteLine("Hello received");
             var heartbeat = JsonSerializer.Deserialize<HeartbeatReceive>(payload.Data.ToString());
             _heartbeatInterval = heartbeat.HeartbeatInterval;
             _heartbeat = ContinuousHeartbeatingAsync();
-
-            //Wot
-            Console.WriteLine("Hello sent");
         }
-        private void ProcessDispatch(GeneralPayload payload)
+        private void ProcessDispatch(GeneralPayload<object> payload)
         {
             try
             {
@@ -264,8 +270,6 @@ namespace DiscordApiStuff
                 {
                     case "READY":
                         {
-                            _stopwatch.Stop();
-                            Console.WriteLine($"Connect to Ready: {_stopwatch.Elapsed.TotalMilliseconds} ms");
                             ReadyPayload ready = JsonSerializer.Deserialize<ReadyPayload>(payload.Data.ToString());
                             _sessionId = ready.SessionId;
                             _gatewayEvents.InvokeReady();
@@ -484,9 +488,10 @@ namespace DiscordApiStuff
             }
         }
 
-        private async Task SendJsonDataAsync<T>(T obj)
+        private async Task SendJsonDataAsync<T>(T obj) 
         {
             string jsonStr = JsonSerializer.Serialize(obj);
+            Console.WriteLine(jsonStr);
             byte[] data = Encoding.UTF8.GetBytes(jsonStr);
             await SendDataAsync(data);
         }

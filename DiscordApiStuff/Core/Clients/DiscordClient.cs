@@ -1,5 +1,5 @@
 ﻿using DiscordApiStuff.Events.Handlers;
-using DiscordApiStuff.Payloads.Gateway.Connection;
+using DiscordApiStuff.Payloads.Connection;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,7 +74,7 @@ namespace DiscordApiStuff
             }
             catch (Exception e)
             {
-                Console.WriteLine("Something failed.");
+                Console.WriteLine($"ConnectAsync failed\n{e}");
             }
         }
         public void Disconnect()
@@ -82,11 +82,10 @@ namespace DiscordApiStuff
             try
             {
                 _cancellationTokenSource.Cancel();
-                Console.WriteLine("Closed connection");
             }
             catch (Exception e)
             {
-                Console.WriteLine("Something failed.");
+                Console.WriteLine($"Disconnect failed\n{e}");
             }
         }
     }

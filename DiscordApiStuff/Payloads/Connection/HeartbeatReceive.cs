@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Gateway.Connection
+namespace DiscordApiStuff.Payloads.Connection
 {
     public struct HeartbeatReceive
     {

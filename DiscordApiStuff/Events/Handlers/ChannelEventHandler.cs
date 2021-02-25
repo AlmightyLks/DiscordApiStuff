@@ -3,12 +3,14 @@ using DiscordApiStuff.Events.EventArgs.Interfaces;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    internal sealed class ChannelEventHandler
+    public sealed class ChannelEventHandler
     {
         public event DiscordEventAsync<ChannelCreatedEventArgs> ChannelCreated;
         public event DiscordEventAsync<ChannelUpdatedEventArgs> ChannelUpdated;
         public event DiscordEventAsync<ChannelDeletedEventArgs> ChannelDeleted;
         public event DiscordEventAsync<ChannelPinsUpdatedEventArgs> ChannelPinsUpdated;
+
+        internal ChannelEventHandler() { }
 
         internal void InvokeChannelCreated(ChannelCreatedEventArgs ev)
             => ChannelCreated?.Invoke(ev);

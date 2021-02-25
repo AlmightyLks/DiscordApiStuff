@@ -2,13 +2,15 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    internal sealed class GatewayEventHandler
+    public sealed class GatewayEventHandler
     {
         public event DiscordEventAsync Ready;
         public event DiscordEventAsync Identifying;
         public event DiscordEventAsync Resuming;
         public event DiscordEventAsync<GatewayExceptionEventArgs> ExceptionThrown;
-
+        
+        internal GatewayEventHandler() { }
+        
         internal void InvokeReady()
             => Ready?.Invoke();
         internal void InvokeIdentifying()

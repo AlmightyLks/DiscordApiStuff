@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    internal sealed class MessageEventHandler
+    public sealed class MessageEventHandler
     {
         public event DiscordEventAsync<MessageSentEventArgs> MessageSent;
         public event DiscordEventAsync<MessageEditedEventArgs> MessageEdited;
@@ -11,6 +11,8 @@ namespace DiscordApiStuff.Events.Handlers
         public event DiscordEventAsync<ReactionRemovedEventArgs> ReactionRemoved;
         public event DiscordEventAsync<ReactionsClearedEventArgs> ReactionsCleared;
         public event DiscordEventAsync<ReactionEmojiRemovedEventArgs> ReactionEmojiRemoved;
+
+        internal MessageEventHandler() { }
 
         internal void InvokeMessageSent(MessageSentEventArgs ev)
             => MessageSent?.Invoke(ev);

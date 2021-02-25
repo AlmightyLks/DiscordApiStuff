@@ -2,11 +2,13 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    internal sealed class RoleEventHandler
+    public sealed class RoleEventHandler
     {
         public event DiscordEventAsync<RoleCreatedEventArgs> RoleCreated;
         public event DiscordEventAsync<RoleUpdatedEventArgs> RoleUpdated;
         public event DiscordEventAsync<RoleDeletedEventArgs> RoleDeleted;
+
+        internal RoleEventHandler() { }
 
         internal void InvokeRoleCreated(RoleCreatedEventArgs ev)
             => RoleCreated?.Invoke(ev);

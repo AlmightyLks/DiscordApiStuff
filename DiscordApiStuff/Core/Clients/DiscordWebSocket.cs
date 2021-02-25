@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
 using System.Text.Json;
@@ -15,7 +14,7 @@ using DiscordApiStuff.Payloads.Models.Enums;
 
 namespace DiscordApiStuff
 {
-    internal class DiscordWebSocket
+    internal sealed class DiscordWebSocket
     {
         private GuildEventHandler _guildEvents;
         private ChannelEventHandler _channelEvents;
@@ -25,10 +24,10 @@ namespace DiscordApiStuff
         private GatewayEventHandler _gatewayEvents;
 
         private ClientWebSocket _webSocket;
+        private CancellationTokenSource _cancellationTokenSource;
         private JsonSerializerOptions _defaultOptions;
         private Task _dataAccept;
         private Task _heartbeat;
-        private CancellationToken _cancellationToken;
         private DiscordClientConfiguration _discordClientConfiguration;
         private DateTime _lastHeartbeatAcknowledge;
         private int _heartbeatInterval;
@@ -37,7 +36,6 @@ namespace DiscordApiStuff
 
         internal DiscordWebSocket(
             DiscordClientConfiguration discordClientConfiguration,
-            CancellationToken cancellationToken,
             GuildEventHandler guildEvents,
             ChannelEventHandler channelEvents,
             MemberEventHandler memberEvents,
@@ -55,20 +53,19 @@ namespace DiscordApiStuff
 
             _webSocket = new ClientWebSocket();
             _defaultOptions = new JsonSerializerOptions() { WriteIndented = true };
-            _cancellationToken = cancellationToken;
             _discordClientConfiguration = discordClientConfiguration;
-            _heartbeat = null;
-            _lastHeartbeatAcknowledge = default;
-            _heartbeatInterval = 0;
-            _lastSequenceNumber = null;
-            _sessionId = string.Empty;
+
+
+            _cancellationTokenSource = null;
+            DefaultFields();
         }
 
         internal async Task ConnectAsync()
         {
+            _cancellationTokenSource = new CancellationTokenSource();
             try
             {
-                await _webSocket.ConnectAsync(new Uri(DiscordApiInfo.DiscordWebSocketGateway_V8), _cancellationToken);
+                await _webSocket.ConnectAsync(new Uri(DiscordApiInfo.DiscordWebSocketGateway_V8), _cancellationTokenSource.Token);
                 Console.WriteLine("Connected.");
                 _dataAccept = ListenForIncomingDataAsync();
             }
@@ -77,14 +74,13 @@ namespace DiscordApiStuff
                 Console.WriteLine("Something failed.");
             }
         }
-        internal async Task DisconnectAsync(
-            WebSocketCloseStatus socketCloseStatus = WebSocketCloseStatus.NormalClosure, 
-            string closeStatusDescription = "Disconnect"
-            )
+        internal void Disconnect()
         {
             try
             {
-                await _webSocket.CloseAsync(socketCloseStatus, closeStatusDescription, _cancellationToken);
+                _cancellationTokenSource.Cancel();
+                _webSocket = new ClientWebSocket();
+                DefaultFields();
             }
             catch (Exception e)
             {
@@ -92,16 +88,25 @@ namespace DiscordApiStuff
             }
         }
 
+        private void DefaultFields()
+        {
+            _heartbeat = null;
+            _dataAccept = null;
+            _lastHeartbeatAcknowledge = default;
+            _heartbeatInterval = default;
+            _lastSequenceNumber = null;
+            _sessionId = string.Empty;
+        }
         private async Task ListenForIncomingDataAsync()
         {
             byte[] buffer;
 
-            while (!_cancellationToken.IsCancellationRequested)
+            while (!_cancellationTokenSource.IsCancellationRequested)
             {
                 buffer = new byte[25600]; //25 kb
                 try
                 {
-                    var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationToken);
+                    var wsReceiveResult = await _webSocket.ReceiveAsync(buffer, _cancellationTokenSource.Token);
                     Console.WriteLine($"Receive Result: {wsReceiveResult.MessageType}");
 
                     if (!CheckCloseStatus(wsReceiveResult.CloseStatus))
@@ -194,7 +199,7 @@ namespace DiscordApiStuff
                 if (_lastHeartbeatAcknowledge != default && differenceTimeSpan.TotalMilliseconds > _heartbeatInterval + 100)
                 {
                     Console.WriteLine("Heartbeat Acknowledge not received in time");
-                    await DisconnectAsync();
+                    Disconnect();
                     break;
                 }
                 await SendHeartbeatAsync();
@@ -249,7 +254,7 @@ namespace DiscordApiStuff
         private async Task ReconnectAsync()
         {
             _gatewayEvents.InvokeResuming();
-            await DisconnectAsync(WebSocketCloseStatus.Empty, "Reconnect");
+            Disconnect();
             await ConnectAsync();
         }
 
@@ -476,7 +481,7 @@ namespace DiscordApiStuff
                     break;
             }
 
-            if(exception != null)
+            if (exception != null)
             {
                 var eventArgs = new GatewayExceptionEventArgs(exception);
                 _gatewayEvents.InvokeExceptionThrown(eventArgs);
@@ -488,7 +493,7 @@ namespace DiscordApiStuff
             }
         }
 
-        private async Task SendJsonDataAsync<T>(T obj) 
+        private async Task SendJsonDataAsync<T>(T obj)
         {
             string jsonStr = JsonSerializer.Serialize(obj);
             //Console.WriteLine(jsonStr);
@@ -497,7 +502,7 @@ namespace DiscordApiStuff
         }
         private async Task SendDataAsync(byte[] data, WebSocketMessageType messageType = WebSocketMessageType.Text)
         {
-            await _webSocket.SendAsync(data, messageType, true, _cancellationToken);
+            await _webSocket.SendAsync(data, messageType, true, _cancellationTokenSource.Token);
         }
     }
 }

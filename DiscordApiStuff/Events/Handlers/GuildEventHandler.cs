@@ -2,11 +2,13 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    internal sealed class GuildEventHandler
+    public sealed class GuildEventHandler
     {
         public event DiscordEventAsync<GuildCreatedEventArgs> GuildCreated;
         public event DiscordEventAsync<GuildUpdatedEventArgs> GuildUpdated;
         public event DiscordEventAsync<GuildDeletedEventArgs> GuildDeleted;
+
+        internal GuildEventHandler() { }
 
         internal void InvokeGuildCreated(GuildCreatedEventArgs ev)
             => GuildCreated?.Invoke(ev);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiscordApiStuff
 {
-    class DiscordClient
+    public sealed class DiscordClient
     {
         public GuildEventHandler GuildEvents { get; }
         public ChannelEventHandler ChannelEvents { get; }
@@ -15,7 +15,6 @@ namespace DiscordApiStuff
         public RoleEventHandler RoleEvents { get; }
         public GatewayEventHandler GatewayEvents { get; }
 
-        private CancellationTokenSource _cancellationTokenSource;
         private DiscordClientConfiguration _discordClientConfiguration;
         private DiscordWebSocket _discordWebSocket;
         internal static readonly MinIdentification.Properties Properties;
@@ -52,11 +51,10 @@ namespace DiscordApiStuff
             RoleEvents = new RoleEventHandler();
             GatewayEvents = new GatewayEventHandler();
 
-            _cancellationTokenSource = new CancellationTokenSource();
+
             _discordClientConfiguration = discordClientConfiguration;
             _discordWebSocket = new DiscordWebSocket(
                 _discordClientConfiguration, 
-                _cancellationTokenSource.Token,
                 GuildEvents,
                 ChannelEvents,
                 MemberEvents,
@@ -81,7 +79,7 @@ namespace DiscordApiStuff
         {
             try
             {
-                _cancellationTokenSource.Cancel();
+                _discordWebSocket.Disconnect();
             }
             catch (Exception e)
             {

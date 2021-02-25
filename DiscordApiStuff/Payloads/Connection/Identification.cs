@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Connection
 {
-    public struct Identification
+    internal struct Identification
     {
         [JsonPropertyName("token")]
         public string Token { get; set; }

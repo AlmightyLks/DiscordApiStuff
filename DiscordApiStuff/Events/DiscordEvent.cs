@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Events
 {
-    public delegate void DiscordEvent<T>(T EventItem) where T : IDiscordEventArgs;
-    public delegate void DiscordEvent();
-    public delegate Task DiscordEventAsync<T>(T EventItem) where T : IDiscordEventArgs;
-    public delegate Task DiscordEventAsync();
+    internal delegate void DiscordEvent<T>(T EventItem) where T : IDiscordEventArgs;
+    internal delegate void DiscordEvent();
+    internal delegate Task DiscordEventAsync<T>(T EventItem) where T : IDiscordEventArgs;
+    internal delegate Task DiscordEventAsync();
 }

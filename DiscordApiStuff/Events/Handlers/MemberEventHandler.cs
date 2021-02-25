@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public sealed class MemberEventHandler
+    internal sealed class MemberEventHandler
     {
         public event DiscordEventAsync<MemberJoinedEventArgs> MemberJoined;
         public event DiscordEventAsync<MemberUpdatedEventArgs> MemberUpdated;

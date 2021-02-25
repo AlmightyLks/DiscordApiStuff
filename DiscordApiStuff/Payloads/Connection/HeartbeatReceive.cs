@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Payloads.Connection
 {
-    public struct HeartbeatReceive
+    internal struct HeartbeatReceive
     {
         [JsonPropertyName("heartbeat_interval")]
         public int HeartbeatInterval { get; set; }

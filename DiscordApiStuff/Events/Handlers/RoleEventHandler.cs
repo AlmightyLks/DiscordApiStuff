@@ -1,9 +1,8 @@
-﻿using DiscordApiStuff.Events.EventArgs.Interfaces;
-using DiscordApiStuff.Events.EventArgs.Role;
+﻿using DiscordApiStuff.Events.EventArgs.Role;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public sealed class RoleEventHandler
+    internal sealed class RoleEventHandler
     {
         public event DiscordEventAsync<RoleCreatedEventArgs> RoleCreated;
         public event DiscordEventAsync<RoleUpdatedEventArgs> RoleUpdated;

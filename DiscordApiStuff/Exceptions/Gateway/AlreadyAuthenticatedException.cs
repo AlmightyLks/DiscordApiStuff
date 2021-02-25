@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Exceptions.Gateway
 {
-    public sealed class AlreadyAuthenticatedException : Exception
+    internal sealed class AlreadyAuthenticatedException : Exception
     {
         public int Code { get; }
         internal AlreadyAuthenticatedException(string message) : base(message)

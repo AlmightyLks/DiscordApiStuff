@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Exceptions.Gateway
 {
-    public sealed class AuthenticationFailedException : Exception
+    internal sealed class AuthenticationFailedException : Exception
     {
         public string InvalidToken { get; }
         public int Code { get; }

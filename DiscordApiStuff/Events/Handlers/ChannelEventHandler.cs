@@ -3,7 +3,7 @@ using DiscordApiStuff.Events.EventArgs.Interfaces;
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public sealed class ChannelEventHandler
+    internal sealed class ChannelEventHandler
     {
         public event DiscordEventAsync<ChannelCreatedEventArgs> ChannelCreated;
         public event DiscordEventAsync<ChannelUpdatedEventArgs> ChannelUpdated;

@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public sealed class GatewayEventHandler
+    internal sealed class GatewayEventHandler
     {
         public event DiscordEventAsync Ready;
         public event DiscordEventAsync Identifying;

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Connection
 {
-    public struct GeneralPayloadSlim<T>
+    internal struct GeneralPayloadSlim<T>
     {
         [JsonPropertyName("op")]
         public Opcode Code { get; set; }

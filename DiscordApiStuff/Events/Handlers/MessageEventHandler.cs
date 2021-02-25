@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff.Events.Handlers
 {
-    public sealed class MessageEventHandler
+    internal sealed class MessageEventHandler
     {
         public event DiscordEventAsync<MessageSentEventArgs> MessageSent;
         public event DiscordEventAsync<MessageEditedEventArgs> MessageEdited;

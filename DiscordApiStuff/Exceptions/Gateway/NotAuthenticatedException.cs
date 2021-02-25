@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Exceptions.Gateway
 {
-    public sealed class NotAuthenticatedException : Exception
+    internal sealed class NotAuthenticatedException : Exception
     {
         public int Code { get; }
         internal NotAuthenticatedException(string message) : base(message)

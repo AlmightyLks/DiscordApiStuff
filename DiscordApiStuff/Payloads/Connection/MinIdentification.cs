@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Connection
 {
-    public struct MinIdentification
+    internal struct MinIdentification
     {
         [JsonPropertyName("token")]
         public string Token { get; set; }

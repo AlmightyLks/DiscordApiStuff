@@ -24,8 +24,8 @@ namespace DiscordApiStuff
         private RoleEventHandler _roleEvents;
         private GatewayEventHandler _gatewayEvents;
 
-        private JsonSerializerOptions _defaultOptions;
         private ClientWebSocket _webSocket;
+        private JsonSerializerOptions _defaultOptions;
         private Task _dataAccept;
         private Task _heartbeat;
         private CancellationToken _cancellationToken;
@@ -491,7 +491,7 @@ namespace DiscordApiStuff
         private async Task SendJsonDataAsync<T>(T obj) 
         {
             string jsonStr = JsonSerializer.Serialize(obj);
-            Console.WriteLine(jsonStr);
+            //Console.WriteLine(jsonStr);
             byte[] data = Encoding.UTF8.GetBytes(jsonStr);
             await SendDataAsync(data);
         }

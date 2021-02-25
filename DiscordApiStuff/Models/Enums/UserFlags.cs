@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DiscordApiStuff.Payloads.Models.Enums
+namespace DiscordApiStuff.Models.Enums
 {
     [Flags]
     public enum UserFlags

@@ -1,5 +1,4 @@
-﻿using DiscordApiStuff.Payloads.Models.Enums;
-using DiscordApiStuff.Payloads.Models.Structs;
+﻿using DiscordApiStuff.Models.Structs;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Connection

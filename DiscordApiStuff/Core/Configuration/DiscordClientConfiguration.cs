@@ -1,4 +1,4 @@
-﻿using DiscordApiStuff.Payloads.Models.Enums;
+﻿using DiscordApiStuff.Models.Enums;
 
 namespace DiscordApiStuff
 {

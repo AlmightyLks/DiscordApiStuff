@@ -8,9 +8,9 @@ using DiscordApiStuff.Core;
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions.Gateway;
+using DiscordApiStuff.Models.Enums;
 using DiscordApiStuff.Payloads.Connection;
 using DiscordApiStuff.Payloads.Events;
-using DiscordApiStuff.Payloads.Models.Enums;
 
 namespace DiscordApiStuff
 {
@@ -65,7 +65,7 @@ namespace DiscordApiStuff
             _cancellationTokenSource = new CancellationTokenSource();
             try
             {
-                await _webSocket.ConnectAsync(new Uri(DiscordApiInfo.DiscordWebSocketGateway_V8), _cancellationTokenSource.Token);
+                await _webSocket.ConnectAsync(new Uri(DiscordApiInfo.DiscordWebSocketGateway), _cancellationTokenSource.Token);
                 Console.WriteLine("Connected.");
                 _dataAccept = ListenForIncomingDataAsync();
             }

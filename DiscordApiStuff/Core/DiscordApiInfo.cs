@@ -7,6 +7,7 @@
         internal static readonly string DiscordApiEncoding = "json";
 
         //Easy to interpolate
-        internal static readonly string DiscordWebSocketGateway_V8 = $"wss://gateway.discord.gg/?v={DiscordApiGatewayVersion}&encoding={DiscordApiEncoding}";
+        internal static readonly string DiscordWebSocketGateway = $"wss://gateway.discord.gg/?v={DiscordApiGatewayVersion}&encoding={DiscordApiEncoding}";
+        internal static readonly string DiscordRestApi = $"https://discord.com/api/v{DiscordApiGatewayVersion}";
     }
 }

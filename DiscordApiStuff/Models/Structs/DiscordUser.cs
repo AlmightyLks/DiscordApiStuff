@@ -1,10 +1,10 @@
-﻿using DiscordApiStuff.Payloads.Models.Enums;
-using DiscordApiStuff.Payloads.Models.Interfaces;
+﻿using DiscordApiStuff.Models.Enums;
+using DiscordApiStuff.Models.Interfaces;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Models.Structs
+namespace DiscordApiStuff.Models.Structs
 {
-    public struct DiscordUser : IUser
+    public struct DiscordUser
     {
         [JsonPropertyName("id")]
         public string ID { get; set; }

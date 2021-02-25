@@ -1,5 +1,5 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Gateway;
-using DiscordApiStuff.Payloads.Models.Enums;
+using DiscordApiStuff.Models.Enums;
 using System;
 using System.Threading.Tasks;
 

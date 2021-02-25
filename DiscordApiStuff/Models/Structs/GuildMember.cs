@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Payloads.Models.Structs
+namespace DiscordApiStuff.Models.Structs
 {
     public struct GuildMember
     {

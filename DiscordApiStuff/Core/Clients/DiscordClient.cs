@@ -1,6 +1,8 @@
 ﻿using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Payloads.Connection;
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -14,7 +16,7 @@ namespace DiscordApiStuff
         public MessageEventHandler MessageEvents { get; }
         public RoleEventHandler RoleEvents { get; }
         public GatewayEventHandler GatewayEvents { get; }
-
+        
         private DiscordClientConfiguration _discordClientConfiguration;
         private DiscordWebSocket _discordWebSocket;
         internal static readonly MinIdentification.Properties Properties;
@@ -50,7 +52,6 @@ namespace DiscordApiStuff
             MessageEvents = new MessageEventHandler();
             RoleEvents = new RoleEventHandler();
             GatewayEvents = new GatewayEventHandler();
-
 
             _discordClientConfiguration = discordClientConfiguration;
             _discordWebSocket = new DiscordWebSocket(

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Models.Structs
+namespace DiscordApiStuff.Models.Structs
 {
     public struct Presence
     {

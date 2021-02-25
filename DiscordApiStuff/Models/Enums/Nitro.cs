@@ -1,4 +1,4 @@
-﻿namespace DiscordApiStuff.Payloads.Models.Enums
+﻿namespace DiscordApiStuff.Models.Enums
 {
     public enum Nitro
     {

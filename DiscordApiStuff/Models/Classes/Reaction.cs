@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct Reaction
+    public class Reaction
     {
         [JsonPropertyName("count")]
         public int Count { get; set; }

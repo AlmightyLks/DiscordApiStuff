@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct Message
+    public class Message
     {
         [JsonIgnore]
         internal IMessage RestMessage { get; set; }

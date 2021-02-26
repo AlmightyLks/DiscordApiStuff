@@ -2,7 +2,7 @@
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Models.Enums;
-using DiscordApiStuff.Models.Structs;
+using DiscordApiStuff.Models.Classes;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;

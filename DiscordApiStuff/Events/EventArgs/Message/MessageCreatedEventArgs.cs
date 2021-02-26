@@ -5,6 +5,6 @@ namespace DiscordApiStuff.Events.EventArgs.Message
 {
     public struct MessageCreatedEventArgs : IMessageEventArgs
     {
-        public Models.Structs.Message Message { get; internal set; }
+        public Models.Classes.Message Message { get; internal set; }
     }
 }

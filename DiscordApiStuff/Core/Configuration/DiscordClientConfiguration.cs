@@ -2,7 +2,7 @@
 
 namespace DiscordApiStuff
 {
-    public struct DiscordClientConfiguration
+    public sealed class DiscordClientConfiguration
     {
         public string Token { get; init; }
         public DiscordIntent Intents { get; init; }

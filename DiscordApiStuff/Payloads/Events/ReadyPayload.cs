@@ -1,4 +1,4 @@
-﻿using DiscordApiStuff.Models.Structs;
+﻿using DiscordApiStuff.Models.Classes;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Payloads.Events
@@ -19,6 +19,6 @@ namespace DiscordApiStuff.Payloads.Events
         public int[] Shards { get; set; }
         //See Application.cs
         [JsonPropertyName("application")]
-        public object Application { get; set; }
+        public Application Application { get; set; }
     }
 }

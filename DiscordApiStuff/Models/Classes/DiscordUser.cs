@@ -2,9 +2,9 @@
 using DiscordApiStuff.Models.Interfaces;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct DiscordUser
+    public class DiscordUser
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

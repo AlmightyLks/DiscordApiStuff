@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct GuildMember
+    public class GuildMember
     {
         [JsonIgnore]
         private IGuildMember _restMember;

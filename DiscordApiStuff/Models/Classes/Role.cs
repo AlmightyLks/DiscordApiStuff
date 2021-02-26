@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct Role
+    public class Role
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

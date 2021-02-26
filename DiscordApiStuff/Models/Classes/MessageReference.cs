@@ -5,9 +5,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct MessageReference
+    public class MessageReference
     {
         [JsonPropertyName("message_id")]
         public ulong? MessageId { get; set; }

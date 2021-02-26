@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct Presence
+    public class Presence
     {
         [JsonPropertyName("activities")]
         public Activity[] Activities { get; set; }

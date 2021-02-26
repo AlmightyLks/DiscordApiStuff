@@ -2,9 +2,6 @@
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Payloads.Connection;
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DiscordApiStuff

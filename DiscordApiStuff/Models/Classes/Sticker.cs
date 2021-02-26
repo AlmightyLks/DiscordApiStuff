@@ -7,9 +7,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct Sticker
+    public class Sticker
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

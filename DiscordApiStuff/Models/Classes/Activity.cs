@@ -1,9 +1,9 @@
 ﻿using DiscordApiStuff.Models.Enums;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct Activity
+    public class Activity
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }

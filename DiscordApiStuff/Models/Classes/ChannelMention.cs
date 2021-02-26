@@ -1,9 +1,9 @@
 ﻿using DiscordApiStuff.Models.Enums;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct ChannelMention
+    public class ChannelMention
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

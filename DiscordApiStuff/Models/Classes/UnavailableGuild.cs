@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Structs
+namespace DiscordApiStuff.Models.Classes
 {
-    public struct UnavailableGuild
+    public class UnavailableGuild
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }

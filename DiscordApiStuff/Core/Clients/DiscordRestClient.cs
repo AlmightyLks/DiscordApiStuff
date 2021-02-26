@@ -1,5 +1,5 @@
 ﻿using DiscordApiStuff.Models.Interfaces;
-using DiscordApiStuff.Models.Structs;
+using DiscordApiStuff.Models.Classes;
 using System.Net.Http;
 using System.Threading.Tasks;
 

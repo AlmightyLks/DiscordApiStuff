@@ -10,7 +10,7 @@ using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions.Gateway;
 using DiscordApiStuff.Models.Enums;
-using DiscordApiStuff.Models.Structs;
+using DiscordApiStuff.Models.Classes;
 using DiscordApiStuff.Payloads.Connection;
 using DiscordApiStuff.Payloads.Events;
 
@@ -445,6 +445,7 @@ namespace DiscordApiStuff.Core.Clients
                         {
                             Console.WriteLine(payload.Data.ToString());
                             Message message = JsonSerializer.Deserialize<Message>(payload.Data.ToString());
+                            message.RestMessage = _discordRestClient;
                             var evArgs = new MessageCreatedEventArgs()
                             {
                                 Message = message

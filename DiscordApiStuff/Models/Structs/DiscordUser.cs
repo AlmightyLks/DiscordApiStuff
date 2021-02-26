@@ -7,7 +7,7 @@ namespace DiscordApiStuff.Models.Structs
     public struct DiscordUser
     {
         [JsonPropertyName("id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonPropertyName("username")]
         public string Username { get; set; }

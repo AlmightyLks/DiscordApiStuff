@@ -1,0 +1,43 @@
+﻿{
+  "type": 0,
+  "tts": false,
+  "timestamp": "2021-02-26T06:10:38.437000+00:00",
+  "referenced_message": null,
+  "pinned": false,
+  "mentions": [],
+  "mention_roles": [],
+  "mention_everyone": false,
+  "member": {
+    "roles": [],
+    "mute": false,
+    "joined_at": "2021-02-23T21:58:23.247000+00:00",
+    "hoisted_role": null,
+    "deaf": false
+  },
+  "id": "814741196635242496",
+  "flags": 0,
+  "embeds": [],
+  "edited_timestamp": null,
+  "content": "Thank god",
+  "channel_id": "814028998694141972",
+  "author": {
+    "username": "OneWholesomeDev",
+    "public_flags": 0,
+    "id": "802050521388941314",
+    "discriminator": "7465",
+    "avatar": "14f006f97599c5fd8ec177cf4df17903"
+  },
+  "attachments": [
+    {
+      "width": 658,
+      "url": "https://cdn.discordapp.com/attachments/814028998694141972/814741196504039464/unknown.png",
+      "size": 34702,
+      "proxy_url": "https://media.discordapp.net/attachments/814028998694141972/814741196504039464/unknown.png",
+      "id": "814741196504039464",
+      "height": 342,
+      "filename": "unknown.png",
+      "content_type": "image/png"
+    }
+  ],
+  "guild_id": "813892541140697116"
+}

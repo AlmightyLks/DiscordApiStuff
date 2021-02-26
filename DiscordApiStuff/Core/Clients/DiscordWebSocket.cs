@@ -6,13 +6,15 @@ using System.Threading;
 using System.Threading.Tasks;
 using DiscordApiStuff.Core;
 using DiscordApiStuff.Events.EventArgs.Gateway;
+using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions.Gateway;
 using DiscordApiStuff.Models.Enums;
+using DiscordApiStuff.Models.Structs;
 using DiscordApiStuff.Payloads.Connection;
 using DiscordApiStuff.Payloads.Events;
 
-namespace DiscordApiStuff
+namespace DiscordApiStuff.Core.Clients
 {
     internal sealed class DiscordWebSocket
     {
@@ -24,6 +26,7 @@ namespace DiscordApiStuff
         private GatewayEventHandler _gatewayEvents;
 
         private ClientWebSocket _webSocket;
+        private DiscordRestClient _discordRestClient;
         private CancellationTokenSource _cancellationTokenSource;
         private JsonSerializerOptions _defaultOptions;
         private Task _dataAccept;
@@ -41,7 +44,8 @@ namespace DiscordApiStuff
             MemberEventHandler memberEvents,
             MessageEventHandler messageEvents,
             RoleEventHandler roleEvents,
-            GatewayEventHandler gatewayEvents
+            GatewayEventHandler gatewayEvents,
+            DiscordRestClient discordRestClient
             )
         {
             _guildEvents = guildEvents;
@@ -51,10 +55,10 @@ namespace DiscordApiStuff
             _roleEvents = roleEvents;
             _gatewayEvents = gatewayEvents;
 
+            _discordRestClient = discordRestClient;
             _webSocket = new ClientWebSocket();
             _defaultOptions = new JsonSerializerOptions() { WriteIndented = true };
             _discordClientConfiguration = discordClientConfiguration;
-
 
             _cancellationTokenSource = null;
             DefaultFields();
@@ -195,7 +199,7 @@ namespace DiscordApiStuff
             while (_webSocket.State == WebSocketState.Open)
             {
                 //Check time difference, Timeout -> + 100 ms buffer
-                TimeSpan differenceTimeSpan = (DateTime.Now - TimeSpan.FromMilliseconds(_heartbeatInterval)) - _lastHeartbeatAcknowledge;
+                TimeSpan differenceTimeSpan = DateTime.Now - TimeSpan.FromMilliseconds(_heartbeatInterval) - _lastHeartbeatAcknowledge;
                 if (_lastHeartbeatAcknowledge != default && differenceTimeSpan.TotalMilliseconds > _heartbeatInterval + 100)
                 {
                     Console.WriteLine("Heartbeat Acknowledge not received in time");
@@ -440,8 +444,13 @@ namespace DiscordApiStuff
                     //Messages
                     case "MESSAGE_CREATE":
                         {
-
-
+                            Console.WriteLine(payload.Data.ToString());
+                            Message message = JsonSerializer.Deserialize<Message>(payload.Data.ToString());
+                            var evArgs = new MessageCreatedEventArgs()
+                            {
+                                Message = message
+                            };
+                            _messageEvents.InvokeMessageCreated(evArgs);
                             break;
                         }
                     case "MESSAGE_UPDATE":
@@ -460,7 +469,7 @@ namespace DiscordApiStuff
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e);
             }
         }
 

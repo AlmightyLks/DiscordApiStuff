@@ -1,35 +1,36 @@
 ﻿using DiscordApiStuff.Models.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using DiscordApiStuff.Models.Structs;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Core.Clients
 {
-    internal class DiscordRestClient : IUser, IChannel, IGuild, IMessage
+    internal class DiscordRestClient : IGuildMember, IChannel, IGuild, IMessage
     {
         private HttpClient _httpClient;
         internal DiscordRestClient()
         {
             _httpClient = new HttpClient();
         }
-        public Task BanAsync()
+        async Task IDiscordUser.DirectMessage(DiscordUser user)
         {
-            throw new NotImplementedException();
+
         }
-        public Task DeleteAsync()
+        async Task IGuildMember.BanAsync(GuildMember member)
         {
-            throw new NotImplementedException();
+
         }
-        public Task KickAsync()
+        async Task IGuildMember.KickAsync(GuildMember member)
         {
-            throw new NotImplementedException();
+
         }
-        public Task SendMessageAsync()
+        async Task IMessage.DeleteAsync()
         {
-            throw new NotImplementedException();
+
+        }
+        async Task IChannel.SendMessageAsync()
+        {
+
         }
     }
 }

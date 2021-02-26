@@ -1,7 +1,10 @@
 ﻿using DiscordApiStuff;
 using DiscordApiStuff.Events.EventArgs.Gateway;
+using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Models.Enums;
+using DiscordApiStuff.Models.Structs;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DiscordApiStuffTesting
@@ -48,7 +51,11 @@ namespace DiscordApiStuffTesting
 
                 return Task.CompletedTask;
             };
-
+            client.MessageEvents.MessageCreated += (MessageCreatedEventArgs ev) =>
+            {
+                Console.WriteLine($"\n{ev.Message.Author.User.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\n");
+                return Task.CompletedTask;
+            };
             await client.ConnectAsync();
 
             await Task.Delay(-1);

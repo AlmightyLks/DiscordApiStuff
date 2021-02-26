@@ -1,4 +1,5 @@
-﻿using DiscordApiStuff.Events.Handlers;
+﻿using DiscordApiStuff.Core.Clients;
+using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Payloads.Connection;
 using System;
 using System.Collections.Concurrent;
@@ -19,6 +20,8 @@ namespace DiscordApiStuff
         
         private DiscordClientConfiguration _discordClientConfiguration;
         private DiscordWebSocket _discordWebSocket;
+        private DiscordRestClient _discordRestClient;
+
         internal static readonly MinIdentification.Properties Properties;
         static DiscordClient()
         {
@@ -54,6 +57,7 @@ namespace DiscordApiStuff
             GatewayEvents = new GatewayEventHandler();
 
             _discordClientConfiguration = discordClientConfiguration;
+            _discordRestClient = new DiscordRestClient();
             _discordWebSocket = new DiscordWebSocket(
                 _discordClientConfiguration, 
                 GuildEvents,
@@ -61,7 +65,8 @@ namespace DiscordApiStuff
                 MemberEvents,
                 MessageEvents,
                 RoleEvents,
-                GatewayEvents
+                GatewayEvents,
+                _discordRestClient
                 );
         }
 

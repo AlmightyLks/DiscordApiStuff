@@ -20,7 +20,7 @@ namespace DiscordApiStuff.Models.Structs
         [JsonPropertyName("guild_id")]
         public string GuildId { get; set; }
         [JsonPropertyName("author")]
-        public GuildMember Author { get; set; }
+        public DiscordUser Author { get; set; }
         [JsonPropertyName("content")]
         public string Content { get; set; }
         [JsonPropertyName("timestamp")]

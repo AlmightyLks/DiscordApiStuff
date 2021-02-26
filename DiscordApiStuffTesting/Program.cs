@@ -53,7 +53,7 @@ namespace DiscordApiStuffTesting
             };
             client.MessageEvents.MessageCreated += (MessageCreatedEventArgs ev) =>
             {
-                Console.WriteLine($"\n{ev.Message.Author.User.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\n");
+                Console.WriteLine($"\n{ev.Message.Author.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\nTTS? {ev.Message.TextToSpeech}\n");
                 return Task.CompletedTask;
             };
             await client.ConnectAsync();

@@ -165,7 +165,6 @@ namespace DiscordApiStuff.Core.Clients
                                     bool sessionResumable = bool.Parse(payload.Data.ToString());
                                     if (sessionResumable)
                                     {
-                                        _gatewayEvents.InvokeResuming();
                                         await ReconnectAsync();
                                     }
                                     break;

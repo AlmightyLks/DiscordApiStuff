@@ -1,9 +1,10 @@
-﻿using DiscordApiStuff.Events.EventArgs.Gateway;
+﻿using DiscordApiStuff;
+using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Models.Enums;
 using System;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff
+namespace DiscordApiStuffTesting
 {
     class Program
     {

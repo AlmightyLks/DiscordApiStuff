@@ -5,6 +5,6 @@ namespace DiscordApiStuff.Models.Classes
     public abstract class Snowflake
     {
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string Id { get; internal init; }
     }
 }

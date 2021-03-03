@@ -1,13 +1,10 @@
 ﻿using DiscordApiStuff.Models.Enums;
-using DiscordApiStuff.Models.Interfaces;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes
 {
-    public class DiscordUser
+    public class DiscordUser : Snowflake
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
 
         [JsonPropertyName("username")]
         public string Username { get; set; }

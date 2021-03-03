@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Message
 {
     public class MessageReference
     {

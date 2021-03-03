@@ -1,10 +1,10 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Interfaces;
-using DiscordApiStuff.Models;
+using DiscordApiStuff.Models.Classes.Message;
 
 namespace DiscordApiStuff.Events.EventArgs.Message
 {
     public struct MessageCreatedEventArgs : IMessageEventArgs
     {
-        public Models.Classes.Message Message { get; internal set; }
+        public DiscordMessage Message { get; internal set; }
     }
 }

@@ -5,12 +5,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Message
 {
-    public class MessageApplication
+    public class MessageApplication : Snowflake
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
         [JsonPropertyName("cover_image")]
         public string CoverImage { get; set; }
         [JsonPropertyName("description")]

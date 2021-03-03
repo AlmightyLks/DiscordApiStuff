@@ -1,7 +1,7 @@
 ﻿using DiscordApiStuff.Models.Enums;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Message
 {
     public class MessageActivity
     {

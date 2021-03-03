@@ -1,10 +1,9 @@
 ﻿using DiscordApiStuff;
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.EventArgs.Message;
+using DiscordApiStuff.Events.EventArgs.Rest;
 using DiscordApiStuff.Models.Enums;
-using DiscordApiStuff.Models.Classes;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace DiscordApiStuffTesting
@@ -51,10 +50,23 @@ namespace DiscordApiStuffTesting
 
                 return Task.CompletedTask;
             };
-            client.MessageEvents.MessageCreated += (MessageCreatedEventArgs ev) =>
+            client.RestApiEvents.HttpRequestFailure += (RestHttpRequestFailureEventArgs ev) =>
             {
-                Console.WriteLine($"\n{ev.Message.Author.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\nTTS? {ev.Message.TextToSpeech}\n");
+                Console.WriteLine("----------------");
+                Console.WriteLine(
+                    $"Exception: {ev.Exception}\n" +
+                    $"HttpStatusCode: {ev.HttpStatusCode}\n" +
+                    $"HttpResponseContent: {ev.HttpResponseContent}\n" +
+                    $"TypeData: {ev.TypeData.Key},{ev.TypeData.Value}\n"
+                    );
+                Console.WriteLine("----------------");
                 return Task.CompletedTask;
+            };
+            
+            client.MessageEvents.MessageCreated += async (MessageCreatedEventArgs ev) =>
+            {
+                await ev.Message.DeleteAsync();
+                Console.WriteLine($"\n{ev.Message.Author.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\nTTS? {ev.Message.TextToSpeech}\n");
             };
             await client.ConnectAsync();
 

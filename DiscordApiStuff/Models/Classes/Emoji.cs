@@ -4,8 +4,6 @@ namespace DiscordApiStuff.Models.Classes
 {
     public class Emoji
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("roles")]

@@ -1,19 +1,13 @@
 ﻿using DiscordApiStuff.Models.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Models.Classes
 {
-    public class GuildMember
+    public sealed class GuildMember : DiscordUser
     {
         [JsonIgnore]
         private IGuildMember _restMember;
-        [JsonPropertyName("user")]
-        public DiscordUser User { get; set; }
         [JsonPropertyName("nick")]
         public string Nick { get; set; }
         [JsonPropertyName("roles")]
@@ -28,26 +22,5 @@ namespace DiscordApiStuff.Models.Classes
         public bool? Pending { get; set; }
         [JsonPropertyName("permissions")]
         public string Permissions { get; set; }
-        internal GuildMember(
-            IGuildMember restUser,
-            DiscordUser user,
-            string nick,
-            Role[] roles,
-            DateTime joinedAt,
-            bool deaf,
-            bool mute,
-            bool? pending,
-            string permissions)
-        {
-            _restMember = restUser;
-            User = user;
-            Nick = nick;
-            Roles = roles;
-            JoinedAt = joinedAt;
-            Deaf = deaf;
-            Mute = mute;
-            Pending = pending;
-            Permissions = permissions;
-        }
     }
 }

@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Models.Classes
 {
-    public class Sticker
+    public class Sticker : Snowflake
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
         [JsonPropertyName("pack_id")]
         public ulong PackId { get; set; }
         [JsonPropertyName("name")]

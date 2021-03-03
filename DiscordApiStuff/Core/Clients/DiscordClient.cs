@@ -1,5 +1,6 @@
 ﻿using DiscordApiStuff.Core.Clients;
 using DiscordApiStuff.Events.Handlers;
+using DiscordApiStuff.Models.Classes;
 using DiscordApiStuff.Payloads.Connection;
 using System;
 using System.Threading.Tasks;
@@ -14,10 +15,11 @@ namespace DiscordApiStuff
         public MessageEventHandler MessageEvents { get; }
         public RoleEventHandler RoleEvents { get; }
         public GatewayEventHandler GatewayEvents { get; }
-        
-        private DiscordClientConfiguration _discordClientConfiguration;
+        public RestApiEventHandler RestApiEvents { get; }
+        public DiscordRestClient DiscordRestClient { get; set; }
+
+        internal DiscordClientConfiguration DiscordClientConfiguration;
         private DiscordWebSocket _discordWebSocket;
-        private DiscordRestClient _discordRestClient;
 
         internal static readonly MinIdentification.Properties Properties;
         static DiscordClient()
@@ -52,18 +54,22 @@ namespace DiscordApiStuff
             MessageEvents = new MessageEventHandler();
             RoleEvents = new RoleEventHandler();
             GatewayEvents = new GatewayEventHandler();
+            RestApiEvents = new RestApiEventHandler();
 
-            _discordClientConfiguration = discordClientConfiguration;
-            _discordRestClient = new DiscordRestClient();
+            DiscordClientConfiguration = discordClientConfiguration;
+            DiscordRestClient = new DiscordRestClient(
+                this,
+                RestApiEvents
+                );
             _discordWebSocket = new DiscordWebSocket(
-                _discordClientConfiguration, 
+                DiscordClientConfiguration,
                 GuildEvents,
                 ChannelEvents,
                 MemberEvents,
                 MessageEvents,
                 RoleEvents,
                 GatewayEvents,
-                _discordRestClient
+                DiscordRestClient
                 );
         }
 

@@ -5,12 +5,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Message
 {
-    public class Attachment
+    public class Attachment : Snowflake
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
         [JsonPropertyName("filename")]
         public string FileName { get; set; }
         [JsonPropertyName("size")]

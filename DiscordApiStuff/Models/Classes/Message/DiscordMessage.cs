@@ -1,20 +1,20 @@
-﻿using DiscordApiStuff.Models.Enums;
+﻿using DiscordApiStuff.Core.Clients;
+using DiscordApiStuff.Models.Classes.Message.Message;
+using DiscordApiStuff.Models.Enums;
 using DiscordApiStuff.Models.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Message
 {
-    public class Message
+    public sealed class DiscordMessage : Snowflake, IMessage
     {
+        public DiscordMessage() { }
+
         [JsonIgnore]
-        internal IMessage RestMessage { get; set; }
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
+        internal DiscordRestClient DiscordRestClient;
+
         [JsonPropertyName("channel_id")]
         public string ChannelId { get; set; }
         [JsonPropertyName("guild_id")]
@@ -53,14 +53,23 @@ namespace DiscordApiStuff.Models.Classes
         [JsonPropertyName("type")]
         public MessageType Type { get; set; }
         [JsonPropertyName("activity")]
-        public MessageActivity? Activity { get; set; }
+        public MessageActivity Activity { get; set; }
         [JsonPropertyName("application")]
-        public MessageApplication? Application { get; set; }
+        public MessageApplication Application { get; set; }
         [JsonPropertyName("message_reference")]
         public MessageFlags? Flags { get; set; }
         [JsonPropertyName("stickers")]
         public Sticker[] Stickers { get; set; }
-        //[JsonPropertyName("referenced_message")]
-        //public Message ReferencedMessage { get; set; }
+        [JsonPropertyName("referenced_message")]
+        public DiscordMessage ReferencedMessage { get; set; }
+
+        public async Task DeleteAsync()
+        {
+            if (DiscordRestClient == null)
+            {
+                throw new Exception("Non-Factory message instance cannot interact with api.");
+            }
+            await DiscordRestClient.DeleteMessageAsync(this);
+        }
     }
 }

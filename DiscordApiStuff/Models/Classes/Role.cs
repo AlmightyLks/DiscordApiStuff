@@ -2,10 +2,8 @@
 
 namespace DiscordApiStuff.Models.Classes
 {
-    public class Role
+    public class Role : Snowflake
     {
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }
         [JsonPropertyName("color")]

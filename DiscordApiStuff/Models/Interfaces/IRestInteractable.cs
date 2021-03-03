@@ -2,8 +2,5 @@
 
 namespace DiscordApiStuff.Models.Interfaces
 {
-    internal interface IRestInteractable
-    {
-
-    }
+    public interface IRestInteractable { }
 }

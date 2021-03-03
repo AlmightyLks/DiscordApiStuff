@@ -2,6 +2,7 @@
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.EventArgs.Rest;
+using DiscordApiStuff.Models.Classes.Channel;
 using DiscordApiStuff.Models.Enums;
 using System;
 using System.Threading.Tasks;
@@ -34,13 +35,13 @@ namespace DiscordApiStuffTesting
 
                 return Task.CompletedTask;
             };
-            client.GatewayEvents.Ready += () =>
+            client.GatewayEvents.Ready += async () =>
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Ready!");
                 Console.ResetColor();
-
-                return Task.CompletedTask;
+                
+                var smth = await client._discordRestClient.GetGuildChannelsAsync(813892541140697116);
             };
             client.GatewayEvents.Resuming += () =>
             {
@@ -65,7 +66,6 @@ namespace DiscordApiStuffTesting
             
             client.MessageEvents.MessageCreated += async (MessageCreatedEventArgs ev) =>
             {
-                await ev.Message.DeleteAsync();
                 Console.WriteLine($"\n{ev.Message.Author.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\nTTS? {ev.Message.TextToSpeech}\n");
             };
             await client.ConnectAsync();

@@ -2,10 +2,8 @@
 
 namespace DiscordApiStuff.Models.Classes.Channel
 {
-    public class GuildVoiceChannel : GuildChannel
+    public sealed class GuildVoiceChannel : GuildChannel
     {
-        internal GuildVoiceChannel() { }
-
         [JsonPropertyName("bitrate")]
         public int Bitrate { get; set; }
 

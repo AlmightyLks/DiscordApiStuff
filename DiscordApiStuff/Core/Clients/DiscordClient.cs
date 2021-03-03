@@ -1,6 +1,7 @@
 ﻿using DiscordApiStuff.Core.Clients;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Models.Classes;
+using DiscordApiStuff.Models.Classes.Channel;
 using DiscordApiStuff.Payloads.Connection;
 using System;
 using System.Threading.Tasks;
@@ -16,9 +17,10 @@ namespace DiscordApiStuff
         public RoleEventHandler RoleEvents { get; }
         public GatewayEventHandler GatewayEvents { get; }
         public RestApiEventHandler RestApiEvents { get; }
-        public DiscordRestClient DiscordRestClient { get; set; }
+
 
         internal DiscordClientConfiguration DiscordClientConfiguration;
+        public DiscordRestClient _discordRestClient;
         private DiscordWebSocket _discordWebSocket;
 
         internal static readonly MinIdentification.Properties Properties;
@@ -57,7 +59,7 @@ namespace DiscordApiStuff
             RestApiEvents = new RestApiEventHandler();
 
             DiscordClientConfiguration = discordClientConfiguration;
-            DiscordRestClient = new DiscordRestClient(
+            _discordRestClient = new DiscordRestClient(
                 this,
                 RestApiEvents
                 );
@@ -69,7 +71,7 @@ namespace DiscordApiStuff
                 MessageEvents,
                 RoleEvents,
                 GatewayEvents,
-                DiscordRestClient
+                _discordRestClient
                 );
         }
 
@@ -94,6 +96,10 @@ namespace DiscordApiStuff
             {
                 Console.WriteLine($"Disconnect failed\n{e}");
             }
+        }
+        public async Task<DiscordChannel> GetChannelAsync(ulong channelId)
+        {
+            return await _discordRestClient.GetChannelAsync(channelId);
         }
     }
 }

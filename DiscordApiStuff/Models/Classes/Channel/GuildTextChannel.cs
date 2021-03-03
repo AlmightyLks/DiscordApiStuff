@@ -6,6 +6,7 @@ namespace DiscordApiStuff.Models.Classes.Channel
 {
     public sealed class GuildTextChannel : TextChannel
     {
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
 

@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using DiscordApiStuff.Models.Classes.Channel;
+using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Models.Interfaces
 {
-    internal interface IChannel : IRestInteractable
+    public interface IChannel : IRestInteractable
     {
-        Task SendMessageAsync();
+        Task<DiscordChannel> DeleteAsync();
     }
 }

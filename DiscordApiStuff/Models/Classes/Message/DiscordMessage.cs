@@ -10,8 +10,6 @@ namespace DiscordApiStuff.Models.Classes.Message
 {
     public sealed class DiscordMessage : Snowflake, IMessage
     {
-        public DiscordMessage() { }
-
         [JsonIgnore]
         internal DiscordRestClient DiscordRestClient;
 

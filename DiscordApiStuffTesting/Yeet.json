@@ -1,33 +1,88 @@
-﻿{
-  "type": 0,
-  "tts": false,
-  "timestamp": "2021-02-26T12:19:16.228000+00:00",
-  "referenced_message": null,
-  "pinned": false,
-  "nonce": "814833963624300544",
-  "mentions": [],
-  "mention_roles": [],
-  "mention_everyone": false,
-  "member": {
-    "roles": [],
-    "mute": false,
-    "joined_at": "2021-02-23T21:58:23.247000+00:00",
-    "hoisted_role": null,
-    "deaf": false
+﻿[
+  {
+    "id": "813892541140697117",
+    "type": 4,
+    "name": "Text Channels",
+    "position": 0,
+    "parent_id": null,
+    "guild_id": "813892541140697116",
+    "permission_overwrites": [],
+    "nsfw": false
   },
-  "id": "814833965373718530",
-  "flags": 0,
-  "embeds": [],
-  "edited_timestamp": null,
-  "content": "Test",
-  "channel_id": "814028998694141972",
-  "author": {
-    "username": "OneWholesomeDev",
-    "public_flags": 0,
-    "id": "802050521388941314",
-    "discriminator": "7465",
-    "avatar": "14f006f97599c5fd8ec177cf4df17903"
+  {
+    "id": "813892541140697118",
+    "type": 4,
+    "name": "Voice Channels",
+    "position": 1,
+    "parent_id": null,
+    "guild_id": "813892541140697116",
+    "permission_overwrites": [],
+    "nsfw": false
   },
-  "attachments": [],
-  "guild_id": "813892541140697116"
-}
+  {
+    "id": "813892541140697119",
+    "last_message_id": "816800369400086538",
+    "type": 0,
+    "name": "general",
+    "position": 2,
+    "parent_id": "813892541140697117",
+    "topic": null,
+    "guild_id": "813892541140697116",
+    "permission_overwrites": [],
+    "nsfw": false,
+    "rate_limit_per_user": 0
+  },
+  {
+    "id": "813892541140697120",
+    "type": 2,
+    "name": "General",
+    "position": 0,
+    "parent_id": "813892541140697118",
+    "bitrate": 64000,
+    "user_limit": 0,
+    "rtc_region": null,
+    "guild_id": "813892541140697116",
+    "permission_overwrites": [],
+    "nsfw": false
+  },
+  {
+    "id": "814028998694141972",
+    "last_message_id": "816616441461342278",
+    "type": 0,
+    "name": "message-testing-channel",
+    "position": 3,
+    "parent_id": "813892541140697117",
+    "topic": null,
+    "guild_id": "813892541140697116",
+    "permission_overwrites": [
+      {
+        "id": "812758261790408724",
+        "type": 1,
+        "allow": "0",
+        "deny": "1024"
+      }
+    ],
+    "nsfw": false,
+    "rate_limit_per_user": 0
+  },
+  {
+    "id": "814564623625093220",
+    "last_message_id": "816733282556313640",
+    "type": 0,
+    "name": "logs",
+    "position": 1,
+    "parent_id": "813892541140697117",
+    "topic": null,
+    "guild_id": "813892541140697116",
+    "permission_overwrites": [
+      {
+        "id": "812758261790408724",
+        "type": 1,
+        "allow": "0",
+        "deny": "2953313361"
+      }
+    ],
+    "nsfw": false,
+    "rate_limit_per_user": 0
+  }
+]

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Connection
+namespace DiscordApiStuff.Payloads.Websocket.Connection
 {
     internal struct HeartbeatReceive
     {

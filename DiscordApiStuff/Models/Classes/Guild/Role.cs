@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Guild
 {
     public class Role : Snowflake
     {

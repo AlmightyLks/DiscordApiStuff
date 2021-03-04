@@ -1,7 +1,7 @@
 ﻿using DiscordApiStuff.Models.Enums;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Connection
+namespace DiscordApiStuff.Payloads.Websocket.Connection
 {
     internal struct GeneralPayloadSlim<T>
     {

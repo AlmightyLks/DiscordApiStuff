@@ -1,7 +1,7 @@
-﻿using DiscordApiStuff.Models.Classes;
+﻿using DiscordApiStuff.Models.Classes.Guild;
 using System.Text.Json.Serialization;
 
-namespace DiscordApiStuff.Payloads.Events
+namespace DiscordApiStuff.Payloads.Websocket.Events
 {
     internal struct TypingStartPayload
     {

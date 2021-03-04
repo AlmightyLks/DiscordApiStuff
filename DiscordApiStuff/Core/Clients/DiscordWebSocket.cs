@@ -10,9 +10,9 @@ using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Exceptions.Gateway;
 using DiscordApiStuff.Models.Enums;
-using DiscordApiStuff.Payloads.Connection;
-using DiscordApiStuff.Payloads.Events;
 using DiscordApiStuff.Models.Classes.Message;
+using DiscordApiStuff.Payloads.Websocket.Events;
+using DiscordApiStuff.Payloads.Websocket.Connection;
 
 namespace DiscordApiStuff.Core.Clients
 {
@@ -280,7 +280,11 @@ namespace DiscordApiStuff.Core.Clients
                         {
                             ReadyPayload ready = JsonSerializer.Deserialize<ReadyPayload>(payload.Data.ToString());
                             _sessionId = ready.SessionId;
-                            _gatewayEvents.InvokeReady();
+                            var evArgs = new ReadyEventArgs()
+                            {
+                                UnavailableGuilds = ready.Guilds
+                            };
+                            _gatewayEvents.InvokeReady(evArgs);
                             break;
                         }
                     //Guild

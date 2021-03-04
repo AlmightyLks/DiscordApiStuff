@@ -2,7 +2,7 @@
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Models.Classes;
 using DiscordApiStuff.Models.Classes.Channel;
-using DiscordApiStuff.Payloads.Connection;
+using DiscordApiStuff.Payloads.Websocket.Connection;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +17,6 @@ namespace DiscordApiStuff
         public RoleEventHandler RoleEvents { get; }
         public GatewayEventHandler GatewayEvents { get; }
         public RestApiEventHandler RestApiEvents { get; }
-
 
         internal DiscordClientConfiguration DiscordClientConfiguration;
         public DiscordRestClient _discordRestClient;

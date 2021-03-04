@@ -1,4 +1,4 @@
-﻿using DiscordApiStuff.Models.Classes;
+﻿using DiscordApiStuff.Models.Classes.Guild;
 using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Models.Interfaces

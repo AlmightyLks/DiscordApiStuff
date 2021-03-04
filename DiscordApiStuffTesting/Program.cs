@@ -35,7 +35,7 @@ namespace DiscordApiStuffTesting
 
                 return Task.CompletedTask;
             };
-            client.GatewayEvents.Ready += async () =>
+            client.GatewayEvents.Ready += async (ReadyEventArgs ev) =>
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Ready!");

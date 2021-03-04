@@ -1,26 +1,39 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
-namespace DiscordApiStuff.Models.Classes
+namespace DiscordApiStuff.Models.Classes.Guild
 {
-    public class UnavailableGuild : Snowflake
+    public class GuildPreview : Snowflake
     {
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
         [JsonPropertyName("icon")]
         public string Icon { get; set; }
+
         [JsonPropertyName("splash")]
         public string Splash { get; set; }
+
         [JsonPropertyName("discovery_splash")]
         public string DiscoverySplash { get; set; }
+
         [JsonPropertyName("emojis")]
-        public ICollection<Emoji> Emojis { get; set; }
+        public IEnumerable<Emoji> Emojis { get; set; }
+
         [JsonPropertyName("features")]
-        public string[] Features { get; set; }
+        public List<string> Features { get; set; }
+
         [JsonPropertyName("approximate_member_count")]
-        public int ApproximateMembers { get; set; }
+        public int ApproximateMemberCount { get; set; }
+
         [JsonPropertyName("approximate_presence_count")]
-        public int ApproximateMembersOnline { get; set; }
+        public int ApproximatePresenceCount { get; set; }
+
         [JsonPropertyName("description")]
         public string Description { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using DiscordApiStuff.Models.Enums;
+﻿using DiscordApiStuff.Models.Classes.Channel;
+using DiscordApiStuff.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Models.Classes.Guild
 {
-    public sealed class Guild : Snowflake
+    public sealed class DiscordGuild : Snowflake
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -52,8 +53,17 @@ namespace DiscordApiStuff.Models.Classes.Guild
         [JsonPropertyName("system_channel_id")]
         public string SystemChannelId { get; set; }
 
+        [JsonPropertyName("joined_at")]
+        public DateTime? JoinedAt { get; set; }
+
+        [JsonPropertyName("large")]
+        public bool? IsLarge { get; set; }
+
+        [JsonPropertyName("unavailable")]
+        public bool? Unavailable { get; set; }
+
         [JsonPropertyName("widget_enabled")]
-        public bool WidgetEnabled { get; set; }
+        public bool? WidgetEnabled { get; set; }
 
         [JsonPropertyName("widget_channel_id")]
         public string WidgetChannelId { get; set; }
@@ -74,7 +84,7 @@ namespace DiscordApiStuff.Models.Classes.Guild
         public ContentFilterLevel ExplicitContentFilter { get; set; }
 
         [JsonPropertyName("max_presences")]
-        public int MaxPresences { get; set; }
+        public int? MaxPresences { get; set; }
 
         [JsonPropertyName("max_members")]
         public int MaxMembers { get; set; }
@@ -99,5 +109,20 @@ namespace DiscordApiStuff.Models.Classes.Guild
 
         [JsonPropertyName("public_updates_channel_id")]
         public string PublicUpdatesChannelId { get; set; }
+
+        [JsonPropertyName("member_count")]
+        public int? MemberCount { get; set; }
+
+        [JsonPropertyName("voice_states")]
+        public IEnumerable<VoiceState> VoiceStates { get; set; }
+
+        [JsonPropertyName("members")]
+        public IEnumerable<GuildMember> Members { get; set; }
+
+        [JsonPropertyName("channels")]
+        public IEnumerable<GuildChannel> Channels { get; set; }
+
+        [JsonPropertyName("presences")]
+        public IEnumerable<Presence> Presences { get; set; }
     }
 }

@@ -1,16 +1,23 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes
 {
     public class Presence
     {
-        [JsonPropertyName("activities")]
-        public Activity[] Activities { get; set; }
+        [JsonPropertyName("user")]
+        public DiscordUser User { get; set; }
+
+        [JsonPropertyName("guild_id")]
+        public string GuildId { get; set; }
+
         [JsonPropertyName("status")]
         public string Status { get; set; }
-        [JsonPropertyName("since")]
-        public int? Since { get; set; }
-        [JsonPropertyName("afk")]
-        public bool Afk { get; set; }
+
+        [JsonPropertyName("activities")]
+        public IEnumerable<Activity> Activities { get; set; }
+
+        [JsonPropertyName("client_status")]
+        public ClientStatus ClientStatus { get; set; }
     }
 }

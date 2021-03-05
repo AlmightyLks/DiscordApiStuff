@@ -1,88 +1,73 @@
-﻿[
-  {
-    "id": "813892541140697117",
-    "type": 4,
-    "name": "Text Channels",
-    "position": 0,
-    "parent_id": null,
-    "guild_id": "813892541140697116",
-    "permission_overwrites": [],
-    "nsfw": false
+﻿{
+  "widget_channel_id": null,
+  "system_channel_id": "817502739311493183",
+  "premium_tier": 0,
+  "system_channel_flags": 0,
+  "discovery_splash": null,
+  "application_id": null,
+  "guild_hashes": {
+    "version": 1,
+    "roles": {
+      "hash": "aVspurhij9w"
+    },
+    "metadata": {
+      "hash": "h4lFBPiz7eU"
+    },
+    "channels": {
+      "hash": "mrcEinIhG2s"
+    }
   },
-  {
-    "id": "813892541140697118",
-    "type": 4,
-    "name": "Voice Channels",
-    "position": 1,
-    "parent_id": null,
-    "guild_id": "813892541140697116",
-    "permission_overwrites": [],
-    "nsfw": false
-  },
-  {
-    "id": "813892541140697119",
-    "last_message_id": "816800369400086538",
-    "type": 0,
-    "name": "general",
-    "position": 2,
-    "parent_id": "813892541140697117",
-    "topic": null,
-    "guild_id": "813892541140697116",
-    "permission_overwrites": [],
-    "nsfw": false,
-    "rate_limit_per_user": 0
-  },
-  {
-    "id": "813892541140697120",
-    "type": 2,
-    "name": "General",
-    "position": 0,
-    "parent_id": "813892541140697118",
-    "bitrate": 64000,
-    "user_limit": 0,
-    "rtc_region": null,
-    "guild_id": "813892541140697116",
-    "permission_overwrites": [],
-    "nsfw": false
-  },
-  {
-    "id": "814028998694141972",
-    "last_message_id": "816616441461342278",
-    "type": 0,
-    "name": "message-testing-channel",
-    "position": 3,
-    "parent_id": "813892541140697117",
-    "topic": null,
-    "guild_id": "813892541140697116",
-    "permission_overwrites": [
-      {
-        "id": "812758261790408724",
-        "type": 1,
-        "allow": "0",
-        "deny": "1024"
-      }
-    ],
-    "nsfw": false,
-    "rate_limit_per_user": 0
-  },
-  {
-    "id": "814564623625093220",
-    "last_message_id": "816733282556313640",
-    "type": 0,
-    "name": "logs",
-    "position": 1,
-    "parent_id": "813892541140697117",
-    "topic": null,
-    "guild_id": "813892541140697116",
-    "permission_overwrites": [
-      {
-        "id": "812758261790408724",
-        "type": 1,
-        "allow": "0",
-        "deny": "2953313361"
-      }
-    ],
-    "nsfw": false,
-    "rate_limit_per_user": 0
-  }
-]
+  "owner_id": "802050521388941314",
+  "banner": null,
+  "features": [
+  ],
+  "id": "817502739311493180",
+  "public_updates_channel_id": null,
+  "verification_level": 0,
+  "roles": [
+    {
+      "position": 0,
+      "permissions": "6546771521",
+      "name": "@everyone",
+      "mentionable": false,
+      "managed": false,
+      "id": "817502739311493180",
+      "hoist": false,
+      "color": 0
+    },
+    {
+      "tags": {
+        "bot_id": "812758261790408724"
+      },
+      "position": 1,
+      "permissions": "8",
+      "name": "Wholesome App",
+      "mentionable": false,
+      "managed": true,
+      "id": "817509813709570049",
+      "hoist": false,
+      "color": 0
+    }
+  ],
+  "guild_id": "817502739311493180",
+  "splash": null,
+  "afk_timeout": 300,
+  "vanity_url_code": null,
+  "icon": null,
+  "emojis": [
+  ],
+  "max_video_channel_users": 25,
+  "preferred_locale": "en-US",
+  "region": "europe",
+  "explicit_content_filter": 0,
+  "rules_channel_id": null,
+  "default_message_notifications": 0,
+  "name": "DiscordApiStuff Server 2",
+  "max_members": 100000,
+  "widget_enabled": false,
+  "description": null,
+  "premium_subscription_count": 0,
+  "mfa_level": 0,
+  "afk_channel_id": null,
+  "max_presences": null
+}

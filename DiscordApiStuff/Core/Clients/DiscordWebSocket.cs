@@ -13,6 +13,8 @@ using DiscordApiStuff.Models.Enums;
 using DiscordApiStuff.Models.Classes.Message;
 using DiscordApiStuff.Payloads.Websocket.Events;
 using DiscordApiStuff.Payloads.Websocket.Connection;
+using DiscordApiStuff.Models.Classes.Guild;
+using DiscordApiStuff.Events.EventArgs.Guild;
 
 namespace DiscordApiStuff.Core.Clients
 {
@@ -36,6 +38,7 @@ namespace DiscordApiStuff.Core.Clients
         private int _heartbeatInterval;
         private int? _lastSequenceNumber;
         private string _sessionId;
+        private DateTime _connectionTime;
 
         internal DiscordWebSocket(
             DiscordClientConfiguration discordClientConfiguration,
@@ -54,6 +57,7 @@ namespace DiscordApiStuff.Core.Clients
             _messageEvents = messageEvents;
             _roleEvents = roleEvents;
             _gatewayEvents = gatewayEvents;
+            _connectionTime = default;
 
             _discordRestClient = discordRestClient;
             _webSocket = new ClientWebSocket();
@@ -131,6 +135,7 @@ namespace DiscordApiStuff.Core.Clients
             }
 
             Console.WriteLine("WebSocket stoppped listening");
+            _connectionTime = default;
         }
 
         private async Task HandleData(WebSocketReceiveResult wsReceiveResult, byte[] buffer)
@@ -285,17 +290,46 @@ namespace DiscordApiStuff.Core.Clients
                                 UnavailableGuilds = ready.Guilds
                             };
                             _gatewayEvents.InvokeReady(evArgs);
+                            _connectionTime = DateTime.Now;
                             break;
                         }
                     //Guild
                     case "GUILD_CREATE":
                         {
+                            //Max 25 ms after connecting, the unavailable guilds fire this event, they're not actual new guilds.
+                            TimeSpan interval = DateTime.Now - _connectionTime;
+                            if (interval < TimeSpan.FromMilliseconds(25))
+                            {
+                                break;
+                            }
+
+                            DiscordGuild guild = JsonSerializer.Deserialize<DiscordGuild>(payload.Data.ToString());
+                            var evArgs = new GuildCreatedEventArgs()
+                            {
+                                Guild = guild
+                            };
+                            _guildEvents.InvokeGuildCreated(evArgs);
                             break;
                         }
                     case "GUILD_DELETE":
                         {
-
-
+                            UnavailableGuild unavailableGuild = JsonSerializer.Deserialize<UnavailableGuild>(payload.Data.ToString());
+                            var evArgs = new GuildDeletedEventArgs()
+                            {
+                                UnavailableGuild = unavailableGuild,
+                                WasRemoved = unavailableGuild.Unavailable == null
+                            };
+                            _guildEvents.InvokeGuildDeleted(evArgs);
+                            break;
+                        }
+                    case "GUILD_UPDATE":
+                        {
+                            DiscordGuild guild = JsonSerializer.Deserialize<DiscordGuild>(payload.Data.ToString());
+                            var evArgs = new GuildUpdatedEventArgs()
+                            {
+                                Guild = guild
+                            };
+                            _guildEvents.InvokeGuildUpdated(evArgs);
                             break;
                         }
                     case "GUILD_ROLE_CREATE":

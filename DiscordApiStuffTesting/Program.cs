@@ -1,5 +1,6 @@
 ﻿using DiscordApiStuff;
 using DiscordApiStuff.Events.EventArgs.Gateway;
+using DiscordApiStuff.Events.EventArgs.Guild;
 using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.EventArgs.Rest;
 using DiscordApiStuff.Models.Classes.Channel;
@@ -63,10 +64,22 @@ namespace DiscordApiStuffTesting
                 Console.WriteLine("----------------");
                 return Task.CompletedTask;
             };
-            
-            client.MessageEvents.MessageCreated += async (MessageCreatedEventArgs ev) =>
+            client.GuildEvents.GuildCreated += (GuildCreatedEventArgs ev) =>
+            {
+                return Task.CompletedTask;
+            };
+            client.GuildEvents.GuildUpdated += (GuildUpdatedEventArgs ev) =>
+            {
+                return Task.CompletedTask;
+            };
+            client.GuildEvents.GuildDeleted += (GuildDeletedEventArgs ev) =>
+            {
+                return Task.CompletedTask;
+            };
+            client.MessageEvents.MessageCreated += (MessageCreatedEventArgs ev) =>
             {
                 Console.WriteLine($"\n{ev.Message.Author.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\nTTS? {ev.Message.TextToSpeech}\n");
+                return Task.CompletedTask;
             };
             await client.ConnectAsync();
 

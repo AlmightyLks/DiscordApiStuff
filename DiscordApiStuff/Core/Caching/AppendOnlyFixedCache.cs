@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 namespace DiscordApiStuff.Core.Caching
 {
-    public partial struct AppendOnlyFixedCache<T>
+    public partial class AppendOnlyFixedCache<T>
     {
         public int Size
         {
@@ -28,11 +28,11 @@ namespace DiscordApiStuff.Core.Caching
         }
     }
     
-    public partial struct AppendOnlyFixedCache<T>
+    public partial class AppendOnlyFixedCache<T>
     {
         private readonly T[] _arr;
-
         private int _readPos;
+
         public AppendOnlyFixedCache(int size)
         {
             //We are assuming this collection is long-lived
@@ -51,17 +51,16 @@ namespace DiscordApiStuff.Core.Caching
         {
             Add(ref item);
         }
-        
+
         public void Add(ref T item)
         {
-            var writePos = unchecked(++_readPos);
-            var arr = _arr;
-            if ((uint) writePos >= (uint) arr.Length)
+            _readPos++;
+            //If readpos is exceeding, reset
+            if (_readPos >= _arr.Length)
             {
-                arr[_readPos = 0] = item;
-                return;
+                _readPos = 0;
             }
-            arr[writePos] = item;
+            _arr[_readPos] = item;
         }
     }
 }

@@ -56,7 +56,8 @@ namespace DiscordApiStuff.Core.Caching
         {
             _readPos++;
             //If readpos is exceeding, reset
-            if (_readPos >= _arr.Length)
+            //uint for removal of bound checks (- BudgetDevv)
+            if ((uint)_readPos >= (uint)_arr.Length)
             {
                 _readPos = 0;
             }

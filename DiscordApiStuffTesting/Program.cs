@@ -1,9 +1,11 @@
 ﻿using DiscordApiStuff;
+using DiscordApiStuff.Core.Caching;
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.EventArgs.Guild;
 using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.EventArgs.Rest;
 using DiscordApiStuff.Models.Classes.Channel;
+using DiscordApiStuff.Models.Classes.Message;
 using DiscordApiStuff.Models.Enums;
 using System;
 using System.Threading.Tasks;
@@ -41,29 +43,10 @@ namespace DiscordApiStuffTesting
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Ready!");
                 Console.ResetColor();
-                
+
                 var smth = await client._discordRestClient.GetGuildChannelsAsync(813892541140697116);
             };
-            client.GatewayEvents.Resuming += () =>
-            {
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine("Resumed");
-                Console.ResetColor();
 
-                return Task.CompletedTask;
-            };
-            client.RestApiEvents.HttpRequestFailure += (RestHttpRequestFailureEventArgs ev) =>
-            {
-                Console.WriteLine("----------------");
-                Console.WriteLine(
-                    $"Exception: {ev.Exception}\n" +
-                    $"HttpStatusCode: {ev.HttpStatusCode}\n" +
-                    $"HttpResponseContent: {ev.HttpResponseContent}\n" +
-                    $"TypeData: {ev.TypeData.Key},{ev.TypeData.Value}\n"
-                    );
-                Console.WriteLine("----------------");
-                return Task.CompletedTask;
-            };
             client.GuildEvents.GuildCreated += (GuildCreatedEventArgs ev) =>
             {
                 return Task.CompletedTask;
@@ -76,11 +59,22 @@ namespace DiscordApiStuffTesting
             {
                 return Task.CompletedTask;
             };
+
             client.MessageEvents.MessageCreated += (MessageCreatedEventArgs ev) =>
             {
                 Console.WriteLine($"\n{ev.Message.Author.Username} said \"{ev.Message.Content}\" in {ev.Message.ChannelId}!\nTTS? {ev.Message.TextToSpeech}\n");
                 return Task.CompletedTask;
             };
+            client.MessageEvents.MessageEdited += (MessageEditedEventArgs ev) =>
+            {
+                return Task.CompletedTask;
+            };
+            client.MessageEvents.MessageDeleted += (MessageDeletedEventArgs ev) =>
+            {
+                return Task.CompletedTask;
+            };
+
+
             await client.ConnectAsync();
 
             await Task.Delay(-1);

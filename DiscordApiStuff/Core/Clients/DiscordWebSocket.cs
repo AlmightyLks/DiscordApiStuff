@@ -15,6 +15,7 @@ using DiscordApiStuff.Payloads.Websocket.Events;
 using DiscordApiStuff.Payloads.Websocket.Connection;
 using DiscordApiStuff.Models.Classes.Guild;
 using DiscordApiStuff.Events.EventArgs.Guild;
+using System.Runtime.InteropServices;
 
 namespace DiscordApiStuff.Core.Clients
 {
@@ -481,8 +482,6 @@ namespace DiscordApiStuff.Core.Clients
                     //Messages
                     case "MESSAGE_CREATE":
                         {
-                            Console.WriteLine(payload.Data.ToString());
-
                             DiscordMessage message = JsonSerializer.Deserialize<DiscordMessage>(payload.Data.ToString());
                             message.DiscordRestClient = _discordRestClient;
                             var evArgs = new MessageCreatedEventArgs()
@@ -494,14 +493,22 @@ namespace DiscordApiStuff.Core.Clients
                         }
                     case "MESSAGE_UPDATE":
                         {
-
-
+                            DiscordMessage message = JsonSerializer.Deserialize<DiscordMessage>(payload.Data.ToString());
+                            message.DiscordRestClient = _discordRestClient;
+                            var evArgs = new MessageEditedEventArgs()
+                            {
+                                Message = message
+                            };
+                            _messageEvents.InvokeMessageEdited(evArgs);
                             break;
                         }
                     case "MESSAGE_DELETE":
                         {
+                            var evArgs = new MessageEditedEventArgs()
+                            {
 
-
+                            };
+                            _messageEvents.InvokeMessageEdited(evArgs);
                             break;
                         }
                 }

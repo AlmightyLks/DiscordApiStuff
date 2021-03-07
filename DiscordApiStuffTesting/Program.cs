@@ -20,9 +20,9 @@ namespace DiscordApiStuffTesting
 
             Test2();
         }
-        
+
         private static async Task Test1()
-        { 
+        {
             DiscordClient client = new DiscordClient(new DiscordClientConfiguration()
             {
                 Token = "ODEyNzU4MjYxNzkwNDA4NzI0.YDFaHQ._VKiNmAqfpmbKlB949p2d-uBIbQ",
@@ -84,31 +84,28 @@ namespace DiscordApiStuffTesting
 
             await client.ConnectAsync();
 
-            await Task.Delay(-1);        
+            await Task.Delay(-1);
         }
-        
+
         private static void Test2()
         {
-            var Cache = new AppendOnlyFixedCache<int>(10);
+            var cache = new AppendOnlyFixedCache<DiscordMessage>(4);
 
-            for (int I = 1; I <= Cache.Size; I++)
+            for (int i = 1; i <= cache.Size + (cache.Size / 2); i++)
             {
-                Cache.Add(I);
+                cache.Add(new DiscordMessage() { Content = $"Message {i}" });
             }
 
-            Cache.Add(69);
-            
-            Cache.Add(1258);
-            
-            foreach (var x in Cache)
+            for(int i = 0; i < cache.Size; i++)
             {
-                Console.WriteLine(x);
+                Console.WriteLine(cache[i]?.Content);
             }
 
-            Console.WriteLine(Cache[0]);
-            
-            Console.WriteLine(Cache[1]);
+            Console.WriteLine("---");
+            foreach (DiscordMessage item in cache)
+            {
+                Console.WriteLine($"{item?.Content}");
+            }
         }
-
     }
 }

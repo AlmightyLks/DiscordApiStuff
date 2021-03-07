@@ -1,4 +1,5 @@
-﻿using DiscordApiStuff.Models.Classes.Guild;
+﻿using DiscordApiStuff.Converters;
+using DiscordApiStuff.Models.Classes.Guild;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +12,16 @@ namespace DiscordApiStuff.Models.Classes
     public sealed class VoiceState
     {
         [JsonPropertyName("guild_id")]
-        public string GuildId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong GuildId { get; set; }
 
         [JsonPropertyName("channel_id")]
-        public string ChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong ChannelId { get; set; }
 
         [JsonPropertyName("user_id")]
-        public string UserId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong UserId { get; set; }
 
         [JsonPropertyName("member")]
         public GuildMember Member { get; set; }

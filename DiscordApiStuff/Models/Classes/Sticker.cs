@@ -1,4 +1,5 @@
-﻿using DiscordApiStuff.Models.Enums;
+﻿using DiscordApiStuff.Converters;
+using DiscordApiStuff.Models.Enums;
 using DiscordApiStuff.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace DiscordApiStuff.Models.Classes
     public class Sticker : Snowflake
     {
         [JsonPropertyName("pack_id")]
+        [JsonConverter(typeof(SnowflakeConverter))]
         public ulong PackId { get; set; }
         [JsonPropertyName("name")]
         public string Name { get; set; }

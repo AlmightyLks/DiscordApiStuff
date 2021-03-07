@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiscordApiStuff.Converters;
+using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -8,7 +9,8 @@ namespace DiscordApiStuff.Models.Classes.Channel
     {
 
         [JsonPropertyName("guild_id")]
-        public string GuildId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong GuildId { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -20,7 +22,8 @@ namespace DiscordApiStuff.Models.Classes.Channel
         public List<object> PermissionOverwrites { get; set; }
 
         [JsonPropertyName("parent_id")]
-        public string CategoryId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong CategoryId { get; set; }
 
         [JsonPropertyName("nsfw")]
         public bool Nsfw { get; set; }

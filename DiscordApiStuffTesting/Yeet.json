@@ -1,73 +1,33 @@
 ﻿{
-  "widget_channel_id": null,
-  "system_channel_id": "817502739311493183",
-  "premium_tier": 0,
-  "system_channel_flags": 0,
-  "discovery_splash": null,
-  "application_id": null,
-  "guild_hashes": {
-    "version": 1,
-    "roles": {
-      "hash": "aVspurhij9w"
-    },
-    "metadata": {
-      "hash": "h4lFBPiz7eU"
-    },
-    "channels": {
-      "hash": "mrcEinIhG2s"
-    }
+  "type": 0,
+  "tts": false,
+  "timestamp": "2021-03-07T14:01:01.488000+00:00",
+  "referenced_message": null,
+  "pinned": false,
+  "nonce": "818121058254061568",
+  "mentions": [],
+  "mention_roles": [ "818120675197190184", "818120697309036634" ],
+  "mention_everyone": false,
+  "member": {
+    "roles": [],
+    "mute": false,
+    "joined_at": "2021-02-23T21:58:23.247000+00:00",
+    "hoisted_role": null,
+    "deaf": false
   },
-  "owner_id": "802050521388941314",
-  "banner": null,
-  "features": [
-  ],
-  "id": "817502739311493180",
-  "public_updates_channel_id": null,
-  "verification_level": 0,
-  "roles": [
-    {
-      "position": 0,
-      "permissions": "6546771521",
-      "name": "@everyone",
-      "mentionable": false,
-      "managed": false,
-      "id": "817502739311493180",
-      "hoist": false,
-      "color": 0
-    },
-    {
-      "tags": {
-        "bot_id": "812758261790408724"
-      },
-      "position": 1,
-      "permissions": "8",
-      "name": "Wholesome App",
-      "mentionable": false,
-      "managed": true,
-      "id": "817509813709570049",
-      "hoist": false,
-      "color": 0
-    }
-  ],
-  "guild_id": "817502739311493180",
-  "splash": null,
-  "afk_timeout": 300,
-  "vanity_url_code": null,
-  "icon": null,
-  "emojis": [
-  ],
-  "max_video_channel_users": 25,
-  "preferred_locale": "en-US",
-  "region": "europe",
-  "explicit_content_filter": 0,
-  "rules_channel_id": null,
-  "default_message_notifications": 0,
-  "name": "DiscordApiStuff Server 2",
-  "max_members": 100000,
-  "widget_enabled": false,
-  "description": null,
-  "premium_subscription_count": 0,
-  "mfa_level": 0,
-  "afk_channel_id": null,
-  "max_presences": null
+  "id": "818121063481344010",
+  "flags": 0,
+  "embeds": [],
+  "edited_timestamp": null,
+  "content": "Hey, <@&818120675197190184>  & <@&818120697309036634>",
+  "channel_id": "814028998694141972",
+  "author": {
+    "username": "OneWholesomeDev",
+    "public_flags": 0,
+    "id": "802050521388941314",
+    "discriminator": "7465",
+    "avatar": "14f006f97599c5fd8ec177cf4df17903"
+  },
+  "attachments": [],
+  "guild_id": "813892541140697116"
 }

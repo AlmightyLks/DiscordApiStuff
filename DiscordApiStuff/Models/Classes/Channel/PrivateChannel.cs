@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DiscordApiStuff.Converters;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes.Channel
@@ -6,9 +7,10 @@ namespace DiscordApiStuff.Models.Classes.Channel
     public class PrivateChannel : DiscordChannel
     {
         [JsonPropertyName("last_message_id")]
-        public string LastMessageId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong? LastMessageId { get; set; }
 
         [JsonPropertyName("recipients")]
-        public IEnumerable<DiscordUser> Recipients { get; set; }
+        public DiscordUser[] Recipients { get; set; }
     }
 }

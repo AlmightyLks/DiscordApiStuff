@@ -1,4 +1,6 @@
-﻿using DiscordApiStuff.Core.Clients;
+﻿using DiscordApiStuff.Core.Caching;
+using DiscordApiStuff.Core.Clients;
+using DiscordApiStuff.Models.Classes.Message;
 using DiscordApiStuff.Models.Enums;
 using DiscordApiStuff.Models.Interfaces;
 using System.Text.Json.Serialization;
@@ -10,13 +12,20 @@ namespace DiscordApiStuff.Models.Classes.Channel
     {
         [JsonIgnore]
         internal DiscordRestClient DiscordRestClient;
-
+        [JsonIgnore]
+        internal AppendOnlyFixedCache<DiscordMessage> MessageCache;
+        
         [JsonPropertyName("type")]
         public ChannelType Type { get; set; }
 
-        public async Task<DiscordChannel> DeleteAsync()
+        public Task<DiscordChannel> DeleteAsync()
         {
-            return await DiscordRestClient.DeleteChannelAsync(ulong.Parse(Id));
+            throw new System.NotImplementedException();
         }
+
+        //public async Task<DiscordChannel> DeleteAsync()
+        //{
+        //    return await DiscordRestClient.DeleteChannelAsync(ulong.Parse(Id));
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using DiscordApiStuff.Converters;
+using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes.Channel
 {
@@ -6,6 +7,7 @@ namespace DiscordApiStuff.Models.Classes.Channel
     {
 
         [JsonPropertyName("last_message_id")]
-        public string LastMessageId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong? LastMessageId { get; set; }
     }
 }

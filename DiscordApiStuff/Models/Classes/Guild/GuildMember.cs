@@ -1,5 +1,8 @@
-﻿using DiscordApiStuff.Models.Interfaces;
+﻿using DiscordApiStuff.Converters;
+using DiscordApiStuff.Models.Interfaces;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes.Guild
@@ -11,7 +14,8 @@ namespace DiscordApiStuff.Models.Classes.Guild
         [JsonPropertyName("nick")]
         public string Nick { get; set; }
         [JsonPropertyName("roles")]
-        public Role[] Roles { get; set; }
+        [JsonConverter(typeof(SnowflakeCollectionConverter))]
+        public ulong[] RoleIds { get; set; }
         [JsonPropertyName("joined_at")]
         public DateTime JoinedAt { get; set; }
         [JsonPropertyName("deaf")]

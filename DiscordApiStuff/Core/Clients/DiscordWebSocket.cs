@@ -4,7 +4,6 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using DiscordApiStuff.Core;
 using DiscordApiStuff.Events.EventArgs.Gateway;
 using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.Handlers;
@@ -15,11 +14,10 @@ using DiscordApiStuff.Payloads.Websocket.Events;
 using DiscordApiStuff.Payloads.Websocket.Connection;
 using DiscordApiStuff.Models.Classes.Guild;
 using DiscordApiStuff.Events.EventArgs.Guild;
-using System.Runtime.InteropServices;
 
 namespace DiscordApiStuff.Core.Clients
 {
-    internal sealed class DiscordWebSocket
+    internal sealed partial class DiscordWebSocket
     {
         private GuildEventHandler _guildEvents;
         private ChannelEventHandler _channelEvents;
@@ -482,8 +480,7 @@ namespace DiscordApiStuff.Core.Clients
                     //Messages
                     case "MESSAGE_CREATE":
                         {
-                            DiscordMessage message = JsonSerializer.Deserialize<DiscordMessage>(payload.Data.ToString());
-                            message.DiscordRestClient = _discordRestClient;
+                            DiscordMessage message = ProcessDiscordMessage(payload.Data.ToString());
                             var evArgs = new MessageCreatedEventArgs()
                             {
                                 Message = message
@@ -493,8 +490,7 @@ namespace DiscordApiStuff.Core.Clients
                         }
                     case "MESSAGE_UPDATE":
                         {
-                            DiscordMessage message = JsonSerializer.Deserialize<DiscordMessage>(payload.Data.ToString());
-                            message.DiscordRestClient = _discordRestClient;
+                            DiscordMessage message = ProcessDiscordMessage(payload.Data.ToString());
                             var evArgs = new MessageEditedEventArgs()
                             {
                                 Message = message
@@ -558,6 +554,21 @@ namespace DiscordApiStuff.Core.Clients
         private async Task SendDataAsync(byte[] data, WebSocketMessageType messageType = WebSocketMessageType.Text)
         {
             await _webSocket.SendAsync(data, messageType, true, _cancellationTokenSource.Token);
+        }
+    }
+    internal sealed partial class DiscordWebSocket
+    {
+        private DiscordMessage ProcessDiscordMessage(string jsonStr)
+        {
+            DiscordMessage message = JsonSerializer.Deserialize<DiscordMessage>(jsonStr);
+            message.DiscordRestClient = _discordRestClient;
+            return message;
+        }
+        private DiscordMessage ProcessChannel(string jsonStr)
+        {
+            DiscordMessage message = JsonSerializer.Deserialize<DiscordMessage>(jsonStr);
+            message.DiscordRestClient = _discordRestClient;
+            return message;
         }
     }
 }

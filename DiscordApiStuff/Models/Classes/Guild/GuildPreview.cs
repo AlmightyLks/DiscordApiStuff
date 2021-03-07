@@ -23,7 +23,7 @@ namespace DiscordApiStuff.Models.Classes.Guild
         public string DiscoverySplash { get; set; }
 
         [JsonPropertyName("emojis")]
-        public IEnumerable<Emoji> Emojis { get; set; }
+        public Emoji[] Emojis { get; set; }
 
         [JsonPropertyName("features")]
         public List<string> Features { get; set; }

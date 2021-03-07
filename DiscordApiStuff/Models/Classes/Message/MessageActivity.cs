@@ -8,6 +8,6 @@ namespace DiscordApiStuff.Models.Classes.Message
         [JsonPropertyName("type")]
         public MessageActivityType Type { get; set; }
         [JsonPropertyName("party_id")]
-        public ulong? PartyId { get; set; }
+        public string PartyId { get; set; }
     }
 }

@@ -171,5 +171,9 @@ namespace DiscordApiStuff.Core.Clients
                 _restApiEvents.InvokeHttpRequestFailed(evArgs);
             }
         }
+        public async Task GetGuildAsync(ulong id)
+        {
+
+        }
     }
 }

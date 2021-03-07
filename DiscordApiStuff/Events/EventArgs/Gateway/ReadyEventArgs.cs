@@ -6,6 +6,6 @@ namespace DiscordApiStuff.Events.EventArgs.Gateway
 {
     public struct ReadyEventArgs : IGatewayEventArgs
     {
-        public IEnumerable<UnavailableGuild> UnavailableGuilds { get; internal set; }
+        public UnavailableGuild[] UnavailableGuilds { get; internal set; }
     }
 }

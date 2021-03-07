@@ -1,4 +1,5 @@
-﻿using DiscordApiStuff.Core.Clients;
+﻿using DiscordApiStuff.Converters;
+using DiscordApiStuff.Core.Clients;
 using DiscordApiStuff.Models.Classes.Message.Message;
 using DiscordApiStuff.Models.Enums;
 using DiscordApiStuff.Models.Interfaces;
@@ -14,9 +15,11 @@ namespace DiscordApiStuff.Models.Classes.Message
         internal DiscordRestClient DiscordRestClient;
 
         [JsonPropertyName("channel_id")]
-        public string ChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong ChannelId { get; set; }
         [JsonPropertyName("guild_id")]
-        public string GuildId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong GuildId { get; set; }
         [JsonPropertyName("author")]
         public DiscordUser Author { get; set; }
         [JsonPropertyName("content")]
@@ -31,8 +34,11 @@ namespace DiscordApiStuff.Models.Classes.Message
         public bool MentionsEveryone { get; set; }
         [JsonPropertyName("mentions")]
         public DiscordUser[] MentionedUsers { get; set; }
+
         [JsonPropertyName("mention_roles")]
+        [JsonConverter(typeof(SnowflakeCollectionConverter))]
         public ulong[] MentionedRoles { get; set; }
+
         [JsonPropertyName("mention_channels")]
         public ChannelMention[] ChannelMentions { get; set; }
         [JsonPropertyName("attachments")]

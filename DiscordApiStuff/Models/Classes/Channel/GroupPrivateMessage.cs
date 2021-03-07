@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using DiscordApiStuff.Converters;
+using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes.Channel
 {
@@ -13,6 +14,7 @@ namespace DiscordApiStuff.Models.Classes.Channel
 
 
         [JsonPropertyName("owner_id")]
-        public string OwnerId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong OwnerId { get; set; }
     }
 }

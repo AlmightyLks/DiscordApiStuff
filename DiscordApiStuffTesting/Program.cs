@@ -16,9 +16,9 @@ namespace DiscordApiStuffTesting
     {
         static async Task Main()
         {
-            //Test1();
+            await Test1();
 
-            Test2();
+            //Test2();
         }
 
         private static async Task Test1()

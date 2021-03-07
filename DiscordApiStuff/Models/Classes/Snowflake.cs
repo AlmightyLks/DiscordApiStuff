@@ -1,10 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using DiscordApiStuff.Converters;
+using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Models.Classes
 {
     public abstract class Snowflake
     {
         [JsonPropertyName("id")]
-        public string Id { get; init; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong Id { get; init; }
     }
 }

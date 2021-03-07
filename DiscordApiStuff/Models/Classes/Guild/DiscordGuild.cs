@@ -1,4 +1,6 @@
-﻿using DiscordApiStuff.Models.Classes.Channel;
+﻿using DiscordApiStuff.Converters;
+using DiscordApiStuff.Core.Caching;
+using DiscordApiStuff.Models.Classes.Channel;
 using DiscordApiStuff.Models.Enums;
 using System;
 using System.Collections.Generic;
@@ -11,6 +13,9 @@ namespace DiscordApiStuff.Models.Classes.Guild
 {
     public sealed class DiscordGuild : Snowflake
     {
+        [JsonIgnore]
+        internal AppendOnlyFixedCache<GuildChannel> ChannelCache;
+
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
@@ -36,22 +41,26 @@ namespace DiscordApiStuff.Models.Classes.Guild
         public string Banner { get; set; }
 
         [JsonPropertyName("owner_id")]
-        public string OwnerId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong OwnerId { get; set; }
 
         [JsonPropertyName("application_id")]
-        public string ApplicationId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong? ApplicationId { get; set; }
 
         [JsonPropertyName("region")]
         public string Region { get; set; }
 
         [JsonPropertyName("afk_channel_id")]
-        public string AfkChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong AfkChannelId { get; set; }
 
         [JsonPropertyName("afk_timeout")]
         public int AfkTimeout { get; set; }
 
         [JsonPropertyName("system_channel_id")]
-        public string SystemChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong? SystemChannelId { get; set; }
 
         [JsonPropertyName("joined_at")]
         public DateTime? JoinedAt { get; set; }
@@ -66,7 +75,8 @@ namespace DiscordApiStuff.Models.Classes.Guild
         public bool? WidgetEnabled { get; set; }
 
         [JsonPropertyName("widget_channel_id")]
-        public string WidgetChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong? WidgetChannelId { get; set; }
 
         [JsonPropertyName("verification_level")]
         public VerificationLevel VerificationLevel { get; set; }
@@ -105,24 +115,26 @@ namespace DiscordApiStuff.Models.Classes.Guild
         public string PreferredLocale { get; set; }
 
         [JsonPropertyName("rules_channel_id")]
-        public string RulesChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong RulesChannelId { get; set; }
 
         [JsonPropertyName("public_updates_channel_id")]
-        public string PublicUpdatesChannelId { get; set; }
+        [JsonConverter(typeof(SnowflakeConverter))]
+        public ulong? PublicUpdatesChannelId { get; set; }
 
         [JsonPropertyName("member_count")]
         public int? MemberCount { get; set; }
 
         [JsonPropertyName("voice_states")]
-        public IEnumerable<VoiceState> VoiceStates { get; set; }
+        public VoiceState[] VoiceStates { get; set; }
 
         [JsonPropertyName("members")]
-        public IEnumerable<GuildMember> Members { get; set; }
+        public GuildMember[] Members { get; set; }
 
         [JsonPropertyName("channels")]
-        public IEnumerable<GuildChannel> Channels { get; set; }
+        public GuildChannel[] Channels { get; set; }
 
         [JsonPropertyName("presences")]
-        public IEnumerable<Presence> Presences { get; set; }
+        public Presence[] Presences { get; set; }
     }
 }

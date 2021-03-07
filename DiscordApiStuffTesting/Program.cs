@@ -5,6 +5,7 @@ using DiscordApiStuff.Events.EventArgs.Guild;
 using DiscordApiStuff.Events.EventArgs.Message;
 using DiscordApiStuff.Events.EventArgs.Rest;
 using DiscordApiStuff.Models.Classes.Channel;
+using DiscordApiStuff.Models.Classes.Guild;
 using DiscordApiStuff.Models.Classes.Message;
 using DiscordApiStuff.Models.Enums;
 using System;
@@ -50,8 +51,11 @@ namespace DiscordApiStuffTesting
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Ready!");
                 Console.ResetColor();
-
-                var smth = await client._discordRestClient.GetGuildChannelsAsync(813892541140697116);
+                foreach (UnavailableGuild unavailableGuild in ev.UnavailableGuilds)
+                {
+                    var guild = await client._discordRestClient.GetGuildAsync(unavailableGuild.Id);
+                    var guildChannels = await client._discordRestClient.GetGuildChannelsAsync(unavailableGuild.Id);
+                }
             };
 
             client.GuildEvents.GuildCreated += (GuildCreatedEventArgs ev) =>
@@ -96,7 +100,7 @@ namespace DiscordApiStuffTesting
                 cache.Add(new DiscordMessage() { Content = $"Message {i}" });
             }
 
-            for(int i = 0; i < cache.Size; i++)
+            for (int i = 0; i < cache.Size; i++)
             {
                 Console.WriteLine(cache[i]?.Content);
             }

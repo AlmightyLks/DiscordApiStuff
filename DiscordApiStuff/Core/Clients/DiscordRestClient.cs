@@ -1,6 +1,7 @@
 ﻿using DiscordApiStuff.Events.EventArgs.Rest;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Models.Classes.Channel;
+using DiscordApiStuff.Models.Classes.Guild;
 using DiscordApiStuff.Models.Classes.Message;
 using DiscordApiStuff.Models.Enums;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DiscordApiStuff.Core.Clients
 {
-    public sealed class DiscordRestClient
+    public sealed partial class DiscordRestClient
     {
         private HttpClient _httpClient;
         private DiscordClient _discordClient;
@@ -171,9 +172,29 @@ namespace DiscordApiStuff.Core.Clients
                 _restApiEvents.InvokeHttpRequestFailed(evArgs);
             }
         }
-        public async Task GetGuildAsync(ulong id)
+        public async Task<DiscordGuild> GetGuildAsync(ulong guildId)
         {
+            DiscordGuild guild = null;
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{DiscordApiInfo.DiscordRestApi}/guilds/{guildId}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return guild;
+                }
+                string responseStr = await response.Content.ReadAsStringAsync();
+                guild = JsonSerializer.Deserialize<DiscordGuild>(responseStr);
+                
+            }
+            catch (Exception e)
+            {
 
+            }
+            return guild;
         }
+    }
+
+    public sealed partial class DiscordRestClient
+    {
     }
 }

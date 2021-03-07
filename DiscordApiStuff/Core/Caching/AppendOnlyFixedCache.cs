@@ -59,7 +59,7 @@ namespace DiscordApiStuff.Core.Caching
             {
                 int writePos = ++_writePos;
                 T[] array = Array;
-                if (writePos >= (uint)array.Length)
+                if ((uint)writePos >= (uint)array.Length)
                 {
                     _writePos = 0;
                 }

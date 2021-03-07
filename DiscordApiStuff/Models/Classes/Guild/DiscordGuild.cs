@@ -69,7 +69,6 @@ namespace DiscordApiStuff.Models.Classes.Guild
         [JsonPropertyName("member_count")]
         public int? MemberCount { get; set; }
     }
-
     public sealed partial class DiscordGuild : Snowflake
     {
         [JsonPropertyName("premium_tier")]
@@ -103,6 +102,7 @@ namespace DiscordApiStuff.Models.Classes.Guild
         public GuildMember[] Members { get; set; }
 
         [JsonPropertyName("channels")]
+        [JsonConverter(typeof(GuildChannelCollectionConverter))]
         public GuildChannel[] Channels { get; set; }
 
         [JsonPropertyName("presences")]

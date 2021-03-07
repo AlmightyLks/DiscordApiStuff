@@ -7,6 +7,6 @@ namespace DiscordApiStuff.Models.Classes
     {
         [JsonPropertyName("id")]
         [JsonConverter(typeof(SnowflakeConverter))]
-        public ulong Id { get; init; }
+        public ulong Id { get; internal set; }
     }
 }

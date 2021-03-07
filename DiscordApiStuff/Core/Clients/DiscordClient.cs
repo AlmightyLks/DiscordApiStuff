@@ -10,6 +10,11 @@ namespace DiscordApiStuff
 {
     public sealed class DiscordClient
     {
+        internal static readonly MinIdentification.Properties Properties;
+
+        public DiscordRestClient _discordRestClient;
+        private DiscordWebSocket _discordWebSocket;
+
         public GuildEventHandler GuildEvents { get; }
         public ChannelEventHandler ChannelEvents { get; }
         public MemberEventHandler MemberEvents { get; }
@@ -19,10 +24,6 @@ namespace DiscordApiStuff
         public RestApiEventHandler RestApiEvents { get; }
 
         internal DiscordClientConfiguration DiscordClientConfiguration;
-        public DiscordRestClient _discordRestClient;
-        private DiscordWebSocket _discordWebSocket;
-
-        internal static readonly MinIdentification.Properties Properties;
         static DiscordClient()
         {
             Properties = new MinIdentification.Properties()

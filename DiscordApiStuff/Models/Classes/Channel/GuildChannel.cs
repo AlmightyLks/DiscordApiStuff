@@ -7,7 +7,6 @@ namespace DiscordApiStuff.Models.Classes.Channel
 {
     public class GuildChannel : DiscordChannel
     {
-
         [JsonPropertyName("guild_id")]
         [JsonConverter(typeof(SnowflakeConverter))]
         public ulong GuildId { get; set; }

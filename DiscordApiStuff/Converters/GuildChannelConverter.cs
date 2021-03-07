@@ -5,19 +5,20 @@ using System.Text.Json.Serialization;
 
 namespace DiscordApiStuff.Converters
 {
-    internal sealed class ChannelConverter : JsonConverter<DiscordChannel>
+    internal sealed class GuildChannelConverter : JsonConverter<GuildChannel>
     {
-        public override DiscordChannel Read(
+        public override GuildChannel Read(
             ref Utf8JsonReader reader, 
             Type typeToConvert, 
             JsonSerializerOptions options)
         {
+            var smth = reader.GetString();
             throw new NotImplementedException();
         }
 
         public override void Write(
-            Utf8JsonWriter writer, 
-            DiscordChannel value, 
+            Utf8JsonWriter writer,
+            GuildChannel value, 
             JsonSerializerOptions options)
         {
             throw new NotImplementedException();

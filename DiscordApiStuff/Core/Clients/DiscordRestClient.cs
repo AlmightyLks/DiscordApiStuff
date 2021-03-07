@@ -1,4 +1,5 @@
-﻿using DiscordApiStuff.Events.EventArgs.Rest;
+﻿using DiscordApiStuff.Converters;
+using DiscordApiStuff.Events.EventArgs.Rest;
 using DiscordApiStuff.Events.Handlers;
 using DiscordApiStuff.Models.Classes.Channel;
 using DiscordApiStuff.Models.Classes.Guild;
@@ -24,6 +25,42 @@ namespace DiscordApiStuff.Core.Clients
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"Bot {discordClient.DiscordClientConfiguration.Token}");
         }
+    }
+
+    public sealed partial class DiscordRestClient
+    {
+        internal async Task DeleteMessageAsync(DiscordMessage message)
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"{DiscordApiInfo.DiscordRestApi}/channels/{message.ChannelId}/messages/{message.Id}");
+                if (!response.IsSuccessStatusCode)
+                {
+                    var evArgs = new RestHttpRequestFailureEventArgs()
+                    {
+                        HttpResponseContent = await response.Content.ReadAsStringAsync(),
+                        HttpStatusCode = (short)response.StatusCode,
+                        TypeData = new KeyValuePair<Type, object>(typeof(DiscordMessage), message),
+                        Exception = null
+                    };
+                    _restApiEvents.InvokeHttpRequestFailed(evArgs);
+                }
+            }
+            catch (Exception e)
+            {
+                var evArgs = new RestHttpRequestFailureEventArgs()
+                {
+                    HttpResponseContent = string.Empty,
+                    HttpStatusCode = 0,
+                    TypeData = new KeyValuePair<Type, object>(typeof(DiscordMessage), message),
+                    Exception = e
+                };
+                _restApiEvents.InvokeHttpRequestFailed(evArgs);
+            }
+        }
+    }
+    public sealed partial class DiscordRestClient
+    {
         internal async Task<DiscordChannel> DeleteChannelAsync(ulong channelId)
         {
             DiscordChannel channel = null;
@@ -123,55 +160,9 @@ namespace DiscordApiStuff.Core.Clients
             }
             return channel;
         }
-        public async Task<IEnumerable<GuildChannel>> GetGuildChannelsAsync(ulong guildId)
-        {
-            IEnumerable<GuildChannel> channels = new List<GuildChannel>();
-            try
-            {
-                HttpResponseMessage response = await _httpClient.GetAsync($"{DiscordApiInfo.DiscordRestApi}/guilds/{guildId}/channels");
-                if (!response.IsSuccessStatusCode)
-                {
-                    return channels;
-                }
-                string responseStr = await response.Content.ReadAsStringAsync();
-                //Losing derived types' property info this way.
-                channels = JsonSerializer.Deserialize<IEnumerable<GuildChannel>>(responseStr);
-            }
-            catch (Exception e)
-            {
-
-            }
-            return channels;
-        }
-        internal async Task DeleteMessageAsync(DiscordMessage message)
-        {
-            try
-            {
-                HttpResponseMessage response = await _httpClient.DeleteAsync($"{DiscordApiInfo.DiscordRestApi}/channels/{message.ChannelId}/messages/{message.Id}");
-                if (!response.IsSuccessStatusCode)
-                {
-                    var evArgs = new RestHttpRequestFailureEventArgs()
-                    {
-                        HttpResponseContent = await response.Content.ReadAsStringAsync(),
-                        HttpStatusCode = (short)response.StatusCode,
-                        TypeData = new KeyValuePair<Type, object>(typeof(DiscordMessage), message),
-                        Exception = null
-                    };
-                    _restApiEvents.InvokeHttpRequestFailed(evArgs);
-                }
-            }
-            catch (Exception e)
-            {
-                var evArgs = new RestHttpRequestFailureEventArgs()
-                {
-                    HttpResponseContent = string.Empty,
-                    HttpStatusCode = 0,
-                    TypeData = new KeyValuePair<Type, object>(typeof(DiscordMessage), message),
-                    Exception = e
-                };
-                _restApiEvents.InvokeHttpRequestFailed(evArgs);
-            }
-        }
+    }
+    public sealed partial class DiscordRestClient
+    {
         public async Task<DiscordGuild> GetGuildAsync(ulong guildId)
         {
             DiscordGuild guild = null;
@@ -184,7 +175,6 @@ namespace DiscordApiStuff.Core.Clients
                 }
                 string responseStr = await response.Content.ReadAsStringAsync();
                 guild = JsonSerializer.Deserialize<DiscordGuild>(responseStr);
-                
             }
             catch (Exception e)
             {
@@ -192,9 +182,29 @@ namespace DiscordApiStuff.Core.Clients
             }
             return guild;
         }
-    }
+        public async Task<GuildChannel[]> GetGuildChannelsAsync(ulong guildId)
+        {
+            GuildChannel[] channels = new GuildChannel[0];
+            try
+            {
+                HttpResponseMessage response = await _httpClient.GetAsync($"{DiscordApiInfo.DiscordRestApi}/guilds/{guildId}/channels");
+                if (!response.IsSuccessStatusCode)
+                {
+                    return channels;
+                }
+                string responseStr = await response.Content.ReadAsStringAsync();
 
-    public sealed partial class DiscordRestClient
-    {
+                JsonSerializerOptions serializerOptions = new JsonSerializerOptions();
+                serializerOptions.Converters.Add(new GuildChannelCollectionConverter());
+
+                //Losing derived types' property info this way.
+                channels = JsonSerializer.Deserialize<GuildChannel[]>(responseStr, serializerOptions);
+            }
+            catch (Exception e)
+            {
+
+            }
+            return channels;
+        }
     }
 }

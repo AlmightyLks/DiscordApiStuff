@@ -25,7 +25,7 @@ namespace DiscordApiStuffTesting
         {
             DiscordClient client = new DiscordClient(new DiscordClientConfiguration()
             {
-                Token = "ODEyNzU4MjYxNzkwNDA4NzI0.YDFaHQ._VKiNmAqfpmbKlB949p2d-uBIbQ",
+                Token = "---------------",
                 Intents = DiscordIntent.AllUnprivileged
             });
 
